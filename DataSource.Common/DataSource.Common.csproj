@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSourceConfig.cs" />
+    <Compile Include="DataSourceManager.cs" />
     <Compile Include="IDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\DataService\Reference.cs">
@@ -55,9 +56,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
     <None Include="Service References\DataService\BuildWatch.DataSource.Common.DataService.GetDataSourceConfigResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

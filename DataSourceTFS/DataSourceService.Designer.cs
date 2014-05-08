@@ -1,6 +1,6 @@
 ﻿namespace BuildWatch.DataSource.Service
 {
-    partial class WindowsService
+    partial class DataSourceService
     {
         /// <summary> 
         /// Required designer variable.

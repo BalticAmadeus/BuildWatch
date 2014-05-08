@@ -16,7 +16,7 @@ namespace BuildWatch.DataSource.Service
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[] 
 			{ 
-				new WindowsService() 
+				new DataSourceService() 
 			};
             ServiceBase.Run(ServicesToRun);
         }

@@ -6,22 +6,28 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using BuildWatch.DataSource.Common;
 
 namespace BuildWatch.DataSource.Service
 {
-    public partial class WindowsService : ServiceBase
+    public partial class DataSourceService : ServiceBase
     {
-        public WindowsService()
+        private DataSourceManager _dsman;
+
+        public DataSourceService()
         {
             InitializeComponent();
         }
 
         protected override void OnStart(string[] args)
         {
+            _dsman = new DataSourceManager();
+            _dsman.Start();
         }
 
         protected override void OnStop()
         {
+            _dsman.Stop();
         }
     }
 }

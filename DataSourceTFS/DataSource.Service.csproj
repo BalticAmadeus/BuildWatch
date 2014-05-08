@@ -44,14 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WindowsService.cs">
+    <Compile Include="DataSourceService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WindowsService.Designer.cs">
-      <DependentUpon>WindowsService.cs</DependentUpon>
+    <Compile Include="DataSourceService.Designer.cs">
+      <DependentUpon>DataSourceService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataSource.Common\DataSource.Common.csproj">
+      <Project>{226DA498-F44C-4BBE-ABE8-AD9D6D5C54F7}</Project>
+      <Name>DataSource.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

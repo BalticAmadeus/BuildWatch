@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BuildWatch.DataSource.Common;
 
 namespace BuildWatch.DataSource.Standalone
 {
@@ -9,6 +10,12 @@ namespace BuildWatch.DataSource.Standalone
     {
         static void Main(string[] args)
         {
+            var dsman = new DataSourceManager();
+            dsman.Initialize();
+            dsman.Start();
+            Console.WriteLine("DataSourceManager started. Press Enter to stop.");
+            Console.ReadLine();
+            dsman.Stop();
         }
     }
 }
