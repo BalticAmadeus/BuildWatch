@@ -69,6 +69,11 @@ namespace BuildWatch.DataSource.TFS
             List<FinishedBuildInfo> builds = new List<FinishedBuildInfo>();
             foreach (IBuildDefinition bdef in allBuilds)
             {
+                if (quitToken.IsCancellationRequested)
+                {
+                    Console.WriteLine("Aborting");
+                    return;
+                }
                 Console.WriteLine("..." + bdef.Name);
                 var bdSpec = buildService.CreateBuildDetailSpec(bdef);
                 bdSpec.MaxBuildsPerDefinition = 1;
