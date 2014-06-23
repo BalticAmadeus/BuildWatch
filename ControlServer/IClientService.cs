@@ -12,6 +12,67 @@ namespace BuildWatch.ControlServer
     public interface IClientService
     {
         [OperationContract]
-        void DoWork();
+        int GetProtocolVersion();
+
+        [OperationContract]
+        PollBuildStatusResp PollBuildStatus(PollBuildStatusReq req);
+
     }
+
+#region PollBuildStatus
+
+    [DataContract]
+    public class PollBuildStatusReq
+    {
+        [DataMember]
+        public int ConfigurationId { get; set; }
+
+        [DataMember]
+        public long UpdateCounter { get; set; }
+
+    }
+
+    [DataContract]
+    public class PollBuildStatusResp
+    {
+        [DataMember]
+        public long UpdateCounter { get; set; }
+
+        [DataMember]
+        public List<FinishedBuild> FinishedBuilds { get; set; }
+
+        [DataMember]
+        public List<ClientEvent> ClientEvents { get; set; }
+    }
+
+    [DataContract]
+    public class FinishedBuild
+    {
+        [DataMember]
+        public string BuildName { get; set; }
+
+        [DataMember]
+        public string BuildInstance { get; set; }
+
+        [DataMember]
+        public DateTime TimeStamp { get; set; }
+
+        [DataMember]
+        public string Result { get; set; }
+
+        [DataMember]
+        public string UserName { get; set; }
+
+        [DataMember]
+        public string State { get; set; }
+    }
+
+    [DataContract]
+    public class ClientEvent
+    {
+
+    }
+
+#endregion
+
 }

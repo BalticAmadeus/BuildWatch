@@ -8,6 +8,7 @@ using Microsoft.TeamFoundation.Client;
 using System.Windows.Forms;
 using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Build.Client;
+using BuildWatch.ClientService;
 
 namespace BuildWatchWorker
 {
@@ -359,5 +360,117 @@ namespace BuildWatchWorker
                 logMessages = new List<string>();
             logMessages.Add(line);
         }
+    }
+
+    class ServiceWorkerThread : IWorkerThread
+    {
+        private IClientService _clientService;
+        private Thread _thread;
+
+        private object _syncObject;
+        private List<string> _logMessages;
+        private List<BuildInfo> _buildTop;
+
+        public ServiceWorkerThread()
+        {
+            _clientService = new ClientServiceClient();
+            _thread = new Thread(ThreadMain);
+            _thread.IsBackground = true;
+            _syncObject = new object();
+        }
+
+        public void InitConnection(IWin32Window parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Start()
+        {
+            _thread.Start();
+        }
+
+        private void ThreadMain()
+        {
+            bool firstTime = true;
+            int sleepTime = Settings.Default.PollPaceSleep;
+            if (sleepTime < 2000)
+                sleepTime = 2000;
+            else if (sleepTime > 300000)
+                sleepTime = 300000;
+            while (true)
+            {
+                // Pace maker
+                if (!firstTime)
+                {
+                    Log("Sleeping " + sleepTime + "ms...");
+                    Thread.Sleep(sleepTime);
+                }
+                try
+                {
+                    // Go through each build definition and retrieve last status
+                    Log("Retrieving build information...");
+                    var req = new PollBuildStatusReq
+                    {
+                        ConfigurationId = 1,
+                        UpdateCounter = 0
+                    };
+                    var resp = _clientService.PollBuildStatus(req);
+                    List<BuildInfo> top = new List<BuildInfo>();
+                    if (resp.FinishedBuilds == null)
+                        resp.FinishedBuilds = new List<FinishedBuild>();
+                    foreach (FinishedBuild fb in resp.FinishedBuilds)
+                    {
+                        var bi = new BuildInfo()
+                        {
+                            Name = fb.BuildName,
+                            Color = (fb.Result == "OK") ? BuildColor.GREEN : BuildColor.RED,
+                            FinishTime = fb.TimeStamp,
+                            User = fb.UserName
+                        };
+                        top.Add(bi);
+                    }
+                    lock (_syncObject)
+                    {
+                        _buildTop = top;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log(string.Format("Exception: {0}: {1}", ex.GetType().FullName, ex.Message));
+                }
+            }
+        }
+
+        private void Log(string message)
+        {
+            string line = string.Format("[{0}] {1}\n", DateTime.Now, message);
+            lock (_syncObject)
+            {
+                if (_logMessages == null)
+                    _logMessages = new List<string>();
+                _logMessages.Add(line);
+            }
+        }
+
+        public List<string> RetrieveLogMessages()
+        {
+            lock (_syncObject)
+            {
+                var tmp = _logMessages;
+                _logMessages = null;
+                return tmp;
+            }
+        }
+
+        public List<BuildInfo> RetrieveBuildTop()
+        {
+            lock (_syncObject)
+            {
+                var tmp = _buildTop;
+                _buildTop = null;
+                return tmp;
+            }
+        }
+
     }
 }

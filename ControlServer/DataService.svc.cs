@@ -10,6 +10,30 @@ namespace BuildWatch.ControlServer
 {
     public class DataService : IDataService
     {
+        class BuildTopSorter : IComparer<FinishedBuild>
+        {
+            public int Compare(FinishedBuild x, FinishedBuild y)
+            {
+                if (x.Result != y.Result)
+                    return ColorWeight(x.Result) - ColorWeight(y.Result);
+                else
+                    return y.TimeStamp.CompareTo(x.TimeStamp);
+            }
+
+            private int ColorWeight(string c)
+            {
+                switch (c)
+                {
+                    case "OK":
+                        return 2;
+                    case "FAIL":
+                        return 1;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
         public int GetProtocolVersion()
         {
             return 0;
@@ -43,8 +67,41 @@ namespace BuildWatch.ControlServer
         {
             if (req.DataSourceId != 1)
                 throw new ApplicationException("DataSource with specified DataSourceId is not present");
-            // TODO This is kitchen sink
-            return new PushFinishedBuildsResponse();
+
+            var finishedBuilds = new List<FinishedBuild>();
+
+            foreach (FinishedBuildInfo bi in req.BuildInfo)
+            {
+                var fb = new FinishedBuild
+                {
+                    BuildName = bi.BuildName,
+                    BuildInstance = bi.BuildInstance,
+                    TimeStamp = bi.TimeStamp,
+                    Result = bi.Result,
+                    UserName = bi.UserName
+                };
+                switch (bi.Result)
+                {
+                    case "OK":
+                        fb.State = "Green/White";
+                        break;
+                    case "FAIL":
+                        fb.State = "Red/Yellow";
+                        break;
+                    default:
+                        fb.State = "White/Black";
+                        break;
+                }
+                finishedBuilds.Add(fb);
+            }
+
+            finishedBuilds.Sort(new BuildTopSorter());
+
+            AppContext.Current.SetBuilds(finishedBuilds);
+
+            var resp = new PushFinishedBuildsResponse();
+
+            return resp;
         }
     }
 }

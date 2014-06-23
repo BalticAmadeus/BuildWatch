@@ -16,7 +16,7 @@ namespace BuildWatch
 {
     public partial class MainForm : Form
     {
-        public const string AppVersion = "0.9";
+        public const string AppVersion = "1.0";
 
         enum BuildColor
         {
@@ -167,16 +167,21 @@ namespace BuildWatch
             greenBuildAllPlayer = new SoundPlayer(Settings.Default.GreenBuildAllSound);
             soundCheckPlayer = new SoundPlayer(Settings.Default.SoundCheckSound);
 
-            if (!string.IsNullOrEmpty(Settings.Default.TfsServerUri))
+            if (string.IsNullOrEmpty(Settings.Default.TfsServerUri))
+            {
+                Log("TFS Server URI not defined, starting in DEMO MODE");
+                worker = new BuildWatchWorker.DemoWorkerThread();
+            }
+            else if (Settings.Default.TfsServerUri == "SERVICE")
+            {
+                Log("Initializing connetion to CONTROL SERVICE");
+                worker = new BuildWatchWorker.ServiceWorkerThread();
+            }
+            else
             {
                 Log("Initializing connection to TFS: " + Settings.Default.TfsServerUri);
                 worker = new BuildWatchWorker.WorkerThread();
                 worker.InitConnection(this);
-            }
-            else
-            {
-                Log("TFS Server URI not defined, starting in DEMO MODE");
-                worker = new BuildWatchWorker.DemoWorkerThread();
             }
             
             Log("Loading color state...");

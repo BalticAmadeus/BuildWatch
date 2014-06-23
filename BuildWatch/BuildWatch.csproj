@@ -43,6 +43,8 @@
     <Reference Include="Microsoft.TeamFoundation.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,6 +63,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ClientService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="WorkerThread.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -86,8 +93,28 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Service References\ClientService\BuildWatch.ClientService.PollBuildStatusResp.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ClientService\ClientService.wsdl" />
+    <None Include="Service References\ClientService\ClientService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientService\ClientService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ClientService\ClientService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\ClientService\ClientService.disco" />
+    <None Include="Service References\ClientService\configuration91.svcinfo" />
+    <None Include="Service References\ClientService\configuration.svcinfo" />
+    <None Include="Service References\ClientService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Sounds\123921__silencer1337__machinefail.wav" />
     <Content Include="Sounds\168892__zuluonedrop__crub-dub-bass.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -113,6 +140,12 @@
     <Content Include="Sounds\x-files_theme.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ClientService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
