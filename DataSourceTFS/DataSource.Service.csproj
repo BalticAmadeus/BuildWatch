@@ -61,6 +61,10 @@
       <Project>{226DA498-F44C-4BBE-ABE8-AD9D6D5C54F7}</Project>
       <Name>DataSource.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataSource.TFS\DataSource.TFS.csproj">
+      <Project>{908303aa-741a-4aab-8906-c0c26d67bf7d}</Project>
+      <Name>DataSource.TFS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

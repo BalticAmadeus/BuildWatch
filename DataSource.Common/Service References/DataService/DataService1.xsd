@@ -29,7 +29,6 @@
   <xs:complexType name="PushFinishedBuildsRequest">
     <xs:sequence>
       <xs:element minOccurs="0" name="BuildInfo" nillable="true" type="tns:ArrayOfFinishedBuildInfo" />
-      <xs:element minOccurs="0" name="CheckedBuildInstance" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="DataSourceId" type="xs:int" />
     </xs:sequence>
   </xs:complexType>

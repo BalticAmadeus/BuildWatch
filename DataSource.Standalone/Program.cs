@@ -11,7 +11,7 @@ namespace BuildWatch.DataSource.Standalone
         static void Main(string[] args)
         {
             var dsman = new DataSourceManager();
-            dsman.Initialize();
+            dsman.Initialize(new Type[] { typeof(BuildWatch.DataSource.TFS.TFSDataSource) } );
             dsman.Start();
             Console.WriteLine("DataSourceManager started. Press Enter to stop.");
             Console.ReadLine();

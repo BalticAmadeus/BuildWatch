@@ -68,7 +68,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private BuildWatch.DataSource.Common.DataService.ConfigEntry[] ConfigEntriesField;
+        private System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.ConfigEntry> ConfigEntriesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int DataSourceIdField;
@@ -84,7 +84,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public BuildWatch.DataSource.Common.DataService.ConfigEntry[] ConfigEntries {
+        public System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.ConfigEntry> ConfigEntries {
             get {
                 return this.ConfigEntriesField;
             }
@@ -190,10 +190,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private BuildWatch.DataSource.Common.DataService.FinishedBuildInfo[] BuildInfoField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CheckedBuildInstanceField;
+        private System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.FinishedBuildInfo> BuildInfoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int DataSourceIdField;
@@ -209,7 +206,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public BuildWatch.DataSource.Common.DataService.FinishedBuildInfo[] BuildInfo {
+        public System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.FinishedBuildInfo> BuildInfo {
             get {
                 return this.BuildInfoField;
             }
@@ -217,19 +214,6 @@ namespace BuildWatch.DataSource.Common.DataService {
                 if ((object.ReferenceEquals(this.BuildInfoField, value) != true)) {
                     this.BuildInfoField = value;
                     this.RaisePropertyChanged("BuildInfo");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CheckedBuildInstance {
-            get {
-                return this.CheckedBuildInstanceField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CheckedBuildInstanceField, value) != true)) {
-                    this.CheckedBuildInstanceField = value;
-                    this.RaisePropertyChanged("CheckedBuildInstance");
                 }
             }
         }
@@ -392,7 +376,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private BuildWatch.DataSource.Common.DataService.QueryInfo[] AdditionalQueriesField;
+        private System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.QueryInfo> AdditionalQueriesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -405,7 +389,7 @@ namespace BuildWatch.DataSource.Common.DataService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public BuildWatch.DataSource.Common.DataService.QueryInfo[] AdditionalQueries {
+        public System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.QueryInfo> AdditionalQueries {
             get {
                 return this.AdditionalQueriesField;
             }

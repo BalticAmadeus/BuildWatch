@@ -22,6 +22,7 @@ namespace BuildWatch.DataSource.Service
         protected override void OnStart(string[] args)
         {
             _dsman = new DataSourceManager();
+            _dsman.Initialize(new Type[] { typeof(BuildWatch.DataSource.TFS.TFSDataSource) } );
             _dsman.Start();
         }
 

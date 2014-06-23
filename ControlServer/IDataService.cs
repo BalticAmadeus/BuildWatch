@@ -60,9 +60,6 @@ namespace BuildWatch.ControlServer
         public int DataSourceId { get; set; }
 
         [DataMember]
-        public string CheckedBuildInstance { get; set; }
-
-        [DataMember]
         public List<FinishedBuildInfo> BuildInfo { get; set; }
 
     }
