@@ -405,6 +405,7 @@ namespace BuildWatchWorker
                     Log("Sleeping " + sleepTime + "ms...");
                     Thread.Sleep(sleepTime);
                 }
+                firstTime = false;
                 try
                 {
                     // Go through each build definition and retrieve last status
