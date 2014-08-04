@@ -16,7 +16,7 @@ namespace BuildWatch
 {
     public partial class MainForm : Form
     {
-        public const string AppVersion = "1.0";
+        public const string AppVersion = "1.1";
 
         enum BuildColor
         {
@@ -64,7 +64,8 @@ namespace BuildWatch
                 User = user;
 
                 if (FinishTime != default(DateTime)
-                    && FinishTime < forgetPoint)
+                    && FinishTime < forgetPoint
+                    && Color != BuildColor.GREEN)
                 {
                     DisplayColor = BuildColor.OFF;
                 }
