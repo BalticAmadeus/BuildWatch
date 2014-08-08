@@ -334,10 +334,7 @@ namespace BuildWatch
 
                             var item = new ListViewItem(bi.Name);
                             item.SubItems.Add(bi.Color.ToString());
-                            if (bi.FinishTime != default(DateTime))
-                                item.SubItems.Add(bi.FinishTime.ToString());
-                            else
-                                item.SubItems.Add("");
+                            item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
                             item.SubItems.Add(bi.User);
 
                             switch (bi.DisplayColor)
@@ -426,6 +423,20 @@ namespace BuildWatch
             {
                 inTimer = false;
             }
+        }
+
+        private string ConvertToHumanTime(DateTime dt)
+        {
+            if (dt == default(DateTime))
+                return "";
+            DateTime now = DateTime.Now;
+            TimeSpan diff = now - dt;
+            if (diff.TotalMinutes < 120)
+                return string.Format("{0:t} ({1}m ago)", dt, Math.Round(diff.TotalMinutes));
+            else if (dt.Date == now.Date)
+                return string.Format("{0:t} ({1}h ago)", dt, Math.Round(diff.TotalHours));
+            else
+                return string.Format("{0:M}/{0:d} {0:t}", dt);
         }
 
         private void Play(SoundPlayer player, string name)
