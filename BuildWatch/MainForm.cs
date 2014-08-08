@@ -16,7 +16,7 @@ namespace BuildWatch
 {
     public partial class MainForm : Form
     {
-        public const string AppVersion = "1.1";
+        public const string AppVersion = "1.2";
 
         enum BuildColor
         {
@@ -282,6 +282,7 @@ namespace BuildWatch
                     bool greenBuildUs = false;
                     bool greenBuildThem = false;
                     bool allGreen = true;
+                    bool emptyList = true;
                     if (oldInfo == null)
                         oldInfo = new Dictionary<string, BuildInfo>();
                     var newInfo = new Dictionary<string, BuildInfo>();
@@ -371,12 +372,16 @@ namespace BuildWatch
                                     break;
                             }
                             topList.Items.Add(item);
+                            emptyList = false;
                         }
                     }
                     finally
                     {
                         topList.EndUpdate();
                     }
+
+                    if (emptyList)
+                        allGreen = false;
 
                     oldInfo = newInfo;
                     string newMatrix = matrixBuilder.ToString();
