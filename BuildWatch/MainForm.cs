@@ -432,11 +432,11 @@ namespace BuildWatch
             DateTime now = DateTime.Now;
             TimeSpan diff = now - dt;
             if (diff.TotalMinutes < 120)
-                return string.Format("{0:t} ({1}m ago)", dt, Math.Round(diff.TotalMinutes));
+                return string.Format("{0:t} (-{1}m)", dt, Math.Round(diff.TotalMinutes));
             else if (dt.Date == now.Date)
-                return string.Format("{0:t} ({1}h ago)", dt, Math.Round(diff.TotalHours));
+                return string.Format("{0:t} (-{1}h)", dt, Math.Round(diff.TotalHours));
             else
-                return string.Format("{0:M}/{0:d} {0:t}", dt);
+                return string.Format("{0:MMM d} {0:t} (-{1}d)", dt, Math.Round(diff.TotalDays));
         }
 
         private void Play(SoundPlayer player, string name)
