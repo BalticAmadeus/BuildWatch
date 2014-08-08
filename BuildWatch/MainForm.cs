@@ -275,7 +275,7 @@ namespace BuildWatch
                 }
 
                 List<BuildWatchWorker.BuildInfo> buildTop = worker.RetrieveBuildTop();
-                if (buildTop != null)
+                if (buildTop != null && buildTop.Count > 0)
                 {
                     bool redBuildUs = false;
                     bool redBuildThem = false;
