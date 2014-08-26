@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSourceBase.cs" />
     <Compile Include="DataSourceConfig.cs" />
     <Compile Include="DataSourceManager.cs" />
     <Compile Include="IDataSource.cs" />

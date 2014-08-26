@@ -10,7 +10,7 @@ using Microsoft.TeamFoundation.Build.Client;
 
 namespace BuildWatch.DataSource.TFS
 {
-    public class TFSDataSource : IDataSource
+    public class TFSDataSource : DataSourceBase
     {
         public string TeamServerUri { get; private set; }
         public string TeamProjectCollection { get; private set; }
@@ -22,8 +22,9 @@ namespace BuildWatch.DataSource.TFS
         private TfsTeamProjectCollection projectCollection;
         private IBuildServer buildService;
 
-        public void Initialize(DataSourceConfig config)
+        public override void Initialize(DataSourceConfig config)
         {
+            base.Initialize(config);
             TeamServerUri = config["TeamServerUri"];
             TeamProjectCollection = config["TeamProjectCollection"];
             TeamProjectName = config["TeamProjectName"];
@@ -32,7 +33,7 @@ namespace BuildWatch.DataSource.TFS
             Console.WriteLine(string.Format("TFS Data Source initialized for {0}, {1}/{2}", TeamServerUri, TeamProjectCollection, TeamProjectName));
         }
 
-        public void Poll(IDataService dataService, System.Threading.CancellationToken quitToken)
+        public override void Poll(IDataService dataService, System.Threading.CancellationToken quitToken)
         {
             Console.WriteLine("TFS: Start polling");
 
@@ -74,7 +75,13 @@ namespace BuildWatch.DataSource.TFS
                     Console.WriteLine("Aborting");
                     return;
                 }
-                Console.WriteLine("..." + bdef.Name);
+                string buildName = bdef.Name;
+                if (!TryMatchBuildName(ref buildName))
+                {
+                    Console.WriteLine("... " + buildName + " (skipped)");
+                    continue;
+                }
+                Console.WriteLine("... " + bdef.Name + " -> " + buildName);
                 var bdSpec = buildService.CreateBuildDetailSpec(bdef);
                 bdSpec.MaxBuildsPerDefinition = 1;
                 bdSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
@@ -86,7 +93,7 @@ namespace BuildWatch.DataSource.TFS
                 var bi = new FinishedBuildInfo()
                 {
                     BuildInstance = bd.BuildNumber,
-                    BuildName = bd.BuildDefinition.Name,
+                    BuildName = buildName,
                     TimeStamp = bd.FinishTime,
                     Result = (bd.Status == BuildStatus.Succeeded) ? "OK" : "FAIL",
                     UserName = bd.RequestedFor,
