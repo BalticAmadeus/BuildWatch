@@ -16,7 +16,7 @@ namespace BuildWatch
 {
     public partial class MainForm : Form
     {
-        public const string AppVersion = "1.2";
+        public const string AppVersion = "1.3";
 
         enum BuildColor
         {
