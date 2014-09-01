@@ -133,7 +133,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Sounds\123921__silencer1337__machinefail.wav" />
+    <Content Include="Sounds\123921__silencer1337__machinefail.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\167337__willy-ineedthatapp-com__pup-alert.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\168892__zuluonedrop__crub-dub-bass.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -143,9 +148,15 @@
     <Content Include="Sounds\20683__johnc__moan.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sounds\218072__hykenfreak__dark-horn-blast.wav" />
-    <Content Include="Sounds\57893__guitarguy1985__dun.wav" />
-    <Content Include="Sounds\76064__digifishmusic__dramatic8.wav" />
+    <Content Include="Sounds\218072__hykenfreak__dark-horn-blast.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\57893__guitarguy1985__dun.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\76064__digifishmusic__dramatic8.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\a-team_theme.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

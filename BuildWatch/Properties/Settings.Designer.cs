@@ -157,5 +157,17 @@ namespace BuildWatch.Properties {
                 return ((string)(this["UserNameReplace"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sounds\\167337__willy-ineedthatapp-com__pup-alert.wav")]
+        public string StaleAlertSound {
+            get {
+                return ((string)(this["StaleAlertSound"]));
+            }
+            set {
+                this["StaleAlertSound"] = value;
+            }
+        }
     }
 }

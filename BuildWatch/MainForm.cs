@@ -133,6 +133,7 @@ namespace BuildWatch
         private SoundPlayer greenBuildThemPlayer;
         private SoundPlayer greenBuildAllPlayer;
         private SoundPlayer soundCheckPlayer;
+        private SoundPlayer staleAlertPlayer;
         private DateTime lastAllGreen;
         private Dictionary<string, BuildInfo> oldInfo;
         private bool resizing;
@@ -140,6 +141,8 @@ namespace BuildWatch
         private string buildMatrix;
         private int soundCheckCount;
         private DateTime soundCheckTime;
+        private DateTime dataFreshness;
+        private DateTime staleAlertTime;
 
         public MainForm()
         {
@@ -167,6 +170,7 @@ namespace BuildWatch
             greenBuildThemPlayer = new SoundPlayer(Settings.Default.GreenBuildThemSound);
             greenBuildAllPlayer = new SoundPlayer(Settings.Default.GreenBuildAllSound);
             soundCheckPlayer = new SoundPlayer(Settings.Default.SoundCheckSound);
+            staleAlertPlayer = new SoundPlayer(Settings.Default.StaleAlertSound);
 
             if (string.IsNullOrEmpty(Settings.Default.TfsServerUri))
             {
@@ -212,6 +216,8 @@ namespace BuildWatch
                     Log(string.Format("ERROR: {0}: {1}", ex.GetType().FullName, ex.Message));
                 }
             } while (false);
+
+            dataFreshness = DateTime.Now;
 
             Log("Starting worker thread...");
             worker.Start();
@@ -274,7 +280,9 @@ namespace BuildWatch
                     }
                 }
 
-                List<BuildWatchWorker.BuildInfo> buildTop = worker.RetrieveBuildTop();
+                List<BuildWatchWorker.BuildInfo> buildTop;
+                DateTime buildTimestamp;
+                worker.RetrieveBuildTop(out buildTop, out buildTimestamp);
                 if (buildTop != null && buildTop.Count > 0)
                 {
                     bool redBuildUs = false;
@@ -289,6 +297,7 @@ namespace BuildWatch
                     var matrixBuilder = new StringBuilder();
                     var stalePoint = DateTime.Now.AddDays(-5);
                     var forgetPoint = stalePoint.AddDays(-5);
+                    dataFreshness = (buildTimestamp != default(DateTime)) ? buildTimestamp : DateTime.Now;
                     topList.BeginUpdate();
                     try
                     {
@@ -417,6 +426,28 @@ namespace BuildWatch
                     {
                         Log(string.Format("ERROR: {0}: {1}", ex.GetType().FullName, ex.Message));
                     }
+                }
+
+                DateTime dtNow = DateTime.Now;
+
+                if (dataFreshness < dtNow.AddMinutes(-15))
+                {
+                    staleLbl.Text = string.Format("STALE, {0}", ConvertToHumanTime(dataFreshness));
+                    if (!staleLbl.Visible)
+                    {
+                        staleLbl.Visible = true;
+                        Play(staleAlertPlayer, "Stale");
+                        staleAlertTime = dtNow;
+                    }
+                    else if (staleAlertTime < dtNow.AddMinutes(-15))
+                    {
+                        Play(staleAlertPlayer, "Stale");
+                        staleAlertTime = dtNow;
+                    }
+                }
+                else
+                {
+                    staleLbl.Visible = false;
                 }
             }
             finally

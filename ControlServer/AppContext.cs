@@ -30,6 +30,7 @@ namespace BuildWatch.ControlServer
         #endregion
 
         public List<FinishedBuild> FinishedBuilds { get; private set; }
+        public DateTime FinishedBuildsDate { get; private set; }
 
         private AppContext()
         {
@@ -41,6 +42,7 @@ namespace BuildWatch.ControlServer
             lock (this)
             {
                 FinishedBuilds = finishedBuilds;
+                FinishedBuildsDate = DateTime.Now;
             }
         }
     }

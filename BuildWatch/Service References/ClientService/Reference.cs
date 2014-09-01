@@ -90,6 +90,9 @@ namespace BuildWatch.ClientService {
         private System.Collections.Generic.List<BuildWatch.ClientService.FinishedBuild> FinishedBuildsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime FinishedBuildsDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long UpdateCounterField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -124,6 +127,19 @@ namespace BuildWatch.ClientService {
                 if ((object.ReferenceEquals(this.FinishedBuildsField, value) != true)) {
                     this.FinishedBuildsField = value;
                     this.RaisePropertyChanged("FinishedBuilds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime FinishedBuildsDate {
+            get {
+                return this.FinishedBuildsDateField;
+            }
+            set {
+                if ((this.FinishedBuildsDateField.Equals(value) != true)) {
+                    this.FinishedBuildsDateField = value;
+                    this.RaisePropertyChanged("FinishedBuildsDate");
                 }
             }
         }

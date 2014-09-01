@@ -42,6 +42,9 @@ namespace BuildWatch.ControlServer
         public List<FinishedBuild> FinishedBuilds { get; set; }
 
         [DataMember]
+        public DateTime FinishedBuildsDate { get; set; }
+
+        [DataMember]
         public List<ClientEvent> ClientEvents { get; set; }
     }
 

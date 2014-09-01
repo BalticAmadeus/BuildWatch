@@ -38,6 +38,7 @@
             this.colUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.soundCheckBtn = new System.Windows.Forms.Button();
             this.persistLogBoxTxt = new System.Windows.Forms.TextBox();
+            this.staleLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // logBoxTxt
@@ -114,11 +115,26 @@
             this.persistLogBoxTxt.Size = new System.Drawing.Size(329, 108);
             this.persistLogBoxTxt.TabIndex = 3;
             // 
+            // staleLbl
+            // 
+            this.staleLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.staleLbl.BackColor = System.Drawing.Color.Indigo;
+            this.staleLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.staleLbl.ForeColor = System.Drawing.Color.OrangeRed;
+            this.staleLbl.Location = new System.Drawing.Point(378, 38);
+            this.staleLbl.Name = "staleLbl";
+            this.staleLbl.Size = new System.Drawing.Size(329, 42);
+            this.staleLbl.TabIndex = 4;
+            this.staleLbl.Text = "STALE";
+            this.staleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.staleLbl.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(719, 466);
+            this.Controls.Add(this.staleLbl);
             this.Controls.Add(this.persistLogBoxTxt);
             this.Controls.Add(this.soundCheckBtn);
             this.Controls.Add(this.topList);
@@ -142,6 +158,7 @@
         private System.Windows.Forms.Button soundCheckBtn;
         private System.Windows.Forms.ColumnHeader colUser;
         private System.Windows.Forms.TextBox persistLogBoxTxt;
+        private System.Windows.Forms.Label staleLbl;
     }
 }
 

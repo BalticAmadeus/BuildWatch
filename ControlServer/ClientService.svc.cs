@@ -7,7 +7,6 @@ using System.Text;
 
 namespace BuildWatch.ControlServer
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ClientService" in code, svc and config file together.
     public class ClientService : IClientService
     {
         public int GetProtocolVersion()
@@ -25,7 +24,12 @@ namespace BuildWatch.ControlServer
                 UpdateCounter = 0
             };
 
-            resp.FinishedBuilds = AppContext.Current.FinishedBuilds;
+            var app = AppContext.Current;
+            lock (app)
+            {
+                resp.FinishedBuilds = app.FinishedBuilds;
+                resp.FinishedBuildsDate = app.FinishedBuildsDate;
+            }
 
             return resp;
         }

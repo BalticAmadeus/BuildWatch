@@ -11,6 +11,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientEvents" nillable="true" type="tns:ArrayOfClientEvent" />
       <xs:element minOccurs="0" name="FinishedBuilds" nillable="true" type="tns:ArrayOfFinishedBuild" />
+      <xs:element minOccurs="0" name="FinishedBuildsDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="UpdateCounter" type="xs:long" />
     </xs:sequence>
   </xs:complexType>

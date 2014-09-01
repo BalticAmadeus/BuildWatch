@@ -53,7 +53,7 @@ namespace BuildWatchWorker
         void InitConnection(IWin32Window parent);
         void Start();
         List<string> RetrieveLogMessages();
-        List<BuildInfo> RetrieveBuildTop();
+        void RetrieveBuildTop(out List<BuildInfo> buildTop, out DateTime buildTimestamp);
     }
 
     class WorkerThread : IWorkerThread
@@ -209,13 +209,13 @@ namespace BuildWatchWorker
             }
         }
 
-        public List<BuildInfo> RetrieveBuildTop()
+        public void RetrieveBuildTop(out List<BuildInfo> buildTop, out DateTime buildTimestamp)
         {
             lock (syncObject)
             {
-                var tmp = buildTop;
-                buildTop = null;
-                return tmp;
+                buildTop = this.buildTop;
+                this.buildTop = null;
+                buildTimestamp = DateTime.Now;
             }
         }
     }
@@ -279,16 +279,22 @@ namespace BuildWatchWorker
             return tmp;
         }
 
-        public List<BuildInfo> RetrieveBuildTop()
+        public void RetrieveBuildTop(out List<BuildInfo> buildTop, out DateTime buildTimestamp)
         {
             if (eventTime > DateTime.Now)
-                return null;
+            {
+                buildTop = null;
+                buildTimestamp = DateTime.Now;
+                return;
+            }
             eventCounter++;
             eventTime = DateTime.Now.AddSeconds(20);
             if (eventCounter == -2)
             {
                 eventTime = DateTime.Now.AddSeconds(10);
-                return master.ToList();
+                buildTop = master.ToList();
+                buildTimestamp = DateTime.Now;
+                return;
             }
             else if (eventCounter == -1)
             {
@@ -298,7 +304,9 @@ namespace BuildWatchWorker
                     bi.FinishTime = DateTime.Now.AddSeconds(rnd.NextDouble() * -3600 - 300);
                 }
                 master.Sort(new BuildTopSorter());
-                return master.ToList();
+                buildTop = master.ToList();
+                buildTimestamp = DateTime.Now;
+                return;
             }
             int i;
             BuildInfo b;
@@ -308,21 +316,33 @@ namespace BuildWatchWorker
                     Log("DEMO: Build " + master[i].Name);
                     master[i].FinishTime = DateTime.Now;
                     master.Sort(new BuildTopSorter());
-                    return master.ToList();
+                    buildTop = master.ToList();
+                    if (eventCounter % 20 == 5)
+                    {
+                        Log("DEMO: Stale");
+                        buildTimestamp = DateTime.Now.AddMinutes(-20);
+                        return;
+                    }
+                    buildTimestamp = DateTime.Now;
+                    return;
                 case 1:
                     i = rnd.Next(master.Count);
                     Log("DEMO: Fail " + master[i].Name);
                     master[i].FinishTime = DateTime.Now;
                     master[i].Color = BuildColor.RED;
                     master.Sort(new BuildTopSorter());
-                    return master.ToList();
+                    buildTop = master.ToList();
+                    buildTimestamp = DateTime.Now;
+                    return;
                 case 2:
                     i = rnd.Next(master.Count);
                     Log("DEMO: Recover " + master[i].Name);
                     master[i].FinishTime = DateTime.Now;
                     master[i].Color = BuildColor.GREEN;
                     master.Sort(new BuildTopSorter());
-                    return master.ToList();
+                    buildTop = master.ToList();
+                    buildTimestamp = DateTime.Now;
+                    return;
                 case 3:
                     i = rnd.Next(master.Count);
                     b = master[i];
@@ -338,18 +358,28 @@ namespace BuildWatchWorker
                     }
                     b.FinishTime = DateTime.Now;
                     master.Sort(new BuildTopSorter());
-                    return master.ToList();
+                    buildTop = master.ToList();
+                    buildTimestamp = DateTime.Now;
+                    return;
                 case 4:
                     b = master.Where(p => p.Color == BuildColor.RED).LastOrDefault();
                     if (b == null)
-                        return null;
+                    {
+                        buildTop = null;
+                        buildTimestamp = DateTime.Now;
+                        return;
+                    }
                     Log("DEMO: Recover " + b.Name);
                     b.FinishTime = DateTime.Now;
                     b.Color = BuildColor.GREEN;
                     master.Sort(new BuildTopSorter());
-                    return master.ToList();
+                    buildTop = master.ToList();
+                    buildTimestamp = DateTime.Now;
+                    return;
                 default:
-                    return null;
+                    buildTop = null;
+                    buildTimestamp = DateTime.Now;
+                    return;
             }
         }
 
@@ -370,6 +400,7 @@ namespace BuildWatchWorker
         private object _syncObject;
         private List<string> _logMessages;
         private List<BuildInfo> _buildTop;
+        private DateTime _buildTimestamp;
 
         public ServiceWorkerThread()
         {
@@ -433,6 +464,7 @@ namespace BuildWatchWorker
                     lock (_syncObject)
                     {
                         _buildTop = top;
+                        _buildTimestamp = resp.FinishedBuildsDate;
                     }
                 }
                 catch (Exception ex)
@@ -463,13 +495,13 @@ namespace BuildWatchWorker
             }
         }
 
-        public List<BuildInfo> RetrieveBuildTop()
+        public void RetrieveBuildTop(out List<BuildInfo> buildTop, out DateTime buildTimestamp)
         {
             lock (_syncObject)
             {
-                var tmp = _buildTop;
+                buildTop = _buildTop;
                 _buildTop = null;
-                return tmp;
+                buildTimestamp = DateTime.Now;
             }
         }
 
