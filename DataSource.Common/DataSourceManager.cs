@@ -9,6 +9,8 @@ namespace BuildWatch.DataSource.Common
 {
     public class DataSourceManager
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(DataSourceManager));
+
         private IDataService _dataService;
         private CancellationTokenSource _quitSource;
         private CancellationToken _quitToken;
@@ -17,6 +19,7 @@ namespace BuildWatch.DataSource.Common
 
         public void Initialize(Type[] dataSourceTypes)
         {
+            log.Info("Initializing data source manager...");
             _dataService = new DataServiceClient();
             _quitSource = new CancellationTokenSource();
             _quitToken = _quitSource.Token;
@@ -26,13 +29,15 @@ namespace BuildWatch.DataSource.Common
 
         public void Start()
         {
+            log.Info("Starting data source manager...");
             int ver = _dataService.GetProtocolVersion();
-            Console.WriteLine("DataService version: " + ver);
+            log.Info("DataService version: " + ver);
             _managerThread.Start();
         }
 
         public void Stop()
         {
+            log.Info("Stopping data source manager...");
             _quitSource.Cancel();
             if (_managerThread.Join(30000))
                 return;
@@ -41,6 +46,8 @@ namespace BuildWatch.DataSource.Common
 
         private void ThreadRun()
         {
+            log.Info("DataSourceManager thread starting");
+
             var req = new GetDataSourceConfigRequest {
                 Name = "Default"
             };
@@ -56,21 +63,27 @@ namespace BuildWatch.DataSource.Common
 
             int pollingInterval = Int32.Parse(dsConfig.Get("PollingInterval", "20"));
 
+            log.Info("DataSourceManager thread operational");
+
             while (true)
             {
                 for (int i = 0; i < pollingInterval; i++)
                 {
                     Thread.Sleep(1000);
                     if (_quitToken.IsCancellationRequested)
+                    {
+                        log.Info("DataSourceManager thread quitting gracefully");
                         return;
+                    }
                 }
                 try
                 {
+                    log.Debug("Polling _dataSource");
                     _dataSource.Poll(_dataService, _quitToken);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    log.Error("Polling error", ex);
                 }
             }
         }

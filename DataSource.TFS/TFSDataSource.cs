@@ -12,6 +12,8 @@ namespace BuildWatch.DataSource.TFS
 {
     public class TFSDataSource : DataSourceBase
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(TFSDataSource));
+
         public string TeamServerUri { get; private set; }
         public string TeamProjectCollection { get; private set; }
         public string TeamProjectName { get; private set; }
@@ -30,12 +32,12 @@ namespace BuildWatch.DataSource.TFS
             TeamProjectName = config["TeamProjectName"];
             TeamServerUser = config.Get("TeamServerUser", "");
             TeamServerPassword = config.Get("TeamServerPassword", "");
-            Console.WriteLine(string.Format("TFS Data Source initialized for {0}, {1}/{2}", TeamServerUri, TeamProjectCollection, TeamProjectName));
+            log.Info(string.Format("TFS Data Source initialized for {0}, {1}/{2}", TeamServerUri, TeamProjectCollection, TeamProjectName));
         }
 
         public override void Poll(IDataService dataService, System.Threading.CancellationToken quitToken)
         {
-            Console.WriteLine("TFS: Start polling");
+            log.Debug("TFS: Start polling");
 
             if (configServer == null)
             {
@@ -65,23 +67,23 @@ namespace BuildWatch.DataSource.TFS
             }
 
             // Go through each build definition and retrieve last status
-            Console.WriteLine("Retrieving build information...");
+            log.Debug("Retrieving build information...");
             IBuildDefinition[] allBuilds = buildService.QueryBuildDefinitions(TeamProjectName);
             List<FinishedBuildInfo> builds = new List<FinishedBuildInfo>();
             foreach (IBuildDefinition bdef in allBuilds)
             {
                 if (quitToken.IsCancellationRequested)
                 {
-                    Console.WriteLine("Aborting");
+                    log.Info("Aborting");
                     return;
                 }
                 string buildName = bdef.Name;
                 if (!TryMatchBuildName(ref buildName))
                 {
-                    Console.WriteLine("... " + buildName + " (skipped)");
+                    log.Debug("... " + buildName + " (skipped)");
                     continue;
                 }
-                Console.WriteLine("... " + bdef.Name + " -> " + buildName);
+                log.Debug("... " + bdef.Name + " -> " + buildName);
                 var bdSpec = buildService.CreateBuildDetailSpec(bdef);
                 bdSpec.MaxBuildsPerDefinition = 1;
                 bdSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
@@ -102,7 +104,7 @@ namespace BuildWatch.DataSource.TFS
                 builds.Add(bi);
             }
 
-            Console.WriteLine("Pushing upstream");
+            log.Debug("Pushing upstream");
             var req = new PushFinishedBuildsRequest
             {
                 DataSourceId = 1, // FIXME
@@ -110,7 +112,7 @@ namespace BuildWatch.DataSource.TFS
             };
             dataService.PushFinishedBuilds(req);
 
-            Console.WriteLine("TFS: Polling complete");
+            log.Debug("TFS: Polling complete");
         }
     }
 }
