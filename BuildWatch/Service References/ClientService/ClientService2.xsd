@@ -12,6 +12,7 @@
       <xs:element minOccurs="0" name="ClientEvents" nillable="true" type="tns:ArrayOfClientEvent" />
       <xs:element minOccurs="0" name="FinishedBuilds" nillable="true" type="tns:ArrayOfFinishedBuild" />
       <xs:element minOccurs="0" name="FinishedBuildsDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="QueuedBuilds" nillable="true" type="tns:ArrayOfQueuedBuild" />
       <xs:element minOccurs="0" name="UpdateCounter" type="xs:long" />
     </xs:sequence>
   </xs:complexType>
@@ -43,4 +44,17 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FinishedBuild" nillable="true" type="tns:FinishedBuild" />
+  <xs:complexType name="ArrayOfQueuedBuild">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="QueuedBuild" nillable="true" type="tns:QueuedBuild" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfQueuedBuild" nillable="true" type="tns:ArrayOfQueuedBuild" />
+  <xs:complexType name="QueuedBuild">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BuildName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="QueueTime" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueuedBuild" nillable="true" type="tns:QueuedBuild" />
 </xs:schema>

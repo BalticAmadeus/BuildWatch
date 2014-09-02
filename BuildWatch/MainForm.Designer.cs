@@ -39,6 +39,10 @@
             this.soundCheckBtn = new System.Windows.Forms.Button();
             this.persistLogBoxTxt = new System.Windows.Forms.TextBox();
             this.staleLbl = new System.Windows.Forms.Label();
+            this.queueLbl = new System.Windows.Forms.Label();
+            this.queueList = new System.Windows.Forms.ListView();
+            this.colQueueBuildName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colQueueQueueTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // logBoxTxt
@@ -129,11 +133,53 @@
             this.staleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.staleLbl.Visible = false;
             // 
+            // queueLbl
+            // 
+            this.queueLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.queueLbl.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.queueLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.queueLbl.ForeColor = System.Drawing.Color.Green;
+            this.queueLbl.Location = new System.Drawing.Point(378, 80);
+            this.queueLbl.Name = "queueLbl";
+            this.queueLbl.Size = new System.Drawing.Size(329, 42);
+            this.queueLbl.TabIndex = 5;
+            this.queueLbl.Text = "BUILDING";
+            this.queueLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.queueLbl.Visible = false;
+            // 
+            // queueList
+            // 
+            this.queueList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.queueList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colQueueBuildName,
+            this.colQueueQueueTime});
+            this.queueList.Font = new System.Drawing.Font("Arial Narrow", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.queueList.Location = new System.Drawing.Point(378, 125);
+            this.queueList.Name = "queueList";
+            this.queueList.Size = new System.Drawing.Size(329, 101);
+            this.queueList.TabIndex = 6;
+            this.queueList.UseCompatibleStateImageBehavior = false;
+            this.queueList.View = System.Windows.Forms.View.Details;
+            this.queueList.Visible = false;
+            // 
+            // colQueueBuildName
+            // 
+            this.colQueueBuildName.Text = "Build";
+            this.colQueueBuildName.Width = 180;
+            // 
+            // colQueueQueueTime
+            // 
+            this.colQueueQueueTime.Text = "Queued";
+            this.colQueueQueueTime.Width = 120;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(719, 466);
+            this.Controls.Add(this.queueList);
+            this.Controls.Add(this.queueLbl);
             this.Controls.Add(this.staleLbl);
             this.Controls.Add(this.persistLogBoxTxt);
             this.Controls.Add(this.soundCheckBtn);
@@ -159,6 +205,10 @@
         private System.Windows.Forms.ColumnHeader colUser;
         private System.Windows.Forms.TextBox persistLogBoxTxt;
         private System.Windows.Forms.Label staleLbl;
+        private System.Windows.Forms.Label queueLbl;
+        private System.Windows.Forms.ListView queueList;
+        private System.Windows.Forms.ColumnHeader colQueueBuildName;
+        private System.Windows.Forms.ColumnHeader colQueueQueueTime;
     }
 }
 

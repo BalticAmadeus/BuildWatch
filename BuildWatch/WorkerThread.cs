@@ -10,7 +10,7 @@ using BuildWatch.ClientService;
 namespace BuildWatchWorker
 {
     enum BuildColor {
-        GREEN, RED, WHITE
+        GREEN, RED, WHITE, QUEUED
     }
 
     class BuildInfo
@@ -27,6 +27,8 @@ namespace BuildWatchWorker
         {
             if (x.Color != y.Color)
                 return ColorWeight(x.Color) - ColorWeight(y.Color);
+            else if (x.Color == BuildColor.QUEUED)
+                return x.FinishTime.CompareTo(y.FinishTime);
             else
                 return y.FinishTime.CompareTo(x.FinishTime);
         }
@@ -141,7 +143,7 @@ namespace BuildWatchWorker
                 buildTimestamp = DateTime.Now;
                 return;
             }
-            int i;
+            int i, j;
             BuildInfo b;
             switch (eventCounter % 5) {
                 case 0:
@@ -155,6 +157,22 @@ namespace BuildWatchWorker
                         Log("DEMO: Stale");
                         buildTimestamp = DateTime.Now.AddMinutes(-20);
                         return;
+                    }
+                    if (eventCounter % 20 == 0)
+                    {
+                        for (j = rnd.Next(master.Count); j >= 0; j--)
+                        {
+                            i = rnd.Next(master.Count);
+                            Log("DEMO: Queue " + master[i].Name);
+                            buildTop.Add(new BuildInfo
+                            {
+                                Name = master[i].Name,
+                                Color = BuildColor.QUEUED,
+                                FinishTime = DateTime.Now.AddMinutes(-j),
+                                User = ""
+                            });
+                        }
+                        buildTop.Sort(new BuildTopSorter());
                     }
                     buildTimestamp = DateTime.Now;
                     return;
@@ -291,6 +309,19 @@ namespace BuildWatchWorker
                             Color = (fb.Result == "OK") ? BuildColor.GREEN : BuildColor.RED,
                             FinishTime = fb.TimeStamp,
                             User = fb.UserName
+                        };
+                        top.Add(bi);
+                    }
+                    if (resp.QueuedBuilds == null)
+                        resp.QueuedBuilds = new List<QueuedBuild>();
+                    foreach (QueuedBuild qb in resp.QueuedBuilds)
+                    {
+                        var bi = new BuildInfo()
+                        {
+                            Name = qb.BuildName,
+                            Color = BuildColor.QUEUED,
+                            FinishTime = qb.QueueTime,
+                            User = ""
                         };
                         top.Add(bi);
                     }

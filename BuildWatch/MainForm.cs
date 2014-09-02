@@ -23,7 +23,7 @@ namespace BuildWatch
             GREEN, RED, WHITE,
             STALE, FENIX,
             JUSTGREEN, JUSTRED,
-            OFF
+            QUEUE, OFF
         }
 
         class BuildInfo
@@ -63,7 +63,11 @@ namespace BuildWatch
                 }
                 User = user;
 
-                if (FinishTime != default(DateTime)
+                if (Color == BuildColor.QUEUE)
+                {
+                    DisplayColor = BuildColor.QUEUE;
+                }
+                else if (FinishTime != default(DateTime)
                     && FinishTime < forgetPoint
                     && Color != BuildColor.GREEN)
                 {
@@ -120,6 +124,8 @@ namespace BuildWatch
                         return BuildColor.GREEN;
                     case BuildWatchWorker.BuildColor.RED:
                         return BuildColor.RED;
+                    case BuildWatchWorker.BuildColor.QUEUED:
+                        return BuildColor.QUEUE;
                     default:
                         return BuildColor.WHITE;
                 }
@@ -160,6 +166,7 @@ namespace BuildWatch
             Text = string.Format("Build Watcher {0} - The Ultimate TFS Build Notificator", versionString);
             WindowState = FormWindowState.Maximized;
             DoubleBuffered(topList, true);
+            DoubleBuffered(queueList, true);
 
             LogPersist("Starting");
 
@@ -292,12 +299,46 @@ namespace BuildWatch
                     var stalePoint = DateTime.Now.AddDays(-5);
                     var forgetPoint = stalePoint.AddDays(-5);
                     dataFreshness = (buildTimestamp != default(DateTime)) ? buildTimestamp : DateTime.Now;
+
+                    int queuedCount = buildTop.Count(b => b.Color == BuildWatchWorker.BuildColor.QUEUED);
+                    if (queuedCount > 0) {
+                        queueLbl.Text = string.Format("BUILDING ({0})", queuedCount);
+                        queueLbl.Visible = true;
+                        queueList.Visible = true;
+                        queueList.BeginUpdate();
+                        try
+                        {
+                            queueList.Items.Clear();
+                            foreach (BuildWatchWorker.BuildInfo buildInfo in buildTop)
+                            {
+                                if (buildInfo.Color != BuildWatchWorker.BuildColor.QUEUED)
+                                    continue;
+                                var bi = new BuildInfo(buildInfo, null, stalePoint, forgetPoint);
+                                var item = new ListViewItem(bi.Name);
+                                item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
+                                queueList.Items.Add(item);
+                            }
+                        }
+                        finally
+                        {
+                            queueList.EndUpdate();
+                        }
+                    }
+                    else
+                    {
+                        queueLbl.Visible = false;
+                        queueList.Visible = false;
+                    }
+
                     topList.BeginUpdate();
                     try
                     {
                         topList.Items.Clear();
                         foreach (BuildWatchWorker.BuildInfo buildInfo in buildTop)
                         {
+                            if (buildInfo.Color == BuildWatchWorker.BuildColor.QUEUED)
+                                continue;
+
                             matrixBuilder.Append(string.Format("|{0}={1}", buildInfo.Name, buildInfo.Color));
 
                             BuildInfo oldBuild;
