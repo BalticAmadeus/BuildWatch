@@ -97,7 +97,29 @@ namespace BuildWatch.ControlServer
 
             finishedBuilds.Sort(new BuildTopSorter());
 
-            AppContext.Current.SetBuilds(finishedBuilds);
+            var queuedBuilds = new List<QueuedBuild>();
+            if (req.QueuedBuilds != null)
+            {
+                foreach (QueuedBuildInfo bi in req.QueuedBuilds)
+                {
+                    var qb = new QueuedBuild
+                    {
+                        BuildName = bi.BuildName,
+                        QueueTime = bi.QueueTime
+                    };
+                    queuedBuilds.Add(qb);
+                }
+            }
+
+            PollBuildStatusResp pbsResp = new PollBuildStatusResp
+            {
+                UpdateCounter = 0,
+                FinishedBuilds = finishedBuilds,
+                FinishedBuildsDate = DateTime.Now,
+                QueuedBuilds = queuedBuilds
+            };
+
+            AppContext.Current.SetResponse(pbsResp);
 
             var resp = new PushFinishedBuildsResponse();
 

@@ -45,6 +45,9 @@ namespace BuildWatch.ControlServer
         public DateTime FinishedBuildsDate { get; set; }
 
         [DataMember]
+        public List<QueuedBuild> QueuedBuilds { get; set; }
+
+        [DataMember]
         public List<ClientEvent> ClientEvents { get; set; }
     }
 
@@ -68,6 +71,16 @@ namespace BuildWatch.ControlServer
 
         [DataMember]
         public string State { get; set; }
+    }
+
+    [DataContract]
+    public class QueuedBuild
+    {
+        [DataMember]
+        public string BuildName { get; set; }
+
+        [DataMember]
+        public DateTime QueueTime { get; set; }
     }
 
     [DataContract]

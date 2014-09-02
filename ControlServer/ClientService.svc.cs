@@ -19,19 +19,7 @@ namespace BuildWatch.ControlServer
             if (req.ConfigurationId != 1)
                 throw new ApplicationException(string.Format("ConfigurationId={0} is not defined", req.ConfigurationId));
 
-            var resp = new PollBuildStatusResp
-            {
-                UpdateCounter = 0
-            };
-
-            var app = AppContext.Current;
-            lock (app)
-            {
-                resp.FinishedBuilds = app.FinishedBuilds;
-                resp.FinishedBuildsDate = app.FinishedBuildsDate;
-            }
-
-            return resp;
+            return AppContext.Current.CachedPollBuildStatusResp;
         }
     }
 }

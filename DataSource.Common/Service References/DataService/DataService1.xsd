@@ -30,6 +30,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="BuildInfo" nillable="true" type="tns:ArrayOfFinishedBuildInfo" />
       <xs:element minOccurs="0" name="DataSourceId" type="xs:int" />
+      <xs:element minOccurs="0" name="QueuedBuilds" nillable="true" type="tns:ArrayOfQueuedBuildInfo" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="PushFinishedBuildsRequest" nillable="true" type="tns:PushFinishedBuildsRequest" />
@@ -50,6 +51,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FinishedBuildInfo" nillable="true" type="tns:FinishedBuildInfo" />
+  <xs:complexType name="ArrayOfQueuedBuildInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="QueuedBuildInfo" nillable="true" type="tns:QueuedBuildInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfQueuedBuildInfo" nillable="true" type="tns:ArrayOfQueuedBuildInfo" />
+  <xs:complexType name="QueuedBuildInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BuildName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="QueueTime" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueuedBuildInfo" nillable="true" type="tns:QueuedBuildInfo" />
   <xs:complexType name="PushFinishedBuildsResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="AdditionalQueries" nillable="true" type="tns:ArrayOfQueryInfo" />

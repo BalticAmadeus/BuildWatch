@@ -62,6 +62,9 @@ namespace BuildWatch.ControlServer
         [DataMember]
         public List<FinishedBuildInfo> BuildInfo { get; set; }
 
+        [DataMember]
+        public List<QueuedBuildInfo> QueuedBuilds { get; set; }
+
     }
 
     [DataContract]
@@ -91,6 +94,16 @@ namespace BuildWatch.ControlServer
 
         [DataMember]
         public string UserAction { get; set; }
+    }
+
+    [DataContract]
+    public class QueuedBuildInfo
+    {
+        [DataMember]
+        public string BuildName { get; set; }
+
+        [DataMember]
+        public DateTime QueueTime { get; set; }
     }
 
     [DataContract]

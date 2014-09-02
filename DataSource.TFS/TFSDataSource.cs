@@ -66,6 +66,32 @@ namespace BuildWatch.DataSource.TFS
                 buildService = projectCollection.GetService<IBuildServer>();
             }
 
+            // Get queued builds
+            log.Debug("Retrieving queued builds...");
+            var queueSpec =  buildService.CreateBuildQueueSpec(TeamProjectName);
+            var queuedQuery = buildService.QueryQueuedBuilds(queueSpec);
+            List<QueuedBuildInfo> queuedBuilds = new List<QueuedBuildInfo>();
+            foreach (IQueuedBuild qb in queuedQuery.QueuedBuilds)
+            {
+                string buildName = qb.BuildDefinition.Name;
+                if (!TryMatchBuildName(ref buildName)) {
+                    log.Debug("... " + buildName + " (skipped)");
+                    continue;
+                }
+                IBuildDetail bd = qb.Build;
+                if (bd != null && bd.BuildFinished) {
+                    log.Debug("... " + buildName + " (finished)");
+                    continue;
+                }
+                log.Debug("... " + qb.BuildDefinition.Name + " -> " + buildName);
+                var qbi = new QueuedBuildInfo
+                {
+                    BuildName = buildName,
+                    QueueTime = qb.QueueTime
+                };
+                queuedBuilds.Add(qbi);
+            }
+
             // Go through each build definition and retrieve last status
             log.Debug("Retrieving build information...");
             IBuildDefinition[] allBuilds = buildService.QueryBuildDefinitions(TeamProjectName);
@@ -108,7 +134,8 @@ namespace BuildWatch.DataSource.TFS
             var req = new PushFinishedBuildsRequest
             {
                 DataSourceId = 1, // FIXME
-                BuildInfo = builds
+                BuildInfo = builds,
+                QueuedBuilds = queuedBuilds
             };
             dataService.PushFinishedBuilds(req);
 

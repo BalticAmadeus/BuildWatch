@@ -29,20 +29,21 @@ namespace BuildWatch.ControlServer
 
         #endregion
 
-        public List<FinishedBuild> FinishedBuilds { get; private set; }
-        public DateTime FinishedBuildsDate { get; private set; }
+        public PollBuildStatusResp CachedPollBuildStatusResp { get; private set; }
 
         private AppContext()
         {
-            FinishedBuilds = new List<FinishedBuild>();
+            CachedPollBuildStatusResp = new PollBuildStatusResp {
+                UpdateCounter = 0,
+                FinishedBuilds = new List<FinishedBuild>()
+            };
         }
 
-       public void SetBuilds(List<FinishedBuild> finishedBuilds)
+       public void SetResponse(PollBuildStatusResp resp)
         {
             lock (this)
             {
-                FinishedBuilds = finishedBuilds;
-                FinishedBuildsDate = DateTime.Now;
+                CachedPollBuildStatusResp = resp;
             }
         }
     }

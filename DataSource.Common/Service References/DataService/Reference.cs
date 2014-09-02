@@ -195,6 +195,9 @@ namespace BuildWatch.DataSource.Common.DataService {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int DataSourceIdField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.QueuedBuildInfo> QueuedBuildsField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -227,6 +230,19 @@ namespace BuildWatch.DataSource.Common.DataService {
                 if ((this.DataSourceIdField.Equals(value) != true)) {
                     this.DataSourceIdField = value;
                     this.RaisePropertyChanged("DataSourceId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<BuildWatch.DataSource.Common.DataService.QueuedBuildInfo> QueuedBuilds {
+            get {
+                return this.QueuedBuildsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.QueuedBuildsField, value) != true)) {
+                    this.QueuedBuildsField = value;
+                    this.RaisePropertyChanged("QueuedBuilds");
                 }
             }
         }
@@ -352,6 +368,67 @@ namespace BuildWatch.DataSource.Common.DataService {
                 if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
                     this.UserNameField = value;
                     this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="QueuedBuildInfo", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
+    [System.SerializableAttribute()]
+    public partial class QueuedBuildInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BuildNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime QueueTimeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BuildName {
+            get {
+                return this.BuildNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BuildNameField, value) != true)) {
+                    this.BuildNameField = value;
+                    this.RaisePropertyChanged("BuildName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime QueueTime {
+            get {
+                return this.QueueTimeField;
+            }
+            set {
+                if ((this.QueueTimeField.Equals(value) != true)) {
+                    this.QueueTimeField = value;
+                    this.RaisePropertyChanged("QueueTime");
                 }
             }
         }
