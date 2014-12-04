@@ -11,6 +11,8 @@ using System.Media;
 using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace BuildWatch
 {
@@ -179,15 +181,15 @@ namespace BuildWatch
             soundCheckPlayer = new SoundPlayer(Settings.Default.SoundCheckSound);
             staleAlertPlayer = new SoundPlayer(Settings.Default.StaleAlertSound);
 
-            if (Settings.Default.TfsServerUri == "SERVICE")
-            {
-                Log("Initializing connetion to CONTROL SERVICE");
-                worker = new BuildWatchWorker.ServiceWorkerThread();
-            }
-            else
+            if (string.IsNullOrEmpty(Settings.Default.TfsServerUri))
             {
                 Log("TFS Server URI not defined, starting in DEMO MODE");
                 worker = new BuildWatchWorker.DemoWorkerThread();
+            }
+            else
+            {
+                Log("Initializing connetion to CONTROL SERVICE");
+                worker = new BuildWatchWorker.ServiceWorkerThread();
             }
             
             Log("Loading color state...");
@@ -582,6 +584,34 @@ namespace BuildWatch
             finally
             {
                 resizing = false;
+            }
+        }
+
+        private void filterOpenBtn_Click(object sender, EventArgs e)
+        {
+            FilterSet fs = new FilterSet();
+            fs.Filters = new List<PatternList>();
+            PatternList pl = new PatternList
+            {
+                Name = "Dev"
+            };
+            pl.Tests = new List<PatternTest>();
+            pl.Tests.Add(new PatternTest
+            {
+                Regex = "^SP[.]",
+                Action = ActionType.hide
+            });
+            pl.Tests.Add(new PatternTest
+            {
+                Regex = "Deploy",
+                Action = ActionType.notify
+            });
+            fs.Filters.Add(pl);
+            var xs = new XmlSerializer(typeof(FilterSet));
+            using (var xw = XmlWriter.Create(@"D:\tmp\filter.xml"))
+            {
+                xs.Serialize(xw, fs);
+                xw.Flush();
             }
         }
     }

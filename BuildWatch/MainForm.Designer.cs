@@ -39,6 +39,8 @@
             this.soundCheckBtn = new System.Windows.Forms.Button();
             this.persistLogBoxTxt = new System.Windows.Forms.TextBox();
             this.staleLbl = new System.Windows.Forms.Label();
+            this.filterOpenBtn = new System.Windows.Forms.Button();
+            this.filterCombo = new System.Windows.Forms.ComboBox();
             this.queueLbl = new System.Windows.Forms.Label();
             this.queueList = new System.Windows.Forms.ListView();
             this.colQueueBuildName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -133,8 +135,30 @@
             this.staleLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.staleLbl.Visible = false;
             // 
-            // queueLbl
+            // filterOpenBtn
             // 
+            this.filterOpenBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterOpenBtn.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.filterOpenBtn.Location = new System.Drawing.Point(378, 12);
+            this.filterOpenBtn.Name = "filterOpenBtn";
+            this.filterOpenBtn.Size = new System.Drawing.Size(28, 23);
+            this.filterOpenBtn.TabIndex = 7;
+            this.filterOpenBtn.Text = "1";
+            this.filterOpenBtn.UseVisualStyleBackColor = true;
+            this.filterOpenBtn.Click += new System.EventHandler(this.filterOpenBtn_Click);
+            // 
+            // filterCombo
+            //
+            this.filterCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.filterCombo.FormattingEnabled = true;
+            this.filterCombo.Location = new System.Drawing.Point(412, 14);
+            this.filterCombo.Name = "filterCombo";
+            this.filterCombo.Size = new System.Drawing.Size(121, 21);
+            this.filterCombo.TabIndex = 8;
+            // 
+            // queueLbl
+            //
             this.queueLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.queueLbl.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.queueLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
@@ -178,6 +202,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(719, 466);
+            this.Controls.Add(this.filterCombo);
+            this.Controls.Add(this.filterOpenBtn);
             this.Controls.Add(this.queueList);
             this.Controls.Add(this.queueLbl);
             this.Controls.Add(this.staleLbl);
@@ -205,6 +231,8 @@
         private System.Windows.Forms.ColumnHeader colUser;
         private System.Windows.Forms.TextBox persistLogBoxTxt;
         private System.Windows.Forms.Label staleLbl;
+        private System.Windows.Forms.Button filterOpenBtn;
+        private System.Windows.Forms.ComboBox filterCombo;
         private System.Windows.Forms.Label queueLbl;
         private System.Windows.Forms.ListView queueList;
         private System.Windows.Forms.ColumnHeader colQueueBuildName;
