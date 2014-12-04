@@ -26,7 +26,7 @@ namespace BuildWatch
             GREEN, RED, WHITE,
             STALE, FENIX,
             JUSTGREEN, JUSTRED,
-            QUEUE, OFF
+            QUEUE, OFF, HIDDEN
         }
 
         class BuildInfo
@@ -40,7 +40,7 @@ namespace BuildWatch
             public BuildColor DisplayColor { get; set; }
             public DateTime ColorPoint { get; set; }
 
-            public BuildInfo(BuildWatchWorker.BuildInfo bi, BuildInfo prev, DateTime stalePoint, DateTime forgetPoint)
+            public BuildInfo(BuildWatchWorker.BuildInfo bi, BuildInfo prev, DateTime stalePoint, DateTime forgetPoint, PatternList filter)
             {
                 Name = bi.Name;
                 Color = Convert(bi.Color);
@@ -66,9 +66,15 @@ namespace BuildWatch
                 }
                 User = user;
 
+                FilterAction filterAction = (filter != null) ? filter.Match(Name) : FilterAction.show;
+
                 if (Color == BuildColor.QUEUE)
                 {
                     DisplayColor = BuildColor.QUEUE;
+                }
+                else if (filterAction == FilterAction.hide)
+                {
+                    DisplayColor = BuildColor.HIDDEN;
                 }
                 else if (FinishTime != default(DateTime)
                     && FinishTime < forgetPoint
@@ -116,6 +122,12 @@ namespace BuildWatch
                 else
                 {
                     DisplayColor = Color;
+                }
+
+                if (filterAction == FilterAction.notify)
+                {
+                    if (DisplayColor != BuildColor.JUSTRED && DisplayColor != BuildColor.JUSTGREEN)
+                        DisplayColor = BuildColor.HIDDEN;
                 }
             }
 
@@ -191,7 +203,7 @@ namespace BuildWatch
             }
             else
             {
-                Log("Initializing connetion to CONTROL SERVICE");
+                Log("Initializing connection to CONTROL SERVICE");
                 worker = new BuildWatchWorker.ServiceWorkerThread();
             }
             
@@ -280,7 +292,6 @@ namespace BuildWatch
                 try
                 {
                     string ffn = Settings.Default.FilterConfigFile;
-                    File.Exists("no-op");
                     if (!File.Exists(ffn))
                         throw new FileNotFoundException(string.Format("File {0} not found", ffn));
                     DateTime modTime = File.GetLastWriteTimeUtc(ffn);
@@ -303,18 +314,22 @@ namespace BuildWatch
                             filterCombo.Items.Add(pl);
                         }
                         filterCombo.SelectedIndex = 0;
-                        for (int i = 0; i < filterCombo.Items.Count; i++)
+                        if (lastFilter != null)
                         {
-                            if (((PatternList)filterCombo.Items[i]).Name == lastFilter.Name)
+                            for (int i = 0; i < filterCombo.Items.Count; i++)
                             {
-                                filterCombo.SelectedIndex = i;
-                                break;
+                                if (((PatternList)filterCombo.Items[i]).Name == lastFilter.Name)
+                                {
+                                    filterCombo.SelectedIndex = i;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Log("ERROR loading filters: " + ex.Message);
                     if (filterCombo.Items.Count == 0)
                     {
                         filters = new FilterSet();
@@ -368,7 +383,7 @@ namespace BuildWatch
                             {
                                 if (buildInfo.Color != BuildWatchWorker.BuildColor.QUEUED)
                                     continue;
-                                var bi = new BuildInfo(buildInfo, null, stalePoint, forgetPoint);
+                                var bi = new BuildInfo(buildInfo, null, stalePoint, forgetPoint, null);
                                 var item = new ListViewItem(bi.Name);
                                 item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
                                 queueList.Items.Add(item);
@@ -385,6 +400,8 @@ namespace BuildWatch
                         queueList.Visible = false;
                     }
 
+                    var currentFilter = (PatternList) filterCombo.SelectedItem;
+
                     topList.BeginUpdate();
                     try
                     {
@@ -400,7 +417,14 @@ namespace BuildWatch
                             if (!oldInfo.TryGetValue(buildInfo.Name, out oldBuild))
                                 oldBuild = null;
 
-                            var bi = new BuildInfo(buildInfo, oldBuild, stalePoint, forgetPoint);
+                            var bi = new BuildInfo(buildInfo, oldBuild, stalePoint, forgetPoint, currentFilter);
+
+                            newInfo[bi.Name] = bi;
+
+                            if (bi.DisplayColor == BuildColor.OFF || bi.DisplayColor == BuildColor.HIDDEN)
+                            {
+                                continue;
+                            }
 
                             if (oldBuild != null)
                             {
@@ -420,12 +444,6 @@ namespace BuildWatch
                                     else
                                         greenBuildThem = true;
                                 }
-                            }
-                            newInfo[bi.Name] = bi;
-
-                            if (bi.DisplayColor == BuildColor.OFF)
-                            {
-                                continue;
                             }
 
                             if (bi.Color != BuildColor.GREEN)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -33,6 +34,16 @@ namespace BuildWatch
         {
             return Name;
         }
+
+        public FilterAction Match(string s)
+        {
+            foreach (PatternTest t in Tests)
+            {
+                if (Regex.IsMatch(s, t.Regex))
+                    return t.Action;
+            }
+            return FilterAction.show;
+        }
     }
 
     [XmlType("Test")]
@@ -42,10 +53,10 @@ namespace BuildWatch
         public string Regex;
 
         [XmlAttribute("action")]
-        public ActionType Action;
+        public FilterAction Action;
     }
 
-    public enum ActionType
+    public enum FilterAction
     {
         hide,
         show,
