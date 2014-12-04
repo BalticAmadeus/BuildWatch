@@ -289,33 +289,35 @@ namespace BuildWatch
             inTimer = true;
             try
             {
-                try
+                do
                 {
-                    string ffn = Settings.Default.FilterConfigFile;
-                    if (!File.Exists(ffn))
-                        throw new FileNotFoundException(string.Format("File {0} not found", ffn));
-                    DateTime modTime = File.GetLastWriteTimeUtc(ffn);
-                    if (modTime != filterLoadTime)
+                    try
                     {
-                        filterLoadTime = modTime;
-                        var xs = new XmlSerializer(typeof(FilterSet));
-                        using (XmlReader xr = XmlReader.Create(ffn))
+                        string ffn = Settings.Default.FilterConfigFile;
+                        if (!File.Exists(ffn))
+                            break;
+                        DateTime modTime = File.GetLastWriteTimeUtc(ffn);
+                        if (modTime != filterLoadTime)
                         {
-                            filters = (FilterSet) xs.Deserialize(xr);
-                        }
-                        PatternList lastFilter = (PatternList) filterCombo.SelectedItem;
-                        filterCombo.Items.Clear();
-                        filterCombo.Items.Add(new PatternList
-                        {
-                            Name = "ALL"
-                        });
-                        foreach (PatternList pl in filters.Filters)
-                        {
-                            filterCombo.Items.Add(pl);
-                        }
-                        filterCombo.SelectedIndex = 0;
-                        if (lastFilter != null)
-                        {
+                            filterLoadTime = modTime;
+                            var xs = new XmlSerializer(typeof(FilterSet));
+                            using (XmlReader xr = XmlReader.Create(ffn))
+                            {
+                                filters = (FilterSet)xs.Deserialize(xr);
+                            }
+                            PatternList lastFilter = (PatternList)filterCombo.SelectedItem;
+                            filterCombo.Items.Clear();
+                            filterCombo.Items.Add(new PatternList
+                            {
+                                Name = "ALL"
+                            });
+                            foreach (PatternList pl in filters.Filters)
+                            {
+                                filterCombo.Items.Add(pl);
+                            }
+                            filterCombo.SelectedIndex = 0;
+                            if (lastFilter == null)
+                                break;
                             for (int i = 0; i < filterCombo.Items.Count; i++)
                             {
                                 if (((PatternList)filterCombo.Items[i]).Name == lastFilter.Name)
@@ -326,20 +328,21 @@ namespace BuildWatch
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Log("ERROR loading filters: " + ex.Message);
-                    if (filterCombo.Items.Count == 0)
+                    catch (Exception ex)
                     {
-                        filters = new FilterSet();
-                        filters.Filters.Add(new PatternList
-                        {
-                            Name = "ALL"
-                        });
-                        filterCombo.Items.Add(filters.Filters[0]);
-                        filterCombo.SelectedIndex = 0;
+                        Log("ERROR loading filters: " + ex.Message);
                     }
+                } while (false);
+
+                if (filterCombo.Items.Count == 0)
+                {
+                    filters = new FilterSet();
+                    filters.Filters.Add(new PatternList
+                    {
+                        Name = "ALL"
+                    });
+                    filterCombo.Items.Add(filters.Filters[0]);
+                    filterCombo.SelectedIndex = 0;
                 }
 
                 List<string> logMessages = worker.RetrieveLogMessages();
