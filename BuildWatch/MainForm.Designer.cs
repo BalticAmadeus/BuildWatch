@@ -147,7 +147,6 @@
             this.filterOpenBtn.Size = new System.Drawing.Size(28, 23);
             this.filterOpenBtn.TabIndex = 7;
             this.filterOpenBtn.Text = "1";
-            this.filterOpenBtn.UseVisualStyleBackColor = true;
             this.filterOpenBtn.Click += new System.EventHandler(this.filterOpenBtn_Click);
             // 
             // filterCombo

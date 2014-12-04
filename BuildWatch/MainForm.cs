@@ -316,6 +316,7 @@ namespace BuildWatch
                                 filterCombo.Items.Add(pl);
                             }
                             filterCombo.SelectedIndex = 0;
+                            filterOpenBtn.UseVisualStyleBackColor = true;
                             if (lastFilter == null)
                                 break;
                             for (int i = 0; i < filterCombo.Items.Count; i++)
@@ -331,6 +332,7 @@ namespace BuildWatch
                     catch (Exception ex)
                     {
                         Log("ERROR loading filters: " + ex.Message);
+                        filterOpenBtn.BackColor = Color.Red;
                     }
                 } while (false);
 
