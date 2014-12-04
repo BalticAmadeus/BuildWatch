@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.logBoxTxt = new System.Windows.Forms.TextBox();
             this.pingTimer = new System.Windows.Forms.Timer(this.components);
             this.topList = new System.Windows.Forms.ListView();
@@ -45,6 +46,8 @@
             this.queueList = new System.Windows.Forms.ListView();
             this.colQueueBuildName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colQueueQueueTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.filterSpinner = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.filterSpinner)).BeginInit();
             this.SuspendLayout();
             // 
             // logBoxTxt
@@ -156,6 +159,7 @@
             this.filterCombo.Name = "filterCombo";
             this.filterCombo.Size = new System.Drawing.Size(121, 21);
             this.filterCombo.TabIndex = 8;
+            this.filterCombo.SelectedIndexChanged += new System.EventHandler(this.filterCombo_SelectedIndexChanged);
             // 
             // queueLbl
             // 
@@ -197,11 +201,23 @@
             this.colQueueQueueTime.Text = "Queued";
             this.colQueueQueueTime.Width = 120;
             // 
+            // filterSpinner
+            // 
+            this.filterSpinner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterSpinner.Image = ((System.Drawing.Image)(resources.GetObject("filterSpinner.Image")));
+            this.filterSpinner.Location = new System.Drawing.Point(539, 15);
+            this.filterSpinner.Name = "filterSpinner";
+            this.filterSpinner.Size = new System.Drawing.Size(16, 16);
+            this.filterSpinner.TabIndex = 9;
+            this.filterSpinner.TabStop = false;
+            this.filterSpinner.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(719, 466);
+            this.Controls.Add(this.filterSpinner);
             this.Controls.Add(this.filterCombo);
             this.Controls.Add(this.filterOpenBtn);
             this.Controls.Add(this.queueList);
@@ -214,6 +230,7 @@
             this.Name = "MainForm";
             this.Text = "Build Watch";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.filterSpinner)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,6 +254,7 @@
         private System.Windows.Forms.ListView queueList;
         private System.Windows.Forms.ColumnHeader colQueueBuildName;
         private System.Windows.Forms.ColumnHeader colQueueQueueTime;
+        private System.Windows.Forms.PictureBox filterSpinner;
     }
 }
 

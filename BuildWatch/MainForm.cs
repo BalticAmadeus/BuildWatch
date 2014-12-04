@@ -400,7 +400,8 @@ namespace BuildWatch
                         queueList.Visible = false;
                     }
 
-                    var currentFilter = (PatternList) filterCombo.SelectedItem;
+                    filterSpinner.Visible = false;
+                    var currentFilter = (PatternList)filterCombo.SelectedItem;
 
                     topList.BeginUpdate();
                     try
@@ -671,6 +672,11 @@ namespace BuildWatch
             {
                 MessageBox.Show(this, ex.Message, ex.GetType().FullName);
             }
+        }
+
+        private void filterCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            filterSpinner.Visible = true;
         }
     }
 }
