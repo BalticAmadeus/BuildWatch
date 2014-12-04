@@ -10,6 +10,11 @@ namespace BuildWatch
     public class FilterSet
     {
         public List<PatternList> Filters;
+
+        public FilterSet()
+        {
+            Filters = new List<PatternList>();
+        }
     }
 
     [XmlType("Filter")]
@@ -18,6 +23,16 @@ namespace BuildWatch
         [XmlAttribute("name")]
         public string Name;
         public List<PatternTest> Tests;
+
+        public PatternList()
+        {
+            Tests = new List<PatternTest>();
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     [XmlType("Test")]

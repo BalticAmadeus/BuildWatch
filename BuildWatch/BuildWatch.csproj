@@ -130,6 +130,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="filters.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\123921__silencer1337__machinefail.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

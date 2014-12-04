@@ -151,5 +151,17 @@ namespace BuildWatch.Properties {
                 this["StaleAlertSound"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("filters.xml")]
+        public string FilterConfigFile {
+            get {
+                return ((string)(this["FilterConfigFile"]));
+            }
+            set {
+                this["FilterConfigFile"] = value;
+            }
+        }
     }
 }

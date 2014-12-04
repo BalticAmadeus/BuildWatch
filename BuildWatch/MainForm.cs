@@ -13,6 +13,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Diagnostics;
 
 namespace BuildWatch
 {
@@ -151,6 +152,8 @@ namespace BuildWatch
         private DateTime soundCheckTime;
         private DateTime dataFreshness;
         private DateTime staleAlertTime;
+        private FilterSet filters;
+        private DateTime filterLoadTime;
 
         public MainForm()
         {
@@ -274,6 +277,56 @@ namespace BuildWatch
             inTimer = true;
             try
             {
+                try
+                {
+                    string ffn = Settings.Default.FilterConfigFile;
+                    File.Exists("no-op");
+                    if (!File.Exists(ffn))
+                        throw new FileNotFoundException(string.Format("File {0} not found", ffn));
+                    DateTime modTime = File.GetLastWriteTimeUtc(ffn);
+                    if (modTime != filterLoadTime)
+                    {
+                        filterLoadTime = modTime;
+                        var xs = new XmlSerializer(typeof(FilterSet));
+                        using (XmlReader xr = XmlReader.Create(ffn))
+                        {
+                            filters = (FilterSet) xs.Deserialize(xr);
+                        }
+                        PatternList lastFilter = (PatternList) filterCombo.SelectedItem;
+                        filterCombo.Items.Clear();
+                        filterCombo.Items.Add(new PatternList
+                        {
+                            Name = "ALL"
+                        });
+                        foreach (PatternList pl in filters.Filters)
+                        {
+                            filterCombo.Items.Add(pl);
+                        }
+                        filterCombo.SelectedIndex = 0;
+                        for (int i = 0; i < filterCombo.Items.Count; i++)
+                        {
+                            if (((PatternList)filterCombo.Items[i]).Name == lastFilter.Name)
+                            {
+                                filterCombo.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    if (filterCombo.Items.Count == 0)
+                    {
+                        filters = new FilterSet();
+                        filters.Filters.Add(new PatternList
+                        {
+                            Name = "ALL"
+                        });
+                        filterCombo.Items.Add(filters.Filters[0]);
+                        filterCombo.SelectedIndex = 0;
+                    }
+                }
+
                 List<string> logMessages = worker.RetrieveLogMessages();
                 if (logMessages != null && logMessages.Count > 0)
                 {
@@ -586,32 +639,19 @@ namespace BuildWatch
                 resizing = false;
             }
         }
-
+        
         private void filterOpenBtn_Click(object sender, EventArgs e)
         {
-            FilterSet fs = new FilterSet();
-            fs.Filters = new List<PatternList>();
-            PatternList pl = new PatternList
+            try
             {
-                Name = "Dev"
-            };
-            pl.Tests = new List<PatternTest>();
-            pl.Tests.Add(new PatternTest
+                string fn = Path.GetFullPath(Settings.Default.FilterConfigFile);
+                var psi = new ProcessStartInfo(fn);
+                psi.Verb = "Edit";
+                Process.Start(psi);
+            }
+            catch (Exception ex)
             {
-                Regex = "^SP[.]",
-                Action = ActionType.hide
-            });
-            pl.Tests.Add(new PatternTest
-            {
-                Regex = "Deploy",
-                Action = ActionType.notify
-            });
-            fs.Filters.Add(pl);
-            var xs = new XmlSerializer(typeof(FilterSet));
-            using (var xw = XmlWriter.Create(@"D:\tmp\filter.xml"))
-            {
-                xs.Serialize(xw, fs);
-                xw.Flush();
+                MessageBox.Show(this, ex.Message, ex.GetType().FullName);
             }
         }
     }

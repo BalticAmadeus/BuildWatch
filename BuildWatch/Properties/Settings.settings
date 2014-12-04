@@ -44,5 +44,8 @@
     <Setting Name="StaleAlertSound" Type="System.String" Scope="User">
       <Value Profile="(Default)">Sounds\167337__willy-ineedthatapp-com__pup-alert.wav</Value>
     </Setting>
+    <Setting Name="FilterConfigFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">filters.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

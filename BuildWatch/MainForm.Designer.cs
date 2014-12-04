@@ -148,17 +148,17 @@
             this.filterOpenBtn.Click += new System.EventHandler(this.filterOpenBtn_Click);
             // 
             // filterCombo
-            //
+            // 
             this.filterCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.filterCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterCombo.FormattingEnabled = true;
-            this.filterCombo.Location = new System.Drawing.Point(412, 14);
+            this.filterCombo.Location = new System.Drawing.Point(412, 13);
             this.filterCombo.Name = "filterCombo";
             this.filterCombo.Size = new System.Drawing.Size(121, 21);
             this.filterCombo.TabIndex = 8;
             // 
             // queueLbl
-            //
+            // 
             this.queueLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.queueLbl.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.queueLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
