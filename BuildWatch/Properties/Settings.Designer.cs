@@ -140,39 +140,30 @@ namespace BuildWatch.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Sounds\\167337__willy-ineedthatapp-com__pup-alert.wav")]
         public string StaleAlertSound {
             get {
                 return ((string)(this["StaleAlertSound"]));
             }
-            set {
-                this["StaleAlertSound"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("filters.xml")]
         public string FilterConfigFile {
             get {
                 return ((string)(this["FilterConfigFile"]));
             }
-            set {
-                this["FilterConfigFile"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShowBuildInstance {
             get {
                 return ((bool)(this["ShowBuildInstance"]));
-            }
-            set {
-                this["ShowBuildInstance"] = value;
             }
         }
     }
