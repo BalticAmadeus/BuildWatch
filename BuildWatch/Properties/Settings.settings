@@ -47,5 +47,8 @@
     <Setting Name="FilterConfigFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">filters.xml</Value>
     </Setting>
+    <Setting Name="ShowBuildInstance" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

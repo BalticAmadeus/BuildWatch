@@ -16,6 +16,7 @@ namespace BuildWatchWorker
     class BuildInfo
     {
         public string Name { get; set; }
+        public string Instance { get; set; }
         public BuildColor Color { get; set; }
         public DateTime FinishTime { get; set; }
         public string User { get; set; }
@@ -75,30 +76,35 @@ namespace BuildWatchWorker
             master.Add(new BuildInfo
             {
                 Name = "Main Engine",
+                Instance = "Main Engine #123",
                 User = "peter",
                 Color = BuildColor.WHITE
             });
             master.Add(new BuildInfo
             {
                 Name = "UI Tools",
+                Instance = "UI Tools #44",
                 User = "peter",
                 Color = BuildColor.WHITE
             });
             master.Add(new BuildInfo
             {
                 Name = "Web Interface",
+                Instance = "Web Interface #1",
                 User = "john",
                 Color = BuildColor.WHITE
             });
             master.Add(new BuildInfo
             {
                 Name = "3D Support Libs",
+                Instance = "3D Support Libs #666",
                 User = "cris",
                 Color = BuildColor.WHITE
             });
             master.Add(new BuildInfo
             {
                 Name = "Installer",
+                Instance = "Installer #007",
                 User = "gordon",
                 Color = BuildColor.WHITE
             });
@@ -306,6 +312,7 @@ namespace BuildWatchWorker
                         var bi = new BuildInfo()
                         {
                             Name = fb.BuildName,
+                            Instance = fb.BuildInstance,
                             Color = (fb.Result == "OK") ? BuildColor.GREEN : BuildColor.RED,
                             FinishTime = fb.TimeStamp,
                             User = fb.UserName
@@ -319,6 +326,7 @@ namespace BuildWatchWorker
                         var bi = new BuildInfo()
                         {
                             Name = qb.BuildName,
+                            Instance = qb.BuildName,
                             Color = BuildColor.QUEUED,
                             FinishTime = qb.QueueTime,
                             User = ""

@@ -32,6 +32,7 @@ namespace BuildWatch
         class BuildInfo
         {
             public string Name { get; set; }
+            public string Instance { get; set; }
             public BuildColor Color { get; set; }
             public DateTime FinishTime { get; set; }
             public string User { get; set; }
@@ -43,6 +44,7 @@ namespace BuildWatch
             public BuildInfo(BuildWatchWorker.BuildInfo bi, BuildInfo prev, DateTime stalePoint, DateTime forgetPoint, PatternList filter)
             {
                 Name = bi.Name;
+                Instance = bi.Instance;
                 Color = Convert(bi.Color);
                 FinishTime = bi.FinishTime;
 
@@ -455,7 +457,7 @@ namespace BuildWatch
                             if (bi.Color != BuildColor.GREEN)
                                 allGreen = false;
 
-                            var item = new ListViewItem(bi.Name);
+                            var item = new ListViewItem((Settings.Default.ShowBuildInstance) ? bi.Instance : bi.Name);
                             item.SubItems.Add(bi.Color.ToString());
                             item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
                             item.SubItems.Add(bi.User);
