@@ -118,9 +118,11 @@ namespace BuildWatch.DataSource.TFS
                 if (bq.Builds.Length != 1)
                     continue;
                 IBuildDetail bd = bq.Builds[0];
+                string buildInstance = bd.BuildNumber;
+                TryMatchBuildName(ref buildInstance);
                 var bi = new FinishedBuildInfo()
                 {
-                    BuildInstance = bd.BuildNumber,
+                    BuildInstance = buildInstance,
                     BuildName = buildName,
                     TimeStamp = bd.FinishTime,
                     Result = (bd.Status == BuildStatus.Succeeded) ? "OK" : "FAIL",
