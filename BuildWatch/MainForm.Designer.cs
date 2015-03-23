@@ -91,7 +91,7 @@
             // 
             // colBuildColor
             // 
-            this.colBuildColor.Text = "Color";
+            this.colBuildColor.Text = "State";
             // 
             // colBuildFinish
             // 

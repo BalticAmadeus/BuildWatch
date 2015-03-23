@@ -458,7 +458,7 @@ namespace BuildWatch
                                 allGreen = false;
 
                             var item = new ListViewItem((Settings.Default.ShowBuildInstance) ? bi.Instance : bi.Name);
-                            item.SubItems.Add(bi.Color.ToString());
+                            item.SubItems.Add(ConvertToStatus(bi.Color));
                             item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
                             item.SubItems.Add(bi.User);
 
@@ -584,6 +584,19 @@ namespace BuildWatch
                 return string.Format("{0:t} (-{1}h)", dt, Math.Round(diff.TotalHours));
             else
                 return string.Format("{0:MMM d} {0:t} (-{1}d)", dt, Math.Round(diff.TotalDays));
+        }
+
+        private string ConvertToStatus(BuildColor color)
+        {
+            switch (color)
+            {
+                case BuildColor.GREEN:
+                    return "OK";
+                case BuildColor.RED:
+                    return "FAIL";
+                default:
+                    return "N/A";
+            }
         }
 
         private void Play(SoundPlayer player, string name)
