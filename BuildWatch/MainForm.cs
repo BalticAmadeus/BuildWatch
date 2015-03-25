@@ -186,6 +186,10 @@ namespace BuildWatch
             WindowState = FormWindowState.Maximized;
             DoubleBuffered(topList, true);
             DoubleBuffered(queueList, true);
+            wideBuildStatusRow1.BuildUser = "N/A";
+            wideBuildStatusRow1.BuildName = "N/A";
+            wideBuildStatusRow1.BuildState = "N/A";
+            wideBuildStatusRow1.BuildFinish = "N/A";
 
             LogPersist("Starting");
 
@@ -414,6 +418,7 @@ namespace BuildWatch
                     try
                     {
                         topList.Items.Clear();
+                        int rowNumber = -1;
                         foreach (BuildWatchWorker.BuildInfo buildInfo in buildTop)
                         {
                             if (buildInfo.Color == BuildWatchWorker.BuildColor.QUEUED)
@@ -457,6 +462,8 @@ namespace BuildWatch
                             if (bi.Color != BuildColor.GREEN)
                                 allGreen = false;
 
+                            rowNumber++;
+
                             var item = new ListViewItem((Settings.Default.ShowBuildInstance) ? bi.Instance : bi.Name);
                             item.SubItems.Add(ConvertToStatus(bi.Color));
                             item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
@@ -494,6 +501,17 @@ namespace BuildWatch
                                     break;
                             }
                             topList.Items.Add(item);
+
+                            if (rowNumber == 0)
+                            {
+                                wideBuildStatusRow1.BuildForeColor = item.ForeColor;
+                                wideBuildStatusRow1.BuildBackColor = item.BackColor;
+                                wideBuildStatusRow1.BuildName = item.SubItems[0].Text;
+                                wideBuildStatusRow1.BuildState = item.SubItems[1].Text;
+                                wideBuildStatusRow1.BuildFinish = item.SubItems[2].Text;
+                                wideBuildStatusRow1.BuildUser = item.SubItems[3].Text;
+                            }
+
                             emptyList = false;
                         }
                     }

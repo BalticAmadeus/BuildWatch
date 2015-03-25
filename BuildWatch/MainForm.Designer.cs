@@ -47,13 +47,14 @@
             this.colQueueBuildName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colQueueQueueTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.filterSpinner = new System.Windows.Forms.PictureBox();
+            this.wideBuildStatusRow1 = new BuildWatch.Controls.WideBuildStatusBox();
             ((System.ComponentModel.ISupportInitialize)(this.filterSpinner)).BeginInit();
             this.SuspendLayout();
             // 
             // logBoxTxt
             // 
             this.logBoxTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.logBoxTxt.Location = new System.Drawing.Point(378, 346);
+            this.logBoxTxt.Location = new System.Drawing.Point(548, 472);
             this.logBoxTxt.Multiline = true;
             this.logBoxTxt.Name = "logBoxTxt";
             this.logBoxTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -76,9 +77,9 @@
             this.colBuildFinish,
             this.colUser});
             this.topList.Font = new System.Drawing.Font("Arial Narrow", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.topList.Location = new System.Drawing.Point(12, 12);
+            this.topList.Location = new System.Drawing.Point(12, 215);
             this.topList.Name = "topList";
-            this.topList.Size = new System.Drawing.Size(360, 442);
+            this.topList.Size = new System.Drawing.Size(530, 365);
             this.topList.TabIndex = 1;
             this.topList.UseCompatibleStateImageBehavior = false;
             this.topList.View = System.Windows.Forms.View.Details;
@@ -106,7 +107,7 @@
             // soundCheckBtn
             // 
             this.soundCheckBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.soundCheckBtn.Location = new System.Drawing.Point(592, 12);
+            this.soundCheckBtn.Location = new System.Drawing.Point(762, 12);
             this.soundCheckBtn.Name = "soundCheckBtn";
             this.soundCheckBtn.Size = new System.Drawing.Size(115, 23);
             this.soundCheckBtn.TabIndex = 2;
@@ -117,7 +118,7 @@
             // persistLogBoxTxt
             // 
             this.persistLogBoxTxt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.persistLogBoxTxt.Location = new System.Drawing.Point(378, 232);
+            this.persistLogBoxTxt.Location = new System.Drawing.Point(548, 358);
             this.persistLogBoxTxt.Multiline = true;
             this.persistLogBoxTxt.Name = "persistLogBoxTxt";
             this.persistLogBoxTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -130,7 +131,7 @@
             this.staleLbl.BackColor = System.Drawing.Color.Indigo;
             this.staleLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.staleLbl.ForeColor = System.Drawing.Color.OrangeRed;
-            this.staleLbl.Location = new System.Drawing.Point(378, 38);
+            this.staleLbl.Location = new System.Drawing.Point(548, 38);
             this.staleLbl.Name = "staleLbl";
             this.staleLbl.Size = new System.Drawing.Size(329, 42);
             this.staleLbl.TabIndex = 4;
@@ -142,7 +143,7 @@
             // 
             this.filterOpenBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.filterOpenBtn.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.filterOpenBtn.Location = new System.Drawing.Point(378, 12);
+            this.filterOpenBtn.Location = new System.Drawing.Point(548, 12);
             this.filterOpenBtn.Name = "filterOpenBtn";
             this.filterOpenBtn.Size = new System.Drawing.Size(28, 23);
             this.filterOpenBtn.TabIndex = 7;
@@ -154,7 +155,7 @@
             this.filterCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.filterCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterCombo.FormattingEnabled = true;
-            this.filterCombo.Location = new System.Drawing.Point(412, 13);
+            this.filterCombo.Location = new System.Drawing.Point(582, 13);
             this.filterCombo.Name = "filterCombo";
             this.filterCombo.Size = new System.Drawing.Size(121, 21);
             this.filterCombo.TabIndex = 8;
@@ -166,7 +167,7 @@
             this.queueLbl.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.queueLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.queueLbl.ForeColor = System.Drawing.Color.Green;
-            this.queueLbl.Location = new System.Drawing.Point(378, 80);
+            this.queueLbl.Location = new System.Drawing.Point(548, 80);
             this.queueLbl.Name = "queueLbl";
             this.queueLbl.Size = new System.Drawing.Size(329, 42);
             this.queueLbl.TabIndex = 5;
@@ -182,9 +183,9 @@
             this.colQueueBuildName,
             this.colQueueQueueTime});
             this.queueList.Font = new System.Drawing.Font("Arial Narrow", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
-            this.queueList.Location = new System.Drawing.Point(378, 125);
+            this.queueList.Location = new System.Drawing.Point(548, 125);
             this.queueList.Name = "queueList";
-            this.queueList.Size = new System.Drawing.Size(329, 101);
+            this.queueList.Size = new System.Drawing.Size(329, 227);
             this.queueList.TabIndex = 6;
             this.queueList.UseCompatibleStateImageBehavior = false;
             this.queueList.View = System.Windows.Forms.View.Details;
@@ -204,18 +205,29 @@
             // 
             this.filterSpinner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.filterSpinner.Image = ((System.Drawing.Image)(resources.GetObject("filterSpinner.Image")));
-            this.filterSpinner.Location = new System.Drawing.Point(539, 15);
+            this.filterSpinner.Location = new System.Drawing.Point(709, 15);
             this.filterSpinner.Name = "filterSpinner";
             this.filterSpinner.Size = new System.Drawing.Size(16, 16);
             this.filterSpinner.TabIndex = 9;
             this.filterSpinner.TabStop = false;
             this.filterSpinner.Visible = false;
             // 
+            // wideBuildStatusRow1
+            // 
+            this.wideBuildStatusRow1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wideBuildStatusRow1.Location = new System.Drawing.Point(12, 12);
+            this.wideBuildStatusRow1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.wideBuildStatusRow1.Name = "wideBuildStatusRow1";
+            this.wideBuildStatusRow1.Size = new System.Drawing.Size(529, 194);
+            this.wideBuildStatusRow1.TabIndex = 10;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 466);
+            this.ClientSize = new System.Drawing.Size(889, 592);
+            this.Controls.Add(this.wideBuildStatusRow1);
             this.Controls.Add(this.filterSpinner);
             this.Controls.Add(this.filterCombo);
             this.Controls.Add(this.filterOpenBtn);
@@ -254,6 +266,7 @@
         private System.Windows.Forms.ColumnHeader colQueueBuildName;
         private System.Windows.Forms.ColumnHeader colQueueQueueTime;
         private System.Windows.Forms.PictureBox filterSpinner;
+        private Controls.WideBuildStatusBox wideBuildStatusRow1;
     }
 }
 
