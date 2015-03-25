@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Diagnostics;
+using BuildWatch.Controls;
 
 namespace BuildWatch
 {
@@ -186,10 +187,7 @@ namespace BuildWatch
             WindowState = FormWindowState.Maximized;
             DoubleBuffered(topList, true);
             DoubleBuffered(queueList, true);
-            wideBuildStatusRow1.BuildUser = "N/A";
-            wideBuildStatusRow1.BuildName = "N/A";
-            wideBuildStatusRow1.BuildState = "N/A";
-            wideBuildStatusRow1.BuildFinish = "N/A";
+            clearWideBuildInfo(wideBuildStatusRow1);
 
             LogPersist("Starting");
 
@@ -418,6 +416,7 @@ namespace BuildWatch
                     try
                     {
                         topList.Items.Clear();
+                        clearWideBuildInfo(wideBuildStatusRow1);
                         int rowNumber = -1;
                         foreach (BuildWatchWorker.BuildInfo buildInfo in buildTop)
                         {
@@ -503,14 +502,7 @@ namespace BuildWatch
                             topList.Items.Add(item);
 
                             if (rowNumber == 0)
-                            {
-                                wideBuildStatusRow1.BuildForeColor = item.ForeColor;
-                                wideBuildStatusRow1.BuildBackColor = item.BackColor;
-                                wideBuildStatusRow1.BuildName = item.SubItems[0].Text;
-                                wideBuildStatusRow1.BuildState = item.SubItems[1].Text;
-                                wideBuildStatusRow1.BuildFinish = item.SubItems[2].Text;
-                                wideBuildStatusRow1.BuildUser = item.SubItems[3].Text;
-                            }
+                                showWideBuildInfo(wideBuildStatusRow1, item);
 
                             emptyList = false;
                         }
@@ -715,6 +707,34 @@ namespace BuildWatch
         private void filterCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             filterSpinner.Visible = true;
+        }
+
+        private void topList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (topList.SelectedItems.Count < 1)
+                return;
+            ListViewItem item = topList.SelectedItems[0];
+            showWideBuildInfo(wideBuildStatusRow1, item);
+        }
+
+        private void showWideBuildInfo(WideBuildStatusBox statusRow, ListViewItem item)
+        {
+            statusRow.BuildForeColor = item.ForeColor;
+            statusRow.BuildBackColor = item.BackColor;
+            statusRow.BuildName = item.SubItems[0].Text;
+            statusRow.BuildState = item.SubItems[1].Text;
+            statusRow.BuildFinish = item.SubItems[2].Text;
+            statusRow.BuildUser = item.SubItems[3].Text;
+        }
+
+        private void clearWideBuildInfo(WideBuildStatusBox statusRow)
+        {
+            statusRow.BuildForeColor = SystemColors.ControlText;
+            statusRow.BuildBackColor = SystemColors.Control;
+            statusRow.BuildName = "";
+            statusRow.BuildState = "";
+            statusRow.BuildFinish = "";
+            statusRow.BuildUser = "";
         }
     }
 }

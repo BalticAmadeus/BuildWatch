@@ -77,12 +77,14 @@
             this.colBuildFinish,
             this.colUser});
             this.topList.Font = new System.Drawing.Font("Arial Narrow", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.topList.FullRowSelect = true;
             this.topList.Location = new System.Drawing.Point(12, 215);
             this.topList.Name = "topList";
             this.topList.Size = new System.Drawing.Size(530, 365);
             this.topList.TabIndex = 1;
             this.topList.UseCompatibleStateImageBehavior = false;
             this.topList.View = System.Windows.Forms.View.Details;
+            this.topList.SelectedIndexChanged += new System.EventHandler(this.topList_SelectedIndexChanged);
             this.topList.ClientSizeChanged += new System.EventHandler(this.topList_ClientSizeChanged);
             // 
             // colBuildName
@@ -216,6 +218,12 @@
             // 
             this.wideBuildStatusRow1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.wideBuildStatusRow1.BuildBackColor = System.Drawing.SystemColors.Control;
+            this.wideBuildStatusRow1.BuildFinish = "10 Mar 2015 (-10d)";
+            this.wideBuildStatusRow1.BuildForeColor = System.Drawing.SystemColors.ControlText;
+            this.wideBuildStatusRow1.BuildName = "UI Tools Build";
+            this.wideBuildStatusRow1.BuildState = "FAIL";
+            this.wideBuildStatusRow1.BuildUser = "John F. Kennedy";
             this.wideBuildStatusRow1.Location = new System.Drawing.Point(12, 12);
             this.wideBuildStatusRow1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.wideBuildStatusRow1.Name = "wideBuildStatusRow1";
