@@ -52,5 +52,18 @@ namespace BuildWatch.Controls
         {
             InitializeComponent();
         }
+
+        public void SetUserPicture(Image image)
+        {
+            if (image != null)
+                buildUserPic.Image = image;
+            else
+                ResetUserPicture();
+        }
+
+        public void ResetUserPicture()
+        {
+            buildUserPic.Image = global::BuildWatch.Controls.Properties.Resources.dpc_Silhouette;
+        }
     }
 }

@@ -150,6 +150,59 @@ namespace BuildWatch
             }
         }
 
+        class PictureSource
+        {
+            private string _pictureDir;
+            private Dictionary<string, Image> _cache;
+
+            public PictureSource(string pictureDir)
+            {
+                _pictureDir = pictureDir;
+                _cache = new Dictionary<string, Image>();
+            }
+
+            public Image GetPicture(string userName)
+            {
+                Image image;
+                if (_cache.TryGetValue(userName, out image))
+                    return image;
+                image = lookupImage(userName);
+                _cache[userName] = image;
+                return image;
+            }
+
+            private Image lookupImage(string userName)
+            {
+                string fileName;
+                Image image;
+                // Try looking for direct match
+                fileName = Path.Combine(_pictureDir, userName);
+                image = loadImage(fileName);
+                if (image != null)
+                    return image;
+                else
+                    return null;
+            }
+
+            private Image loadImage(string fileNameBase)
+            {
+                foreach (string extension in new string[] { ".jpg", ".png" })
+                {
+                    string fileName = fileNameBase + extension;
+                    try
+                    {
+                        return Image.FromFile(fileName);
+                    }
+                    catch (Exception)
+                    {
+                        // silence the exception
+                        continue;
+                    }
+                }
+                return null;
+            }
+        }
+
         private BuildWatchWorker.IWorkerThread worker;
         private SoundPlayer redBuildUsPlayer;
         private SoundPlayer redBuildThemPlayer;
@@ -169,6 +222,7 @@ namespace BuildWatch
         private DateTime staleAlertTime;
         private FilterSet filters;
         private DateTime filterLoadTime;
+        private PictureSource pictureSource;
 
         public MainForm()
         {
@@ -188,6 +242,7 @@ namespace BuildWatch
             DoubleBuffered(topList, true);
             DoubleBuffered(queueList, true);
             clearWideBuildInfo(wideBuildStatusRow1);
+            pictureSource = new PictureSource(Settings.Default.PicturesDir);
 
             LogPersist("Starting");
 
@@ -725,6 +780,7 @@ namespace BuildWatch
             statusRow.BuildState = item.SubItems[1].Text;
             statusRow.BuildFinish = item.SubItems[2].Text;
             statusRow.BuildUser = item.SubItems[3].Text;
+            statusRow.SetUserPicture(pictureSource.GetPicture(statusRow.BuildUser));
         }
 
         private void clearWideBuildInfo(WideBuildStatusBox statusRow)
@@ -735,6 +791,7 @@ namespace BuildWatch
             statusRow.BuildState = "";
             statusRow.BuildFinish = "";
             statusRow.BuildUser = "";
+            statusRow.ResetUserPicture();
         }
     }
 }
