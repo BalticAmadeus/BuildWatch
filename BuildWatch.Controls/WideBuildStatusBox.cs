@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace BuildWatch.Controls
 {
@@ -51,6 +52,20 @@ namespace BuildWatch.Controls
         public WideBuildStatusBox()
         {
             InitializeComponent();
+            SetDoubleBuffered(ctlGrid, true);
+            SetDoubleBuffered(ctlRow1, true);
+            SetDoubleBuffered(ctlRow2, true);
+            SetDoubleBuffered(buildNameTxt, true);
+            SetDoubleBuffered(buildStatusTxt, true);
+            SetDoubleBuffered(buildFinishTxt, true);
+            SetDoubleBuffered(buildUserTxt, true);
+            SetDoubleBuffered(buildUserPic, true);
+        }
+
+        private static void SetDoubleBuffered(Control control, bool enable)
+        {
+            var doubleBufferPropertyInfo = control.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            doubleBufferPropertyInfo.SetValue(control, enable, null);
         }
 
         public void SetUserPicture(Image image)

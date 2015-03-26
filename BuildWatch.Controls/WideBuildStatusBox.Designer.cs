@@ -233,6 +233,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ctlGrid);
+            this.DoubleBuffered = true;
             this.Name = "WideBuildStatusBox";
             this.Size = new System.Drawing.Size(825, 207);
             this.ctlGrid.ResumeLayout(false);
