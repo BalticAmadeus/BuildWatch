@@ -6,6 +6,7 @@ using System.Threading;
 using BuildWatch.Properties;
 using System.Windows.Forms;
 using BuildWatch.ClientService;
+using System.IO;
 
 namespace BuildWatchWorker
 {
@@ -48,12 +49,19 @@ namespace BuildWatchWorker
         }
     }
 
+    class PictureUpdate
+    {
+        public string User;
+        public byte[] Data;
+    }
+
     interface IWorkerThread
     {
         void InitConnection(IWin32Window parent);
         void Start();
         List<string> RetrieveLogMessages();
         void RetrieveBuildTop(out List<BuildInfo> buildTop, out DateTime buildTimestamp);
+        List<PictureUpdate> RetrieveUpdatedPictures(); 
     }
 
     class DemoWorkerThread : IWorkerThread
@@ -63,6 +71,7 @@ namespace BuildWatchWorker
         private List<BuildInfo> master;
         private Random rnd;
         private List<string> logMessages;
+        private List<PictureUpdate> picUpdates;
 
         public void InitConnection(IWin32Window parent)
         {
@@ -111,6 +120,22 @@ namespace BuildWatchWorker
             eventTime = DateTime.Now.AddSeconds(-1);
             eventCounter = -3;
             rnd = new Random();
+
+            picUpdates = new List<PictureUpdate>();
+            var buf = new MemoryStream();
+            Resources.UserPicture_FakePeter.Save(buf, Resources.UserPicture_FakePeter.RawFormat);
+            picUpdates.Add(new PictureUpdate
+            {
+                User = "peter",
+                Data = buf.ToArray()
+            });
+            buf = new MemoryStream();
+            Resources.UserPicture_FakeCris.Save(buf, Resources.UserPicture_FakeCris.RawFormat);
+            picUpdates.Add(new PictureUpdate
+            {
+                User = "cris",
+                Data = buf.ToArray()
+            });
         }
 
         public List<string> RetrieveLogMessages()
@@ -247,6 +272,14 @@ namespace BuildWatchWorker
                 logMessages = new List<string>();
             logMessages.Add(line);
         }
+
+
+        public List<PictureUpdate> RetrieveUpdatedPictures()
+        {
+            List<PictureUpdate> list = picUpdates;
+            picUpdates = null;
+            return list;
+        }
     }
 
     class ServiceWorkerThread : IWorkerThread
@@ -377,5 +410,9 @@ namespace BuildWatchWorker
             }
         }
 
+        public List<PictureUpdate> RetrieveUpdatedPictures()
+        {
+            return null;
+        }
     }
 }

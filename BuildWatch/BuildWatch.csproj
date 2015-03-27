@@ -110,6 +110,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Service References\ClientService\BuildWatch.ClientService.GetPicturesResp.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\ClientService\BuildWatch.ClientService.PollBuildStatusResp.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -126,15 +129,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ClientService\ClientService.disco" />
+    <None Include="Service References\ClientService\ClientService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ClientService\configuration91.svcinfo" />
     <None Include="Service References\ClientService\configuration.svcinfo" />
     <None Include="Service References\ClientService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="bin\Debug\Pictures\peter.jpg" />
+    <None Include="bin\Debug\Pictures\cris.jpg" />
     <Content Include="filters.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\UserPicture_FakeCris.jpg" />
+    <Content Include="Resources\UserPicture_FakePeter.jpg" />
+    <Content Include="Resources\UserPicture_Unknown.png" />
     <Content Include="Sounds\123921__silencer1337__machinefail.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -184,6 +195,7 @@
       <Name>BuildWatch.Controls</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

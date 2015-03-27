@@ -171,6 +171,22 @@ namespace BuildWatch
                 return image;
             }
 
+            public void UpdatePicture(string userName, byte[] data)
+            {
+                try
+                {
+                    Image image = null;
+                    if (data != null && data.Length > 0)
+                        image = Image.FromStream(new MemoryStream(data));
+                    _cache[userName] = image;
+                }
+                catch (Exception)
+                {
+                    // just ignore update if it's not parseable
+                    return;
+                }
+            }
+
             private Image lookupImage(string userName)
             {
                 string fileName;
@@ -412,6 +428,15 @@ namespace BuildWatch
                     foreach (string msg in logMessages)
                     {
                         Log(msg, true);
+                    }
+                }
+
+                List<BuildWatchWorker.PictureUpdate> picUpdates = worker.RetrieveUpdatedPictures();
+                if (picUpdates != null)
+                {
+                    foreach (BuildWatchWorker.PictureUpdate pic in picUpdates)
+                    {
+                        pictureSource.UpdatePicture(pic.User, pic.Data);
                     }
                 }
 
