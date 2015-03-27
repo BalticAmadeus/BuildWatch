@@ -458,7 +458,7 @@ namespace BuildWatchWorker
             {
                 buildTop = _buildTop;
                 _buildTop = null;
-                buildTimestamp = DateTime.Now;
+                buildTimestamp = _buildTimestamp;
             }
         }
 
