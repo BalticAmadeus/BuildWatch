@@ -291,6 +291,8 @@ namespace BuildWatchWorker
         private List<string> _logMessages;
         private List<BuildInfo> _buildTop;
         private DateTime _buildTimestamp;
+        private List<PictureUpdate> _pictureUpdates;
+        private Dictionary<string, string> _userPicHashes;
 
         public ServiceWorkerThread()
         {
@@ -298,6 +300,7 @@ namespace BuildWatchWorker
             _thread = new Thread(ThreadMain);
             _thread.IsBackground = true;
             _syncObject = new object();
+            _userPicHashes = new Dictionary<string, string>();
         }
 
         public void InitConnection(IWin32Window parent)
@@ -331,13 +334,16 @@ namespace BuildWatchWorker
                 {
                     // Go through each build definition and retrieve last status
                     Log("Retrieving build information...");
+
+                    var top = new List<BuildInfo>();
+                    var picUpdates = new List<PictureUpdate>();
+
                     var req = new PollBuildStatusReq
                     {
                         ConfigurationId = 1,
                         UpdateCounter = 0
                     };
                     var resp = _clientService.PollBuildStatus(req);
-                    List<BuildInfo> top = new List<BuildInfo>();
                     if (resp.FinishedBuilds == null)
                         resp.FinishedBuilds = new List<FinishedBuild>();
                     foreach (FinishedBuild fb in resp.FinishedBuilds)
@@ -366,10 +372,56 @@ namespace BuildWatchWorker
                         };
                         top.Add(bi);
                     }
+                    // Check user picture updates
+                    if (resp.PictureMaps != null && resp.PictureMaps.Count > 0)
+                    {
+                        var userNames = new List<string>();
+                        foreach (PictureMap pm in resp.PictureMaps)
+                        {
+                            string hash;
+                            if (_userPicHashes.TryGetValue(pm.UserName, out hash)
+                                && hash == pm.PictureHash)
+                            {
+                                continue;
+                            }
+                            userNames.Add(pm.UserName);
+                        }
+                        if (userNames.Count > 0)
+                        {
+                            GetPicturesResp picResp = null;
+                            try
+                            {
+                                Log(string.Format("Fetching updated pictures for {0} user(s)", userNames.Count));
+                                picResp = _clientService.GetPictures(new GetPicturesReq { UserNames = userNames });
+                            }
+                            catch (Exception ex)
+                            {
+                                Log(string.Format("Couldn't get pictures from server. {0}: {1}", ex.GetType().FullName, ex.Message));
+                            }
+                            if (picResp != null && picResp.Pictures != null)
+                            {
+                                foreach (PictureInfo pi in picResp.Pictures)
+                                {
+                                    Log(string.Format("Retrieved updated picture for {0} hash {1}", pi.UserName, pi.PictureHash));
+                                    picUpdates.Add(new PictureUpdate
+                                    {
+                                        User = pi.UserName,
+                                        Data = pi.PictureData
+                                    });
+                                    _userPicHashes[pi.UserName] = pi.PictureHash;
+                                }
+                            }
+                        }
+                    }
+                    // Store the info
                     lock (_syncObject)
                     {
                         _buildTop = top;
                         _buildTimestamp = resp.FinishedBuildsDate;
+                        if (_pictureUpdates == null)
+                            _pictureUpdates = picUpdates;
+                        else
+                            _pictureUpdates.AddRange(picUpdates);
                     }
                 }
                 catch (Exception ex)
@@ -412,7 +464,12 @@ namespace BuildWatchWorker
 
         public List<PictureUpdate> RetrieveUpdatedPictures()
         {
-            return null;
+            lock (_syncObject)
+            {
+                List<PictureUpdate> resp = _pictureUpdates;
+                _pictureUpdates = null;
+                return resp;
+            }
         }
     }
 }

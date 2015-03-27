@@ -92,7 +92,7 @@ namespace BuildWatch.ControlServer
             using (SHA1 md = SHA1.Create())
             {
                 byte[] hash = md.ComputeHash(data);
-                return BitConverter.ToString(data);
+                return BitConverter.ToString(hash).Replace("-", "");
             }
         }
     }

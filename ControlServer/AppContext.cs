@@ -1,6 +1,7 @@
 ﻿using BuildWatch.ControlServer.Properties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -36,7 +37,7 @@ namespace BuildWatch.ControlServer
 
         private AppContext()
         {
-            _pictureCache = new PictureCache(Settings.Default.PictureDir);
+            _pictureCache = new PictureCache(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Settings.Default.PictureDir));
             CachedPollBuildStatusResp = new PollBuildStatusResp {
                 UpdateCounter = 0,
                 FinishedBuilds = new List<FinishedBuild>()

@@ -173,18 +173,10 @@ namespace BuildWatch
 
             public void UpdatePicture(string userName, byte[] data)
             {
-                try
-                {
-                    Image image = null;
-                    if (data != null && data.Length > 0)
-                        image = Image.FromStream(new MemoryStream(data));
-                    _cache[userName] = image;
-                }
-                catch (Exception)
-                {
-                    // just ignore update if it's not parseable
-                    return;
-                }
+                Image image = null;
+                if (data != null && data.Length > 0)
+                    image = Image.FromStream(new MemoryStream(data));
+                _cache[userName] = image;
             }
 
             private Image lookupImage(string userName)
@@ -436,7 +428,15 @@ namespace BuildWatch
                 {
                     foreach (BuildWatchWorker.PictureUpdate pic in picUpdates)
                     {
-                        pictureSource.UpdatePicture(pic.User, pic.Data);
+                        try
+                        {
+                            pictureSource.UpdatePicture(pic.User, pic.Data);
+                            Log(string.Format("Updated picture for {0}", pic.User));
+                        }
+                        catch (Exception ex)
+                        {
+                            Log(string.Format("Unable to apply new picture for {0}. {1}: {2}", pic.User, ex.GetType().FullName, ex.Message));
+                        }
                     }
                 }
 
