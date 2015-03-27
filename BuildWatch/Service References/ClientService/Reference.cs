@@ -93,6 +93,9 @@ namespace BuildWatch.ClientService {
         private System.DateTime FinishedBuildsDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<BuildWatch.ClientService.PictureMap> PictureMapsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Collections.Generic.List<BuildWatch.ClientService.QueuedBuild> QueuedBuildsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -143,6 +146,19 @@ namespace BuildWatch.ClientService {
                 if ((this.FinishedBuildsDateField.Equals(value) != true)) {
                     this.FinishedBuildsDateField = value;
                     this.RaisePropertyChanged("FinishedBuildsDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<BuildWatch.ClientService.PictureMap> PictureMaps {
+            get {
+                return this.PictureMapsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PictureMapsField, value) != true)) {
+                    this.PictureMapsField = value;
+                    this.RaisePropertyChanged("PictureMaps");
                 }
             }
         }
@@ -339,6 +355,67 @@ namespace BuildWatch.ClientService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PictureMap", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
+    [System.SerializableAttribute()]
+    public partial class PictureMap : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PictureHashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PictureHash {
+            get {
+                return this.PictureHashField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PictureHashField, value) != true)) {
+                    this.PictureHashField = value;
+                    this.RaisePropertyChanged("PictureHash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="QueuedBuild", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
     [System.SerializableAttribute()]
     public partial class QueuedBuild : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -398,6 +475,173 @@ namespace BuildWatch.ClientService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GetPicturesReq", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
+    [System.SerializableAttribute()]
+    public partial class GetPicturesReq : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<string> UserNamesField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<string> UserNames {
+            get {
+                return this.UserNamesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNamesField, value) != true)) {
+                    this.UserNamesField = value;
+                    this.RaisePropertyChanged("UserNames");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GetPicturesResp", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
+    [System.SerializableAttribute()]
+    public partial class GetPicturesResp : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<BuildWatch.ClientService.PictureInfo> PicturesField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<BuildWatch.ClientService.PictureInfo> Pictures {
+            get {
+                return this.PicturesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PicturesField, value) != true)) {
+                    this.PicturesField = value;
+                    this.RaisePropertyChanged("Pictures");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PictureInfo", Namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer")]
+    [System.SerializableAttribute()]
+    public partial class PictureInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] PictureDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PictureHashField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] PictureData {
+            get {
+                return this.PictureDataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PictureDataField, value) != true)) {
+                    this.PictureDataField = value;
+                    this.RaisePropertyChanged("PictureData");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PictureHash {
+            get {
+                return this.PictureHashField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PictureHashField, value) != true)) {
+                    this.PictureHashField = value;
+                    this.RaisePropertyChanged("PictureHash");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ClientService.IClientService")]
     public interface IClientService {
@@ -413,6 +657,12 @@ namespace BuildWatch.ClientService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/PollBuildStatus", ReplyAction="http://tempuri.org/IClientService/PollBuildStatusResponse")]
         System.Threading.Tasks.Task<BuildWatch.ClientService.PollBuildStatusResp> PollBuildStatusAsync(BuildWatch.ClientService.PollBuildStatusReq req);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetPictures", ReplyAction="http://tempuri.org/IClientService/GetPicturesResponse")]
+        BuildWatch.ClientService.GetPicturesResp GetPictures(BuildWatch.ClientService.GetPicturesReq req);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientService/GetPictures", ReplyAction="http://tempuri.org/IClientService/GetPicturesResponse")]
+        System.Threading.Tasks.Task<BuildWatch.ClientService.GetPicturesResp> GetPicturesAsync(BuildWatch.ClientService.GetPicturesReq req);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -456,6 +706,14 @@ namespace BuildWatch.ClientService {
         
         public System.Threading.Tasks.Task<BuildWatch.ClientService.PollBuildStatusResp> PollBuildStatusAsync(BuildWatch.ClientService.PollBuildStatusReq req) {
             return base.Channel.PollBuildStatusAsync(req);
+        }
+        
+        public BuildWatch.ClientService.GetPicturesResp GetPictures(BuildWatch.ClientService.GetPicturesReq req) {
+            return base.Channel.GetPictures(req);
+        }
+        
+        public System.Threading.Tasks.Task<BuildWatch.ClientService.GetPicturesResp> GetPicturesAsync(BuildWatch.ClientService.GetPicturesReq req) {
+            return base.Channel.GetPicturesAsync(req);
         }
     }
 }

@@ -27,4 +27,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetPictures">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" minOccurs="0" name="req" nillable="true" type="q3:GetPicturesReq" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPicturesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" minOccurs="0" name="GetPicturesResult" nillable="true" type="q4:GetPicturesResp" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

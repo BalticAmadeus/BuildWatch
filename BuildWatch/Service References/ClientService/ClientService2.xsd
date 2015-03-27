@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="PollBuildStatusReq">
     <xs:sequence>
       <xs:element minOccurs="0" name="ConfigurationId" type="xs:int" />
@@ -12,6 +13,7 @@
       <xs:element minOccurs="0" name="ClientEvents" nillable="true" type="tns:ArrayOfClientEvent" />
       <xs:element minOccurs="0" name="FinishedBuilds" nillable="true" type="tns:ArrayOfFinishedBuild" />
       <xs:element minOccurs="0" name="FinishedBuildsDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PictureMaps" nillable="true" type="tns:ArrayOfPictureMap" />
       <xs:element minOccurs="0" name="QueuedBuilds" nillable="true" type="tns:ArrayOfQueuedBuild" />
       <xs:element minOccurs="0" name="UpdateCounter" type="xs:long" />
     </xs:sequence>
@@ -44,6 +46,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FinishedBuild" nillable="true" type="tns:FinishedBuild" />
+  <xs:complexType name="ArrayOfPictureMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PictureMap" nillable="true" type="tns:PictureMap" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPictureMap" nillable="true" type="tns:ArrayOfPictureMap" />
+  <xs:complexType name="PictureMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PictureHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PictureMap" nillable="true" type="tns:PictureMap" />
   <xs:complexType name="ArrayOfQueuedBuild">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="QueuedBuild" nillable="true" type="tns:QueuedBuild" />
@@ -57,4 +72,30 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="QueuedBuild" nillable="true" type="tns:QueuedBuild" />
+  <xs:complexType name="GetPicturesReq">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="UserNames" nillable="true" type="q1:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetPicturesReq" nillable="true" type="tns:GetPicturesReq" />
+  <xs:complexType name="GetPicturesResp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Pictures" nillable="true" type="tns:ArrayOfPictureInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetPicturesResp" nillable="true" type="tns:GetPicturesResp" />
+  <xs:complexType name="ArrayOfPictureInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PictureInfo" nillable="true" type="tns:PictureInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPictureInfo" nillable="true" type="tns:ArrayOfPictureInfo" />
+  <xs:complexType name="PictureInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PictureData" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="PictureHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PictureInfo" nillable="true" type="tns:PictureInfo" />
 </xs:schema>

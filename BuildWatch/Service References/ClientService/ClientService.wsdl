@@ -5,6 +5,7 @@
       <xsd:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" />
+      <xsd:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IClientService_GetProtocolVersion_InputMessage">
@@ -19,6 +20,12 @@
   <wsdl:message name="IClientService_PollBuildStatus_OutputMessage">
     <wsdl:part name="parameters" element="tns:PollBuildStatusResponse" />
   </wsdl:message>
+  <wsdl:message name="IClientService_GetPictures_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPictures" />
+  </wsdl:message>
+  <wsdl:message name="IClientService_GetPictures_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPicturesResponse" />
+  </wsdl:message>
   <wsdl:portType name="IClientService">
     <wsdl:operation name="GetProtocolVersion">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetProtocolVersion" message="tns:IClientService_GetProtocolVersion_InputMessage" />
@@ -27,6 +34,10 @@
     <wsdl:operation name="PollBuildStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IClientService/PollBuildStatus" message="tns:IClientService_PollBuildStatus_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IClientService/PollBuildStatusResponse" message="tns:IClientService_PollBuildStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPictures">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientService/GetPictures" message="tns:IClientService_GetPictures_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientService/GetPicturesResponse" message="tns:IClientService_GetPictures_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IClientService" type="tns:IClientService">
@@ -42,6 +53,15 @@
     </wsdl:operation>
     <wsdl:operation name="PollBuildStatus">
       <soap:operation soapAction="http://tempuri.org/IClientService/PollBuildStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPictures">
+      <soap:operation soapAction="http://tempuri.org/IClientService/GetPictures" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
