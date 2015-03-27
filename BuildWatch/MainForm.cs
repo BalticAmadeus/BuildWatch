@@ -37,6 +37,7 @@ namespace BuildWatch
             public BuildColor Color { get; set; }
             public DateTime FinishTime { get; set; }
             public string User { get; set; }
+            public string OriginalUser { get; set; }
 
             public bool UserIsOurs { get; set; }
             public BuildColor DisplayColor { get; set; }
@@ -48,6 +49,7 @@ namespace BuildWatch
                 Instance = bi.Instance;
                 Color = Convert(bi.Color);
                 FinishTime = bi.FinishTime;
+                OriginalUser = bi.User;
 
                 string user = bi.User;
                 int p = user.LastIndexOf('\\');
@@ -547,6 +549,7 @@ namespace BuildWatch
                             item.SubItems.Add(ConvertToStatus(bi.Color));
                             item.SubItems.Add(ConvertToHumanTime(bi.FinishTime));
                             item.SubItems.Add(bi.User);
+                            item.Tag = bi;
 
                             switch (bi.DisplayColor)
                             {
@@ -805,7 +808,8 @@ namespace BuildWatch
             statusRow.BuildState = item.SubItems[1].Text;
             statusRow.BuildFinish = item.SubItems[2].Text;
             statusRow.BuildUser = item.SubItems[3].Text;
-            statusRow.SetUserPicture(pictureSource.GetPicture(statusRow.BuildUser));
+            BuildInfo bi = (BuildInfo)item.Tag;
+            statusRow.SetUserPicture(pictureSource.GetPicture(bi.OriginalUser));
         }
 
         private void clearWideBuildInfo(WideBuildStatusBox statusRow)

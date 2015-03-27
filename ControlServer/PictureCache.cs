@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace BuildWatch.ControlServer
@@ -51,7 +52,8 @@ namespace BuildWatch.ControlServer
 
         private PictureCacheEntry loadForUser(string user)
         {
-            string fileNameBase = Path.Combine(_pictureDir, user);
+            string namePart = Regex.Replace(user, "[^a-zA-Z0-9]", "_");
+            string fileNameBase = Path.Combine(_pictureDir, namePart);
             foreach (string extension in new string[] { ".jpg", ".png" })
             {
                 string fileName = fileNameBase + extension;
