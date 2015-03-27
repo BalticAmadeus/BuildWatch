@@ -31,5 +31,14 @@ namespace BuildWatch.ControlServer.Properties {
                 return ((string)(this["DataSourceSettings"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pictures")]
+        public string PictureDir {
+            get {
+                return ((string)(this["PictureDir"]));
+            }
+        }
     }
 }

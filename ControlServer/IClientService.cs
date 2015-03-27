@@ -17,6 +17,8 @@ namespace BuildWatch.ControlServer
         [OperationContract]
         PollBuildStatusResp PollBuildStatus(PollBuildStatusReq req);
 
+        [OperationContract]
+        GetPicturesResp GetPictures(GetPicturesReq req);
     }
 
 #region PollBuildStatus
@@ -46,6 +48,9 @@ namespace BuildWatch.ControlServer
 
         [DataMember]
         public List<QueuedBuild> QueuedBuilds { get; set; }
+
+        [DataMember]
+        public List<PictureMap> PictureMaps { get; set; }
 
         [DataMember]
         public List<ClientEvent> ClientEvents { get; set; }
@@ -84,9 +89,50 @@ namespace BuildWatch.ControlServer
     }
 
     [DataContract]
+    public class PictureMap
+    {
+        [DataMember]
+        public string UserName { get; set; }
+
+        [DataMember]
+        public string PictureHash { get; set; }
+    }
+
+    [DataContract]
     public class ClientEvent
     {
 
+    }
+
+#endregion
+
+#region GetPictures
+
+    [DataContract]
+    public class GetPicturesReq
+    {
+        [DataMember]
+        public List<string> UserNames;
+    }
+
+    [DataContract]
+    public class GetPicturesResp
+    {
+        [DataMember]
+        public List<PictureInfo> Pictures;
+    }
+
+    [DataContract]
+    public class PictureInfo
+    {
+        [DataMember]
+        public string UserName;
+
+        [DataMember]
+        public string PictureHash;
+
+        [DataMember]
+        public byte[] PictureData;
     }
 
 #endregion
