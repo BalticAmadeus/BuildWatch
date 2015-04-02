@@ -25,6 +25,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,6 +70,7 @@
     <Content Include="AdminService.svc" />
     <Content Include="ClientService.svc" />
     <Content Include="DataService.svc" />
+    <Content Include="FileService.svc" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -88,9 +90,13 @@
     <Compile Include="DataService.svc.cs">
       <DependentUpon>DataService.svc</DependentUpon>
     </Compile>
+    <Compile Include="FileService.svc.cs">
+      <DependentUpon>FileService.svc</DependentUpon>
+    </Compile>
     <Compile Include="IAdminService.cs" />
     <Compile Include="IClientService.cs" />
     <Compile Include="IDataService.cs" />
+    <Compile Include="IFileService.cs" />
     <Compile Include="PictureCache.cs" />
     <Compile Include="PollBuildStatusResp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
