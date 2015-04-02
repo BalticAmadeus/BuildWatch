@@ -15,7 +15,7 @@ namespace BuildWatch.ControlServer
             var resp = new GetPictureResp();
             PictureCacheEntry entry = AppContext.Current.GetUserPicture(req.UserName);
             resp.PictureHash = entry.Hash;
-            resp.PictureData = new MemoryStream(entry.Data);
+            resp.PictureData = new MemoryStream(entry.Data ?? new byte[0]);
             return resp;
         }
     }
