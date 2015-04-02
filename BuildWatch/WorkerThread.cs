@@ -7,6 +7,7 @@ using BuildWatch.Properties;
 using System.Windows.Forms;
 using BuildWatch.ClientService;
 using System.IO;
+using BuildWatch.FileService;
 
 namespace BuildWatchWorker
 {
@@ -285,6 +286,7 @@ namespace BuildWatchWorker
     class ServiceWorkerThread : IWorkerThread
     {
         private IClientService _clientService;
+        private IFileService _fileService;
         private Thread _thread;
 
         private object _syncObject;
@@ -297,6 +299,7 @@ namespace BuildWatchWorker
         public ServiceWorkerThread()
         {
             _clientService = new ClientServiceClient();
+            _fileService = new FileServiceClient();
             _thread = new Thread(ThreadMain);
             _thread.IsBackground = true;
             _syncObject = new object();
@@ -375,42 +378,40 @@ namespace BuildWatchWorker
                     // Check user picture updates
                     if (resp.PictureMaps != null && resp.PictureMaps.Count > 0)
                     {
-                        var userNames = new List<string>();
-                        foreach (PictureMap pm in resp.PictureMaps)
+                        try
                         {
-                            string hash;
-                            if (_userPicHashes.TryGetValue(pm.UserName, out hash)
-                                && hash == pm.PictureHash)
+                            foreach (PictureMap pm in resp.PictureMaps)
                             {
-                                continue;
-                            }
-                            userNames.Add(pm.UserName);
-                        }
-                        if (userNames.Count > 0)
-                        {
-                            GetPicturesResp picResp = null;
-                            try
-                            {
-                                Log(string.Format("Fetching updated pictures for {0} user(s)", userNames.Count));
-                                picResp = _clientService.GetPictures(new GetPicturesReq { UserNames = userNames });
-                            }
-                            catch (Exception ex)
-                            {
-                                Log(string.Format("Couldn't get pictures from server. {0}: {1}", ex.GetType().FullName, ex.Message));
-                            }
-                            if (picResp != null && picResp.Pictures != null)
-                            {
-                                foreach (PictureInfo pi in picResp.Pictures)
+                                string hash;
+                                if (_userPicHashes.TryGetValue(pm.UserName, out hash)
+                                    && hash == pm.PictureHash)
                                 {
-                                    Log(string.Format("Retrieved updated picture for {0} hash {1}", pi.UserName, pi.PictureHash));
+                                    continue;
+                                }
+                                Log(string.Format("Fetching updated picture for user {0}...", pm.UserName));
+                                GetPictureResp picResp =_fileService.GetPicture(new GetPictureReq { UserName = pm.UserName });
+                                using (picResp.PictureData)
+                                {
+                                    var buf = new byte[16384];
+                                    var gather = new MemoryStream();
+                                    int amount;
+                                    while ((amount = picResp.PictureData.Read(buf, 0, buf.Length)) > 0)
+                                    {
+                                        gather.Write(buf, 0, amount);
+                                    }
+                                    Log(string.Format("Retrieved updated picture for {0} hash {1}", pm.UserName, picResp.PictureHash));
                                     picUpdates.Add(new PictureUpdate
                                     {
-                                        User = pi.UserName,
-                                        Data = pi.PictureData
+                                        User = pm.UserName,
+                                        Data = gather.ToArray()
                                     });
-                                    _userPicHashes[pi.UserName] = pi.PictureHash;
+                                    _userPicHashes[pm.UserName] = picResp.PictureHash;
                                 }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            Log(string.Format("Couldn't update pictures from server. {0}: {1}", ex.GetType().FullName, ex.Message));
                         }
                     }
                     // Store the info
