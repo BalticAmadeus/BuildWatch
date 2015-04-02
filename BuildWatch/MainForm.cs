@@ -152,14 +152,12 @@ namespace BuildWatch
             }
         }
 
-        class PictureSource
+        class PictureCache
         {
-            private string _pictureDir;
             private Dictionary<string, Image> _cache;
 
-            public PictureSource(string pictureDir)
+            public PictureCache()
             {
-                _pictureDir = pictureDir;
                 _cache = new Dictionary<string, Image>();
             }
 
@@ -168,48 +166,21 @@ namespace BuildWatch
                 Image image;
                 if (_cache.TryGetValue(userName, out image))
                     return image;
-                image = lookupImage(userName);
-                _cache[userName] = image;
-                return image;
+                return Resources.UserPicture_Unknown;
             }
 
-            public void UpdatePicture(string userName, byte[] data)
+            public void SetPicture(string userName, byte[] data)
             {
                 Image image = null;
                 if (data != null && data.Length > 0)
-                    image = Image.FromStream(new MemoryStream(data));
-                _cache[userName] = image;
-            }
-
-            private Image lookupImage(string userName)
-            {
-                string fileName;
-                Image image;
-                // Try looking for direct match
-                fileName = Path.Combine(_pictureDir, userName);
-                image = loadImage(fileName);
-                if (image != null)
-                    return image;
-                else
-                    return null;
-            }
-
-            private Image loadImage(string fileNameBase)
-            {
-                foreach (string extension in new string[] { ".jpg", ".png" })
                 {
-                    string fileName = fileNameBase + extension;
-                    try
-                    {
-                        return Image.FromFile(fileName);
-                    }
-                    catch (Exception)
-                    {
-                        // silence the exception
-                        continue;
-                    }
+                    image = Image.FromStream(new MemoryStream(data));
+                    _cache[userName] = image;
                 }
-                return null;
+                else
+                {
+                    _cache.Remove(userName);
+                }
             }
         }
 
@@ -232,7 +203,7 @@ namespace BuildWatch
         private DateTime staleAlertTime;
         private FilterSet filters;
         private DateTime filterLoadTime;
-        private PictureSource pictureSource;
+        private PictureCache pictureCache;
 
         public MainForm()
         {
@@ -252,7 +223,7 @@ namespace BuildWatch
             DoubleBuffered(topList, true);
             DoubleBuffered(queueList, true);
             clearWideBuildInfo(wideBuildStatusRow1);
-            pictureSource = new PictureSource(Settings.Default.PicturesDir);
+            pictureCache = new PictureCache();
 
             LogPersist("Starting");
 
@@ -432,7 +403,7 @@ namespace BuildWatch
                     {
                         try
                         {
-                            pictureSource.UpdatePicture(pic.User, pic.Data);
+                            pictureCache.SetPicture(pic.User, pic.Data);
                             Log(string.Format("Updated picture for {0}", pic.User));
                         }
                         catch (Exception ex)
@@ -809,7 +780,7 @@ namespace BuildWatch
             statusRow.BuildFinish = item.SubItems[2].Text;
             statusRow.BuildUser = item.SubItems[3].Text;
             BuildInfo bi = (BuildInfo)item.Tag;
-            statusRow.SetUserPicture(pictureSource.GetPicture(bi.OriginalUser));
+            statusRow.SetUserPicture(pictureCache.GetPicture(bi.OriginalUser));
         }
 
         private void clearWideBuildInfo(WideBuildStatusBox statusRow)

@@ -166,14 +166,5 @@ namespace BuildWatch.Properties {
                 return ((bool)(this["ShowBuildInstance"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Pictures")]
-        public string PicturesDir {
-            get {
-                return ((string)(this["PicturesDir"]));
-            }
-        }
     }
 }

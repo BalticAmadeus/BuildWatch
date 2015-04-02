@@ -50,8 +50,5 @@
     <Setting Name="ShowBuildInstance" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="PicturesDir" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Pictures</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
