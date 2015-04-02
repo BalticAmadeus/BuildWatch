@@ -83,6 +83,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\FileService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="WorkerThread.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -126,6 +131,19 @@
     <None Include="Service References\ClientService\ClientService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\FileService\BuildWatch.FileService.GetPictureResp.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FileService\FileService.wsdl" />
+    <None Include="Service References\FileService\FileService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FileService\FileService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FileService\FileService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ClientService\ClientService.disco" />
@@ -144,6 +162,13 @@
     <Content Include="Resources\UserPicture_FakeCris.jpg" />
     <Content Include="Resources\UserPicture_FakePeter.jpg" />
     <Content Include="Resources\UserPicture_Unknown.png" />
+    <None Include="Service References\FileService\FileService.disco" />
+    <None Include="Service References\FileService\configuration91.svcinfo" />
+    <None Include="Service References\FileService\configuration.svcinfo" />
+    <None Include="Service References\FileService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Sounds\123921__silencer1337__machinefail.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -186,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ClientService\" />
+    <WCFMetadataStorage Include="Service References\FileService\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BuildWatch.Controls\BuildWatch.Controls.csproj">
