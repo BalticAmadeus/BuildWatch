@@ -138,8 +138,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="bin\Debug\Pictures\peter.jpg" />
-    <None Include="bin\Debug\Pictures\cris.jpg" />
     <Content Include="filters.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
