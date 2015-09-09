@@ -65,8 +65,10 @@ namespace BuildWatch.ControlServer
 
         public PushFinishedBuildsResponse PushFinishedBuilds(PushFinishedBuildsRequest req)
         {
+/*
             if (req.DataSourceId != 1)
                 throw new ApplicationException("DataSource with specified DataSourceId is not present");
+*/
 
             var finishedBuilds = new List<FinishedBuild>();
 

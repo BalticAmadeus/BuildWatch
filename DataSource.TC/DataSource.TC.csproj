@@ -47,6 +47,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataClasses\build.cs" />
+    <Compile Include="DataClasses\buildAgent.cs" />
+    <Compile Include="DataClasses\buildArtifacts.cs" />
+    <Compile Include="DataClasses\buildBuildType.cs" />
+    <Compile Include="DataClasses\buildChanges.cs" />
+    <Compile Include="DataClasses\buildLastChanges.cs" />
+    <Compile Include="DataClasses\buildLastChangesChange.cs" />
+    <Compile Include="DataClasses\buildRelatedIssues.cs" />
+    <Compile Include="DataClasses\buildRevisions.cs" />
+    <Compile Include="DataClasses\buildRevisionsRevision.cs" />
+    <Compile Include="DataClasses\buildRevisionsRevisionVcsrootinstance.cs" />
+    <Compile Include="DataClasses\builds.cs" />
+    <Compile Include="DataClasses\buildsBuild.cs" />
+    <Compile Include="DataClasses\buildStatistics.cs" />
+    <Compile Include="DataClasses\buildTriggered.cs" />
+    <Compile Include="DataClasses\buildTriggeredUser.cs" />
     <Compile Include="TCDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,7 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <WCFMetadata Include="DataClasses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

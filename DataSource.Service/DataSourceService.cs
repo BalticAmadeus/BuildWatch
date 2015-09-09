@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using BuildWatch.DataSource.Common;
+using DataSource.TC;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -27,7 +22,8 @@ namespace BuildWatch.DataSource.Service
         {
             log.Info("Starting BuildWatch as a service");
             _dsman = new DataSourceManager();
-            _dsman.Initialize(new Type[] { typeof(BuildWatch.DataSource.TFS.TFSDataSource) } );
+            _dsman.Initialize(new Type[] { typeof(TFS.TFSDataSource) } );
+            _dsman.Initialize(new Type[] { typeof(TCDataSource) } );
             _dsman.Start();
         }
 

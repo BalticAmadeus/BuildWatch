@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BuildWatch.DataSource.Common.DataService;
 using System.Threading;
 
@@ -15,7 +12,7 @@ namespace BuildWatch.DataSource.Common
         private CancellationTokenSource _quitSource;
         private CancellationToken _quitToken;
         private Thread _managerThread;
-        private IDataSource _dataSource;
+        private IDataSource[] _dataSources;
 
         public void Initialize(Type[] dataSourceTypes)
         {
@@ -24,7 +21,10 @@ namespace BuildWatch.DataSource.Common
             _quitSource = new CancellationTokenSource();
             _quitToken = _quitSource.Token;
             _managerThread = new Thread(ThreadRun);
-            _dataSource = (IDataSource) Activator.CreateInstance(dataSourceTypes[0]);
+            _dataSources = new IDataSource[dataSourceTypes.Length];
+
+	        for (int index = 0; index < dataSourceTypes.Length; index++)
+				_dataSources[index] = (IDataSource)Activator.CreateInstance(dataSourceTypes[index]);
         }
 
         public void Start()
@@ -59,7 +59,8 @@ namespace BuildWatch.DataSource.Common
                 dsConfig[e.Key] = e.Value;
             }
 
-            _dataSource.Initialize(dsConfig);
+	        foreach (var dataSource in _dataSources)
+				dataSource.Initialize(dsConfig);
 
             int pollingInterval = Int32.Parse(dsConfig.Get("PollingInterval", "20"));
 
@@ -70,21 +71,26 @@ namespace BuildWatch.DataSource.Common
                 for (int i = 0; i < pollingInterval; i++)
                 {
                     Thread.Sleep(1000);
+
                     if (_quitToken.IsCancellationRequested)
                     {
                         log.Info("DataSourceManager thread quitting gracefully");
                         return;
                     }
                 }
-                try
-                {
-                    log.Debug("Polling _dataSource");
-                    _dataSource.Poll(_dataService, _quitToken);
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Polling error", ex);
-                }
+
+	            foreach (var dataSource in _dataSources)
+	            {
+					try
+					{
+						log.Debug("Polling _dataSource");
+						dataSource.Poll(_dataService, _quitToken);
+					}
+					catch (Exception ex)
+					{
+						log.Error("Polling error", ex);
+					}
+	            }
             }
         }
     }

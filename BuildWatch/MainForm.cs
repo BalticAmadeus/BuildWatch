@@ -236,7 +236,14 @@ namespace BuildWatch
             soundCheckPlayer = new SoundPlayer(Settings.Default.SoundCheckSound);
             staleAlertPlayer = new SoundPlayer(Settings.Default.StaleAlertSound);
 
-            if (string.IsNullOrEmpty(Settings.Default.TfsServerUri))
+	        bool runDebugMode = false;
+
+#if DEBUG
+			if(MessageBox.Show("Do you want to use sample data?", "Debug mode", MessageBoxButtons.YesNo) == DialogResult.Yes)
+				runDebugMode = true;
+#endif
+
+			if (runDebugMode)
             {
                 Log("TFS Server URI not defined, starting in DEMO MODE");
                 worker = new BuildWatchWorker.DemoWorkerThread();

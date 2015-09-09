@@ -37,6 +37,9 @@ namespace BuildWatch.DataSource.TFS
 
         public override void Poll(IDataService dataService, System.Threading.CancellationToken quitToken)
         {
+			if (string.IsNullOrEmpty(TeamServerUri))
+				return;
+
             log.Debug("TFS: Start polling");
 
             if (configServer == null)
