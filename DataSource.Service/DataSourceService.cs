@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using BuildWatch.DataSource.Common;
+using BuildWatch.DataSource.TFS;
 using DataSource.TC;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
@@ -20,17 +21,26 @@ namespace BuildWatch.DataSource.Service
 
         protected override void OnStart(string[] args)
         {
-            log.Info("Starting BuildWatch as a service");
-            _dsman = new DataSourceManager();
-            _dsman.Initialize(new Type[] { typeof(TFS.TFSDataSource) } );
-            _dsman.Initialize(new Type[] { typeof(TCDataSource) } );
-            _dsman.Start();
+	        StartDataSourceManager();
         }
 
-        protected override void OnStop()
-        {
-            log.Info("Stopping BuildWatch service");
-            _dsman.Stop();
-        }
+	    protected override void OnStop()
+	    {
+		    StopDataSourceManager();
+	    }
+
+	    public void StartDataSourceManager()
+	    {
+		    log.Info("Starting BuildWatch as a service");
+		    _dsman = new DataSourceManager();
+		    _dsman.Initialize(new Type[] {typeof(TFSDataSource), typeof (TCDataSource)});
+		    _dsman.Start();
+	    }
+
+	    public void StopDataSourceManager()
+	    {
+		    log.Info("Stopping BuildWatch service");
+		    _dsman.Stop();
+	    }
     }
 }

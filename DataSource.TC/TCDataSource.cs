@@ -28,26 +28,27 @@ namespace DataSource.TC
 		{
 			log.Debug("Start polling");
 
-			var httpClient = new HttpClient();
-
-			string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", UserName, Password)));
-			httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-
-			log.Debug("Retrieving queued builds...");
-			List<QueuedBuildInfo> queuedBuilds = GetQueuedBuilds(httpClient);
-
-			log.Debug("Retrieving build information...");
-			List<FinishedBuildInfo> builds = GetFinishedBuilds(httpClient);
-
-			log.Debug("Pushing upstream");
-			var req = new PushFinishedBuildsRequest
+			using (var httpClient = new HttpClient())
 			{
-				DataSourceId = 2, // FIXME
-				BuildInfo = builds,
-				QueuedBuilds = queuedBuilds
-			};
+				string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", UserName, Password)));
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
 
-			dataService.PushFinishedBuilds(req);
+				log.Debug("Retrieving queued builds...");
+				List<QueuedBuildInfo> queuedBuilds = GetQueuedBuilds(httpClient);
+
+				log.Debug("Retrieving build information...");
+				List<FinishedBuildInfo> builds = GetFinishedBuilds(httpClient);
+
+				log.Debug("Pushing upstream");
+				var req = new PushFinishedBuildsRequest
+				{
+					DataSourceId = 2, // FIXME
+					BuildInfo = builds,
+					QueuedBuilds = queuedBuilds
+				};
+
+				dataService.PushFinishedBuilds(req);
+			}
 
 			log.Debug("Polling complete");
 		}

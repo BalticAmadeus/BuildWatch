@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 
 namespace BuildWatch.DataSource.Service
 {
@@ -13,12 +10,21 @@ namespace BuildWatch.DataSource.Service
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-			{ 
-				new DataSourceService() 
-			};
-            ServiceBase.Run(ServicesToRun);
+	        var service = new DataSourceService();
+
+	        if (Environment.UserInteractive)
+	        {
+		        service.StartDataSourceManager();
+
+				Console.WriteLine("DataSourceManager started. Press Enter to stop.");
+				Console.ReadLine();
+
+				service.StopDataSourceManager();
+	        }
+	        else
+	        {
+		        ServiceBase.Run(new [] { service});
+	        }
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration.Install;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.ServiceProcess;
 
 namespace BuildWatch.DataSource.Service
 {

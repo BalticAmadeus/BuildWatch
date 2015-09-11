@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildWatch", "BuildWatch\Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlServer", "ControlServer\ControlServer.csproj", "{F48FE781-C750-4D77-84E5-5A9AA2F6A273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.Standalone", "DataSource.Standalone\DataSource.Standalone.csproj", "{45F8D40F-D676-48C8-A4EB-324745B078DC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.TFS", "DataSource.TFS\DataSource.TFS.csproj", "{908303AA-741A-4AAB-8906-C0C26D67BF7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSource.Common", "DataSource.Common\DataSource.Common.csproj", "{226DA498-F44C-4BBE-ABE8-AD9D6D5C54F7}"
@@ -65,20 +63,6 @@ Global
 		{F48FE781-C750-4D77-84E5-5A9AA2F6A273}.Release|x64.ActiveCfg = Release|Any CPU
 		{F48FE781-C750-4D77-84E5-5A9AA2F6A273}.Release|x64.Build.0 = Release|Any CPU
 		{F48FE781-C750-4D77-84E5-5A9AA2F6A273}.Release|x86.ActiveCfg = Release|Any CPU
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|x64.ActiveCfg = Debug|x64
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|x64.Build.0 = Debug|x64
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|x86.ActiveCfg = Debug|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Debug|x86.Build.0 = Debug|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|Any CPU.ActiveCfg = Release|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|Mixed Platforms.Build.0 = Release|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|x64.ActiveCfg = Release|x64
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|x64.Build.0 = Release|x64
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|x86.ActiveCfg = Release|x86
-		{45F8D40F-D676-48C8-A4EB-324745B078DC}.Release|x86.Build.0 = Release|x86
 		{908303AA-741A-4AAB-8906-C0C26D67BF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{908303AA-741A-4AAB-8906-C0C26D67BF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{908303AA-741A-4AAB-8906-C0C26D67BF7D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
