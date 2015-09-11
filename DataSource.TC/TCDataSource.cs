@@ -66,10 +66,18 @@ namespace DataSource.TC
 				if (finishedBuilds.Any(x => x.BuildName == build.buildTypeId))
 					continue;
 
+				var buildName = build.buildTypeId;
+
+				if (!TryMatchBuildName(ref buildName))
+				{
+					log.Debug("... " + buildName + " (skipped)");
+					continue;
+				}
+
 				var bi = new FinishedBuildInfo
 				{
 					BuildInstance = build.number.ToString(),
-					BuildName = build.buildTypeId,
+					BuildName = buildName,
 					Result = string.Compare(build.status, "SUCCESS", StringComparison.InvariantCultureIgnoreCase) == 0 ? "OK" : "FAIL",
 					UserAction = "Build"
 				};
@@ -113,9 +121,17 @@ namespace DataSource.TC
 			{
 				foreach (buildsBuild build in buildObj.build)
 				{
+					var buildName = build.buildTypeId;
+
+					if (!TryMatchBuildName(ref buildName))
+					{
+						log.Debug("... " + buildName + " (skipped)");
+						continue;
+					}
+
 					var qbi = new QueuedBuildInfo
 					{
-						BuildName = build.buildTypeId
+						BuildName = buildName
 					};
 
 					var buildInfo = GetBuildInfo(httpClient, build.id);
