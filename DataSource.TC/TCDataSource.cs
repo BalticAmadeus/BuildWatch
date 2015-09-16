@@ -84,7 +84,8 @@ namespace DataSource.TC
 
 				var buildInfo = GetBuildInfo(httpClient, build.id);
 
-				bi.TimeStamp = DateTime.ParseExact(buildInfo.queuedDate, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentCulture);
+				bi.TimeStamp = DateTime.ParseExact(buildInfo.queuedDate, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentCulture)
+					.ToUniversalTime();
 
 				if (buildInfo.triggered.type == "user")
 				{
@@ -135,7 +136,8 @@ namespace DataSource.TC
 					};
 
 					var buildInfo = GetBuildInfo(httpClient, build.id);
-					qbi.QueueTime = DateTime.ParseExact(buildInfo.queuedDate, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentUICulture);
+					qbi.QueueTime = DateTime.ParseExact(buildInfo.queuedDate, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentUICulture)
+						.ToUniversalTime();
 
 					queuedBuilds.Add(qbi);
 				}

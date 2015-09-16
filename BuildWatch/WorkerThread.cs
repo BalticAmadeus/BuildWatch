@@ -356,7 +356,7 @@ namespace BuildWatchWorker
                             Name = fb.BuildName,
                             Instance = fb.BuildInstance,
                             Color = (fb.Result == "OK") ? BuildColor.GREEN : BuildColor.RED,
-                            FinishTime = fb.TimeStamp,
+                            FinishTime = fb.TimeStamp.ToLocalTime(),
                             User = fb.UserName
                         };
                         top.Add(bi);
@@ -370,7 +370,7 @@ namespace BuildWatchWorker
                             Name = qb.BuildName,
                             Instance = qb.BuildName,
                             Color = BuildColor.QUEUED,
-                            FinishTime = qb.QueueTime,
+							FinishTime = qb.QueueTime.ToLocalTime(),
                             User = ""
                         };
                         top.Add(bi);

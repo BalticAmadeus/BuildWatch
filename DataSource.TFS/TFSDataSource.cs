@@ -90,7 +90,7 @@ namespace BuildWatch.DataSource.TFS
                 var qbi = new QueuedBuildInfo
                 {
                     BuildName = buildName,
-                    QueueTime = qb.QueueTime
+					QueueTime = qb.QueueTime.ToUniversalTime()
                 };
                 queuedBuilds.Add(qbi);
             }
@@ -127,7 +127,7 @@ namespace BuildWatch.DataSource.TFS
                 {
                     BuildInstance = buildInstance,
                     BuildName = buildName,
-                    TimeStamp = bd.FinishTime,
+                    TimeStamp = bd.FinishTime.ToUniversalTime(),
                     Result = (bd.Status == BuildStatus.Succeeded) ? "OK" : "FAIL",
                     UserName = bd.RequestedFor,
                     UserAction = bd.Reason.ToString() // FIXME
