@@ -95,8 +95,12 @@
       <Name>DataSource.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataSource.TC\DataSource.TC.csproj">
-      <Project>{B02FAF9E-1D7D-48EB-BE76-D0DD772B4DAB}</Project>
+      <Project>{b02faf9e-1d7d-48eb-be76-d0dd772b4dab}</Project>
       <Name>DataSource.TC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataSource.TFS2015\DataSource.TFS2015.csproj">
+      <Project>{636774a1-ee3e-42e6-b226-d77a3a335371}</Project>
+      <Name>DataSource.TFS2015</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataSource.TFS\DataSource.TFS.csproj">
       <Project>{908303aa-741a-4aab-8906-c0c26d67bf7d}</Project>

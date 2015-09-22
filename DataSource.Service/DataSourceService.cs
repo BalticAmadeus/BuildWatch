@@ -3,6 +3,7 @@ using System.ServiceProcess;
 using BuildWatch.DataSource.Common;
 using BuildWatch.DataSource.TFS;
 using DataSource.TC;
+using DataSource.TFS2015;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -33,7 +34,7 @@ namespace BuildWatch.DataSource.Service
 	    {
 		    log.Info("Starting BuildWatch as a service");
 		    _dsman = new DataSourceManager();
-		    _dsman.Initialize(new Type[] {typeof(TFSDataSource), typeof (TCDataSource)});
+            _dsman.Initialize(new Type[] { typeof(TFSDataSource), typeof(TCDataSource), typeof(TfsDataSource) });
 		    _dsman.Start();
 	    }
 
