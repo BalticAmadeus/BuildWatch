@@ -26,6 +26,9 @@ namespace DataSource.TC
 
 		public override void Poll(IDataService dataService, CancellationToken quitToken)
 		{
+            if (string.IsNullOrEmpty(BaseUrl))
+                return;
+
 			log.Debug("Start polling");
 
 			using (var httpClient = new HttpClient())
@@ -73,6 +76,8 @@ namespace DataSource.TC
 					log.Debug("... " + buildName + " (skipped)");
 					continue;
 				}
+                
+                log.Debug("... " + buildName + " (pushing)");
 
 				var bi = new FinishedBuildInfo
 				{

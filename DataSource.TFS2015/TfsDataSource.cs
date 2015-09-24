@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -20,6 +21,9 @@ namespace DataSource.TFS2015
 
         public override void Poll(IDataService dataService, CancellationToken quitToken)
         {
+            if (string.IsNullOrEmpty(_baseUrl))
+                return;
+
             Log.Debug("Start polling");
 
             using (var httpClient = new HttpClient(new HttpClientHandler{UseDefaultCredentials = true}))
@@ -52,9 +56,9 @@ namespace DataSource.TFS2015
             
             var finishedBuilds = new List<FinishedBuildInfo>();
 
-            foreach (var build in buildObj.Value.OrderByDescending(x => x.BuildNumber))
+            foreach (var build in buildObj.Value.OrderByDescending(x => x.FinishTime))
             {
-                if (finishedBuilds.Any(x => x.BuildInstance == build.BuildNumber))
+                if (finishedBuilds.Any(x => x.BuildName.Equals(build.Definition.Name)))
                     continue;
 
                 var buildName = build.Definition.Name;
@@ -64,7 +68,9 @@ namespace DataSource.TFS2015
                     Log.Debug("... " + buildName + " (skipped)");
                     continue;
                 }
-                
+
+                Log.Debug("... " + buildName + " (pushing)");
+
                 string result = "OK";
                 if (build.Result == "failed")
                     result = "FAIL";
@@ -102,7 +108,7 @@ namespace DataSource.TFS2015
                 .Concat(inProgressBuildResponse.Value)
                 .Concat(notStartedBuildResponse.Value)
                 .Concat(postponedBuildResponse.Value)
-                .OrderByDescending(x => x.BuildNumber))
+                .OrderByDescending(x => x.QueueTime))
             {
                 var buildName = build.Definition.Name;
 
