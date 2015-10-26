@@ -57,7 +57,9 @@ namespace DataSource.TC
 		{
 			Task<string> stringAsync = httpClient.GetStringAsync(BaseUrl + "/builds");
 
-			var buildObj = (builds) new XmlSerializer(typeof (builds)).Deserialize(new StringReader(stringAsync.Result));
+			string result = stringAsync.Result;
+
+			var buildObj = (builds)new XmlSerializer(typeof(builds)).Deserialize(new StringReader(result));
 
 			var finishedBuilds = new List<FinishedBuildInfo>();
 
@@ -76,7 +78,7 @@ namespace DataSource.TC
 
 				var bi = new FinishedBuildInfo
 				{
-					BuildInstance = build.number.ToString(),
+					BuildInstance = build.number,
 					BuildName = buildName,
 					Result = string.Compare(build.status, "SUCCESS", StringComparison.InvariantCultureIgnoreCase) == 0 ? "OK" : "FAIL",
 					UserAction = "Build"
