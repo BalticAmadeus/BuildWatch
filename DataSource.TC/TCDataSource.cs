@@ -26,6 +26,9 @@ namespace DataSource.TC
 
 		public override void Poll(IDataService dataService, CancellationToken quitToken)
 		{
+            if (string.IsNullOrEmpty(BaseUrl))
+                return;
+
 			log.Debug("Start polling");
 
 			using (var httpClient = new HttpClient())
@@ -57,9 +60,7 @@ namespace DataSource.TC
 		{
 			Task<string> stringAsync = httpClient.GetStringAsync(BaseUrl + "/builds");
 
-			string result = stringAsync.Result;
-
-			var buildObj = (builds)new XmlSerializer(typeof(builds)).Deserialize(new StringReader(result));
+			var buildObj = (builds) new XmlSerializer(typeof (builds)).Deserialize(new StringReader(stringAsync.Result));
 
 			var finishedBuilds = new List<FinishedBuildInfo>();
 
@@ -75,10 +76,12 @@ namespace DataSource.TC
 					log.Debug("... " + buildName + " (skipped)");
 					continue;
 				}
+                
+                log.Debug("... " + buildName + " (pushing)");
 
 				var bi = new FinishedBuildInfo
 				{
-					BuildInstance = build.number,
+					BuildInstance = build.number.ToString(),
 					BuildName = buildName,
 					Result = string.Compare(build.status, "SUCCESS", StringComparison.InvariantCultureIgnoreCase) == 0 ? "OK" : "FAIL",
 					UserAction = "Build"
