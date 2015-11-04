@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BuildWatch.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TfsServerUri" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PollPaceSleep" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20000</Value>
+    </Setting>
+    <Setting Name="RedBuildUsSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\57893__guitarguy1985__dun.wav</Value>
+    </Setting>
+    <Setting Name="RedBuildThemSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\172950__notr__saddertrombones.wav</Value>
+    </Setting>
+    <Setting Name="GreenBuildUsSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\mozart_kleine_nachtmusik.wav</Value>
+    </Setting>
+    <Setting Name="GreenBuildThemSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\20683__johnc__moan.wav</Value>
+    </Setting>
+    <Setting Name="GreenBuildAllSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\bob_sinclar_rock_this_party.wav</Value>
+    </Setting>
+    <Setting Name="ColorStateFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">color.state</Value>
+    </Setting>
+    <Setting Name="LogFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Debug.log</Value>
+    </Setting>
+    <Setting Name="SoundCheckSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\168892__zuluonedrop__crub-dub-bass.wav</Value>
+    </Setting>
+    <Setting Name="OurUserMatch" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserNameMatch" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserNameReplace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="StaleAlertSound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Sounds\167337__willy-ineedthatapp-com__pup-alert.wav</Value>
+    </Setting>
+    <Setting Name="FilterConfigFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">filters.xml</Value>
+    </Setting>
+    <Setting Name="ShowBuildInstance" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

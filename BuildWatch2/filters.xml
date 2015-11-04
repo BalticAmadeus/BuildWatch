@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FilterSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Filters>
+    <!--
+    <Filter name="Dev">
+    <Tests>
+      <Test regex="^SP[.]" action="hide" />
+      <Test regex="Deploy" action="notify" />
+    </Tests>
+    </Filter>
+    -->
+  </Filters>
+</FilterSet>
