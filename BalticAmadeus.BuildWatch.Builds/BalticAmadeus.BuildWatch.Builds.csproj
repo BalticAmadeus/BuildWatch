@@ -71,11 +71,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildDateToStringConverter.cs" />
     <Compile Include="BuildListModel.cs" />
     <Compile Include="BuildListView.xaml.cs">
       <DependentUpon>BuildListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildListViewModel.cs" />
+    <Compile Include="BuildStatusToBackgroundConverter.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -151,6 +153,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BalticAmadeus.BuildWatch.Resources\BalticAmadeus.BuildWatch.Resources.csproj">
+      <Project>{d64badd7-9f68-44cf-8f98-328a9ba772f8}</Project>
+      <Name>BalticAmadeus.BuildWatch.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

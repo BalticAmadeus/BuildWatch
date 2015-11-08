@@ -123,6 +123,10 @@
       <Project>{94b2e975-48b6-4b5e-96cb-5a7fb37ade2e}</Project>
       <Name>BalticAmadeus.BuildWatch.Builds</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BalticAmadeus.BuildWatch.Resources\BalticAmadeus.BuildWatch.Resources.csproj">
+      <Project>{d64badd7-9f68-44cf-8f98-328a9ba772f8}</Project>
+      <Name>BalticAmadeus.BuildWatch.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

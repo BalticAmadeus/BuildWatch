@@ -299,7 +299,7 @@ namespace BalticAmadeus.BuildWatch.Builds.ClientService {
             set {
                 if ((object.ReferenceEquals(this.ResultField, value) != true)) {
                     this.ResultField = value;
-                    this.RaisePropertyChanged("Result");
+                    this.RaisePropertyChanged("Status");
                 }
             }
         }

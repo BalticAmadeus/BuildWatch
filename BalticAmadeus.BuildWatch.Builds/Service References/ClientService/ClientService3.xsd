@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BuildWatch.ControlServer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:55571/ClientService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="PollBuildStatusReq">
@@ -39,7 +39,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="BuildInstance" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="BuildName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Result" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="TimeStamp" type="xs:dateTime" />
       <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using BalticAmadeus.BuildWatch.Builds.ClientService;
 using Prism.Mvvm;
@@ -31,7 +34,7 @@ namespace BalticAmadeus.BuildWatch.Builds
 			FinishedBuilds = new ObservableCollection<BuildListModel>();
 			QueuedBuilds = new ObservableCollection<BuildListModel>();
 
-			_dispatcherTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(5)};
+			_dispatcherTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(10)};
 			_dispatcherTimer.Tick += (sender, args) => ProcessBuilds();
 		}
 
@@ -40,41 +43,151 @@ namespace BalticAmadeus.BuildWatch.Builds
 			FinishedBuilds.Clear();
 			QueuedBuilds.Clear();
 
-			var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
+			//var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
+			//{
+			//	UpdateCounter = 0,
+			//	ConfigurationId = 1
+			//});
+
+			//if (pollBuildStatusResp.PictureMaps == null)
+			//	pollBuildStatusResp.PictureMaps = new PictureMap[0];
+
+			//var pictureMap = pollBuildStatusResp.PictureMaps.ToDictionary(
+			//	x => x.UserName,
+			//	x => GetPictureDataFromHash(x.PictureHash));
+
+			//if (pollBuildStatusResp.FinishedBuilds == null)
+			//	pollBuildStatusResp.FinishedBuilds = new FinishedBuild[0];
+
+			//FinishedBuilds.AddRange(pollBuildStatusResp.FinishedBuilds.Select(x => new BuildListModel
+			//{
+			//	Name = x.BuildName.ToUpper(),
+			//	Instance = x.BuildInstance,
+			//	Status = x.Result == "OK" ? BuildStatus.Success : BuildStatus.Fail,
+			//	TimeStamp = x.TimeStamp.ToLocalTime(),
+			//	User = x.UserName,
+			//	PictureData = pictureMap[x.UserName]
+			//}));
+
+			//if (pollBuildStatusResp.QueuedBuilds == null)
+			//	pollBuildStatusResp.QueuedBuilds = new QueuedBuild[0];
+
+			//QueuedBuilds.AddRange(pollBuildStatusResp.QueuedBuilds.Select(x => new BuildListModel
+			//{
+			//	Name = x.BuildName.ToUpper(),
+			//	Instance = x.BuildName,
+			//	TimeStamp = x.QueueTime.ToLocalTime()
+			//}));
+
+			byte[] pictureData = File.ReadAllBytes(@"C:\Users\tmaconko\Desktop\Toma__Maconko.png");
+
+			await Task.Delay(1);
+			FinishedBuilds.AddRange(new[]
 			{
-				UpdateCounter = 0,
-				ConfigurationId = 1
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = pictureData
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Fail,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = pictureData
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Fail,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = pictureData
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Fail,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				}
 			});
 
-			if (pollBuildStatusResp.PictureMaps == null)
-				pollBuildStatusResp.PictureMaps = new PictureMap[0];
-
-			var pictureMap = pollBuildStatusResp.PictureMaps.ToDictionary(
-				x => x.UserName,
-				x => GetPictureDataFromHash(x.PictureHash));
-
-			if (pollBuildStatusResp.FinishedBuilds == null)
-				pollBuildStatusResp.FinishedBuilds = new FinishedBuild[0];
-
-			FinishedBuilds.AddRange(pollBuildStatusResp.FinishedBuilds.Select(x => new BuildListModel
+			QueuedBuilds.AddRange(new[]
 			{
-				Name = x.BuildName,
-				Instance = x.BuildInstance,
-				Result = x.Result,
-				TimeStamp = x.TimeStamp.ToLocalTime(),
-				User = x.UserName,
-				PictureData = pictureMap[x.UserName]
-			}));
-
-			if (pollBuildStatusResp.QueuedBuilds == null)
-				pollBuildStatusResp.QueuedBuilds = new QueuedBuild[0];
-
-			QueuedBuilds.AddRange(pollBuildStatusResp.QueuedBuilds.Select(x => new BuildListModel
-			{
-				Name = x.BuildName,
-				Instance = x.BuildName,
-				TimeStamp = x.QueueTime.ToLocalTime()
-			}));
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				},
+				new BuildListModel
+				{
+					Name = "TESTNAME",
+					Instance = "TESTINSTANCE",
+					Status = BuildStatus.Success,
+					TimeStamp = DateTime.Now.ToLocalTime(),
+					User = "TESTUSER",
+					PictureData = new byte[0]
+				}
+			});
 
 			SelectedBuild = FinishedBuilds.FirstOrDefault();
 		}

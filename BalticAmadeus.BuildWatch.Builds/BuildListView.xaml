@@ -4,175 +4,168 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BalticAmadeus.BuildWatch.Builds"
+             xmlns:controlExtensions="clr-namespace:BalticAmadeus.BuildWatch.Resources.ControlExtensions;assembly=BalticAmadeus.BuildWatch.Resources"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=local:BuildListViewModel}"
-             d:DesignHeight="600" d:DesignWidth="800"
+             d:DesignHeight="600" d:DesignWidth="1280"
              Background="White">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="5*" />
-        </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" Content="{Binding SelectedBuild}" >
-            <ContentControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type local:BuildListModel}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-                        <StackPanel Grid.Column="0">
-                            <Label Content="Build" />
-                            <TextBlock Text="{Binding Name}" />
-                            
-                            <Label Content="Finish Time" />
-                            <TextBlock Text="{Binding TimeStamp}" />
-                        </StackPanel>
+            <local:BuildStatusToBackgroundConverter x:Key="BuildStatusToBackgroundConverter" />
+            <local:BuildDateToStringConverter x:Key="BuildDateToStringConverter" />
 
-                        <StackPanel Grid.Column="1">
-                            <Label Content="Status" />
-                            <TextBlock Text="{Binding Result}" />
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-                            <Label Content="User" />
-                            <TextBlock Text="{Binding User}" />
-                        </StackPanel>
-
-                        <Image Grid.Column="2" Source="{Binding PictureData}" />
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.ContentTemplate>
-        </ContentControl>
-        
-        <Grid Grid.Row="1">
+    <Grid Background="{StaticResource BuildListView.Background.Brush}">
+        <Grid Margin="80,80,80,80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="4*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Margin="0,0,10,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="30" />
-                    </Grid.ColumnDefinitions>
+            <ListBox Grid.Column="0" Margin="0,0,80,0"
+                     ItemsSource="{Binding FinishedBuilds}" 
+                     Style="{StaticResource ListBox.Huge.Normal}"
+                     Background="#34495E"
+                     SelectedItem="{Binding SelectedBuild}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="local:BuildListModel">
+                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#34495e'}">
+                            <Grid x:Name="CollapsedBuild">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" SharedSizeGroup="A" />
+                                    <ColumnDefinition Width="*" SharedSizeGroup="B" />
+                                    <ColumnDefinition Width="*" SharedSizeGroup="C" />
+                                    <ColumnDefinition Width="*" SharedSizeGroup="D" />
+                                </Grid.ColumnDefinitions>
 
-                    <Grid x:Name="Column0" Grid.Column="0" />
-                    <Grid x:Name="Column1" Grid.Column="1" />
-                    <Grid x:Name="Column2" Grid.Column="2" />
-                    <Grid x:Name="Column3" Grid.Column="3" />
-                </Grid>
+                                <Path x:Name="CheckCircle" Height="24" Stretch="Uniform" Grid.Column="0"
+                                      Data="{StaticResource CheckCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                      Margin="15,10,15,10" Visibility="Hidden" />
+                                <Path x:Name="CrossCircle" Height="24" Stretch="Uniform" Grid.Column="0"
+                                      Data="{StaticResource CrossCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                      Margin="15,10,15,10" />
 
-                <ListView x:Name="FinishedBuilds" ItemsSource="{Binding FinishedBuilds}" SelectionMode="Single" SelectedItem="{Binding SelectedBuild}">
-                    <ListView.View>
-                        <GridView AllowsColumnReorder="False">
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column0}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="Build" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"
+                                           Margin="15,10,15,10" Foreground="#FFFFFF"
+                                           Style="{StaticResource TextBlock.Default}" />
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding TimeStamp, Converter={StaticResource BuildDateToStringConverter}}"
+                                           VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF"
+                                           Style="{StaticResource TextBlock.SmallFont}" />
+                                <TextBlock Grid.Column="3" Text="{Binding User}" VerticalAlignment="Center"
+                                           Margin="15,10,15,10" Foreground="#FFFFFF"
+                                           Style="{StaticResource TextBlock.Default}" />
+                            </Grid>
 
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column1}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="Result" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding Result}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            <Grid x:Name="ExpandedBuild"
+                                  Visibility="Collapsed">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column2}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="Finish Time" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding TimeStamp}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                    <Path x:Name="CheckCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                                          Data="{StaticResource CheckCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                          Margin="15,30,15,30" Visibility="Hidden" />
+                                    <Path x:Name="CrossCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                                          Data="{StaticResource CrossCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                          Margin="15,30,15,30" />
 
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column3}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="User" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding User}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeStamp}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
 
-            <Grid Grid.Column="1">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
-                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Status}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding User}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
 
-                    <Grid x:Name="Column00" Grid.Column="0" />
-                    <Grid x:Name="Column01" Grid.Column="1" />
-                </Grid>
+                                    <Image Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Height="130" Width="100"  Margin="15,15,15,15" Stretch="UniformToFill" Source="{Binding PictureData}" ClipToBounds="True" StretchDirection="Both">
+                                        <Image.Clip>
+                                            <RectangleGeometry RadiusX="5" RadiusY="5" >
+                                                <RectangleGeometry.Rect>
+                                                    <Rect Height="130" Width="100" />
+                                                </RectangleGeometry.Rect>
+                                            </RectangleGeometry>
+                                        </Image.Clip>
+                                    </Image>
+                                </Grid>
+                            </Grid>
+                        </Grid>
 
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Success}">
+                                <Setter TargetName="CheckCircle" Property="Path.Visibility" Value="Visible" />
+                                <Setter TargetName="CrossCircle" Property="Path.Visibility" Value="Hidden" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Success}">
+                                <Setter TargetName="CheckCircleHuge" Property="Path.Visibility" Value="Visible" />
+                                <Setter TargetName="CrossCircleHuge" Property="Path.Visibility" Value="Hidden" />
+                            </DataTrigger>
 
-                <ListView x:Name="QueuedBuilds" ItemsSource="{Binding QueuedBuilds}" SelectionMode="Single" >
-                    <ListView.View>
-                        <GridView AllowsColumnReorder="False">
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column00}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="Build" Margin="0,0,10,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding Name}" Margin="0,0,10,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
+                                <Setter TargetName="CollapsedBuild" Property="Path.Visibility" Value="Collapsed" />
+                                <Setter TargetName="ExpandedBuild" Property="Path.Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <controlExtensions:HeaderExtension.Header>
+                    <!---->
 
-                            <GridViewColumn Width="{Binding ActualWidth, ElementName=Column01}">
-                                <GridViewColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="Queue Time" Margin="0,0,10,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.HeaderTemplate>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate DataType="{x:Type local:BuildListModel}">
-                                        <TextBlock Text="{Binding TimeStamp}" Margin="10,0,10,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
+                    <Grid Background="#34495E">
+                        <TextBlock Text="BUILDS" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                    </Grid>
+                </controlExtensions:HeaderExtension.Header>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Grid.IsSharedSizeScope="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
 
+            <ListBox Grid.Column="1" Margin="80,0,0,0"
+                     ItemsSource="{Binding QueuedBuilds}" 
+                     Background="#34495E"
+                     Style="{StaticResource ListBox.Large.Normal}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="local:BuildListModel">
+                        <Grid Background="{StaticResource BuildListModel.Status.Running.Background.Brush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="B" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="C" />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Height="24" Stretch="Uniform" x:Name="TimeCircle" Grid.Column="0" Data="{StaticResource TimeCircle}" Fill="#FFFFFF" VerticalAlignment="Center" Margin="15,10,15,10" />
+
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding TimeStamp, Converter={StaticResource BuildDateToStringConverter}}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <controlExtensions:HeaderExtension.Header>
+                    <Grid Background="#34495E">
+                        <TextBlock Text="QUEUE" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                    </Grid>
+                </controlExtensions:HeaderExtension.Header>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Grid.IsSharedSizeScope="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>
