@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/TextBox.xaml" />
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBoxItem.xaml" />
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBox.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ContentControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 

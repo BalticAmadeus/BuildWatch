@@ -79,6 +79,7 @@
     <Compile Include="BuildListViewModel.cs" />
     <Compile Include="BuildStatusToBackgroundConverter.cs" />
     <Compile Include="Module.cs" />
+    <Compile Include="PhotoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +98,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="SoundService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -155,6 +157,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BalticAmadeus.BuildWatch.Infrastructure\BalticAmadeus.BuildWatch.Infrastructure.csproj">
+      <Project>{C22575AF-9794-4343-8A9F-1790573CEEDF}</Project>
+      <Name>BalticAmadeus.BuildWatch.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BalticAmadeus.BuildWatch.Resources\BalticAmadeus.BuildWatch.Resources.csproj">
       <Project>{d64badd7-9f68-44cf-8f98-328a9ba772f8}</Project>
       <Name>BalticAmadeus.BuildWatch.Resources</Name>

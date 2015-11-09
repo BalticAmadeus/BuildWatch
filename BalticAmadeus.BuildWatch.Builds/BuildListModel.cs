@@ -15,6 +15,6 @@ namespace BalticAmadeus.BuildWatch.Builds
 	public enum BuildStatus
 	{
 		Success = 0,
-		Fail
+		Fail = 1
 	}
 }

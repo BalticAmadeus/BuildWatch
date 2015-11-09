@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Autofac;
+using BuildWatch.Properties;
 using Prism.Autofac;
 using Prism.Modularity;
 
@@ -18,6 +19,13 @@ namespace BuildWatch
 
 			Application.Current.MainWindow = (Window)Shell;
 			Application.Current.MainWindow.Show();
+		}
+
+		protected override void ConfigureContainerBuilder(ContainerBuilder builder)
+		{
+			base.ConfigureContainerBuilder(builder);
+
+			builder.Register(x => Settings.Default.ClientServiceEndpoint).AsSelf().Named<string>("ClientServiceEndpoint");
 		}
 
 		protected override void ConfigureModuleCatalog()

@@ -3,15 +3,9 @@
                     xmlns:controlExtensions="clr-namespace:BalticAmadeus.BuildWatch.Resources.ControlExtensions"
                     xmlns:converters="clr-namespace:BalticAmadeus.BuildWatch.Resources.Converters">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/Common.xaml" />
-        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/TextBlock.xaml" />
-        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBoxItem.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     
-    <Style x:Key="ListBox.Default.Normal" TargetType="ListBox">
+    <Style x:Key="ContentControl.Default.Normal" TargetType="ContentControl">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Background" Value="#00FFFFFF" />
         <Setter Property="Foreground" Value="#FF000000"/>
@@ -19,9 +13,7 @@
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Default.Normal}" />
+        
         <Setter Property="controlExtensions:HeaderExtension.Header" Value="{x:Null}" />
         <Setter Property="controlExtensions:HeaderExtension.HeaderTemplate" Value="{x:Null}" />
         <Setter Property="controlExtensions:HeaderExtension.HeaderTemplateSelector" Value="{x:Null}" />
@@ -30,11 +22,11 @@
         <Setter Property="controlExtensions:FooterExtension.FooterTemplateSelector" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ListBox">
+                <ControlTemplate TargetType="ContentControl">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
@@ -55,17 +47,16 @@
                                               ContentTemplate="{TemplateBinding controlExtensions:HeaderExtension.HeaderTemplate}"
                                               ContentTemplateSelector="{TemplateBinding controlExtensions:HeaderExtension.HeaderTemplateSelector}" />
                         </Grid>
-                        
+
                         <Border Grid.Row="1"
+                                Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}"
-			                    BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer x:Name="ScrollViewer" 
-                                          Padding="{TemplateBinding Padding}" 
-                                          Background="{TemplateBinding Background}" 
-                                          BorderBrush="Transparent" 
-                                          BorderThickness="0" >
-                                <ItemsPresenter />
-                            </ScrollViewer>
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              Content="{TemplateBinding Content}" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
                         </Border>
 
                         <Grid Grid.Row="2"
@@ -90,21 +81,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style x:Key="ListBox.Large.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Large.Normal}"></Setter>
-    </Style>
-
-    <Style x:Key="ListBox.Huge.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Huge.Normal}"></Setter>
-    </Style>
-
-    <Style x:Key="ListBox.Small.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Small.Normal}"></Setter>
-    </Style>
-
-    <Style x:Key="ListBox.Mini.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Mini.Normal}"></Setter>
-    </Style>
-
+    
 </ResourceDictionary>

@@ -7,7 +7,7 @@
              xmlns:controlExtensions="clr-namespace:BalticAmadeus.BuildWatch.Resources.ControlExtensions;assembly=BalticAmadeus.BuildWatch.Resources"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=local:BuildListViewModel}"
-             d:DesignHeight="600" d:DesignWidth="1280"
+             d:DesignHeight="800" d:DesignWidth="1280"
              Background="White">
 
     <UserControl.Resources>
@@ -23,13 +23,24 @@
     </UserControl.Resources>
 
     <Grid Background="{StaticResource BuildListView.Background.Brush}">
-        <Grid Margin="80,80,80,80">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="80,80,80,80" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Header2}" Text="Build Monitoring" />
+        
+        <Grid Grid.Row="1" Margin="80,0,80,80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="4*" />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <ListBox Grid.Column="0" Margin="0,0,80,0"
+            <ListBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,160,0"
                      ItemsSource="{Binding FinishedBuilds}" 
                      Style="{StaticResource ListBox.Huge.Normal}"
                      Background="#34495E"
@@ -37,71 +48,30 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="local:BuildListModel">
                         <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#34495e'}">
-                            <Grid x:Name="CollapsedBuild">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" SharedSizeGroup="A" />
-                                    <ColumnDefinition Width="*" SharedSizeGroup="B" />
-                                    <ColumnDefinition Width="*" SharedSizeGroup="C" />
-                                    <ColumnDefinition Width="*" SharedSizeGroup="D" />
-                                </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="B" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="C" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="D" />
+                            </Grid.ColumnDefinitions>
 
-                                <Path x:Name="CheckCircle" Height="24" Stretch="Uniform" Grid.Column="0"
+                            <Path x:Name="CheckCircle" Height="24" Stretch="Uniform" Grid.Column="0"
                                       Data="{StaticResource CheckCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
                                       Margin="15,10,15,10" Visibility="Hidden" />
-                                <Path x:Name="CrossCircle" Height="24" Stretch="Uniform" Grid.Column="0"
+                            <Path x:Name="CrossCircle" Height="24" Stretch="Uniform" Grid.Column="0"
                                       Data="{StaticResource CrossCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
                                       Margin="15,10,15,10" />
 
-                                <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"
                                            Margin="15,10,15,10" Foreground="#FFFFFF"
                                            Style="{StaticResource TextBlock.Default}" />
-                                <TextBlock Grid.Column="2"
+                            <TextBlock Grid.Column="2"
                                            Text="{Binding TimeStamp, Converter={StaticResource BuildDateToStringConverter}}"
                                            VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF"
                                            Style="{StaticResource TextBlock.SmallFont}" />
-                                <TextBlock Grid.Column="3" Text="{Binding User}" VerticalAlignment="Center"
+                            <TextBlock Grid.Column="3" Text="{Binding User}" VerticalAlignment="Center"
                                            Margin="15,10,15,10" Foreground="#FFFFFF"
                                            Style="{StaticResource TextBlock.Default}" />
-                            </Grid>
-
-                            <Grid x:Name="ExpandedBuild"
-                                  Visibility="Collapsed">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="3*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <Path x:Name="CheckCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                          Data="{StaticResource CheckCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
-                                          Margin="15,30,15,30" Visibility="Hidden" />
-                                    <Path x:Name="CrossCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                          Data="{StaticResource CrossCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
-                                          Margin="15,30,15,30" />
-
-                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeStamp}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
-
-                                    <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Status}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding User}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
-
-                                    <Image Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Height="130" Width="100"  Margin="15,15,15,15" Stretch="UniformToFill" Source="{Binding PictureData}" ClipToBounds="True" StretchDirection="Both">
-                                        <Image.Clip>
-                                            <RectangleGeometry RadiusX="5" RadiusY="5" >
-                                                <RectangleGeometry.Rect>
-                                                    <Rect Height="130" Width="100" />
-                                                </RectangleGeometry.Rect>
-                                            </RectangleGeometry>
-                                        </Image.Clip>
-                                    </Image>
-                                </Grid>
-                            </Grid>
                         </Grid>
 
                         <DataTemplate.Triggers>
@@ -109,24 +79,15 @@
                                 <Setter TargetName="CheckCircle" Property="Path.Visibility" Value="Visible" />
                                 <Setter TargetName="CrossCircle" Property="Path.Visibility" Value="Hidden" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Success}">
-                                <Setter TargetName="CheckCircleHuge" Property="Path.Visibility" Value="Visible" />
-                                <Setter TargetName="CrossCircleHuge" Property="Path.Visibility" Value="Hidden" />
-                            </DataTrigger>
-
-                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
-                                <Setter TargetName="CollapsedBuild" Property="Path.Visibility" Value="Collapsed" />
-                                <Setter TargetName="ExpandedBuild" Property="Path.Visibility" Value="Visible" />
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Fail}">
+                                <Setter TargetName="CheckCircle" Property="Path.Visibility" Value="Hidden" />
+                                <Setter TargetName="CrossCircle" Property="Path.Visibility" Value="Visible" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <controlExtensions:HeaderExtension.Header>
-                    <!---->
-
-                    <Grid Background="#34495E">
-                        <TextBlock Text="BUILDS" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
-                    </Grid>
+                    <TextBlock Grid.Row="0" Text="Finished Builds" VerticalAlignment="Center" Margin="15,20,15,20" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
                 </controlExtensions:HeaderExtension.Header>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -134,8 +95,59 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
+            
+            <ContentControl Grid.Column="1" Grid.Row="0" Margin="0,0,0,80"
+                            Content="{Binding SelectedBuild}"
+                            Background="#34495E"
+                            Style="{StaticResource ContentControl.Default.Normal}">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate DataType="local:BuildListModel">
+                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#34495e'}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-            <ListBox Grid.Column="1" Margin="80,0,0,0"
+                                <Path x:Name="CheckCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                                          Data="{StaticResource CheckCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                          Margin="30,30,15,30" Visibility="Hidden" />
+                                <Path x:Name="CrossCircleHuge" Height="100" Width="100" Stretch="Uniform" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                                          Data="{StaticResource CrossCircle}" Fill="#FFFFFF" VerticalAlignment="Center"
+                                          Margin="30,30,15,30" Visibility="Hidden" />
+
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" Margin="30,30,15,5" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeStamp}" VerticalAlignment="Center" Margin="30,5,15,5" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" TextWrapping="NoWrap"/>
+                                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding User}" VerticalAlignment="Center" Margin="30,5,15,30" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
+
+                                <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Margin="15,30,30,30" Height="160" Stretch="Uniform" Source="{Binding PictureData}" />
+                            </Grid>
+                        </Grid>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Success}">
+                                <Setter TargetName="CheckCircleHuge" Property="Path.Visibility" Value="Visible" />
+                                <Setter TargetName="CrossCircleHuge" Property="Path.Visibility" Value="Hidden" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:BuildStatus.Fail}">
+                                <Setter TargetName="CheckCircleHuge" Property="Path.Visibility" Value="Hidden" />
+                                <Setter TargetName="CrossCircleHuge" Property="Path.Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+                <controlExtensions:HeaderExtension.Header>
+                    <TextBlock Text="Last Build" VerticalAlignment="Center" Margin="15,20,15,20" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                </controlExtensions:HeaderExtension.Header>
+            </ContentControl>
+            
+            <ListBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,0"
                      ItemsSource="{Binding QueuedBuilds}" 
                      Background="#34495E"
                      Style="{StaticResource ListBox.Large.Normal}">
@@ -156,9 +168,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <controlExtensions:HeaderExtension.Header>
-                    <Grid Background="#34495E">
-                        <TextBlock Text="QUEUE" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
-                    </Grid>
+                    <TextBlock Text="Queued Builds" VerticalAlignment="Center" Margin="15,20,15,20" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
                 </controlExtensions:HeaderExtension.Header>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
