@@ -13,7 +13,7 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <SolidColorBrush x:Key="BuildListModel.Status.Success.Background.Brush">#2ECC71</SolidColorBrush>
+    <SolidColorBrush x:Key="BuildListModel.Status.Success.Background.Brush">#26A65B</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.Status.Fail.Background.Brush">#EF4836</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.Status.Running.Background.Brush">#3498DB</SolidColorBrush>
 
@@ -21,6 +21,6 @@
     <SolidColorBrush x:Key="BuildListModel.TimeStamp.Foreground.Brush">#FFFFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.User.Foreground.Brush">#FFFFFFFF</SolidColorBrush>
 
-    <SolidColorBrush x:Key="BuildListView.Background.Brush">#6C7A89</SolidColorBrush>
+    <SolidColorBrush x:Key="BuildListView.Background.Brush">#95A5A6</SolidColorBrush>
 
 </ResourceDictionary>

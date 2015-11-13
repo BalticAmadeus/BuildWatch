@@ -121,8 +121,8 @@
     </Style>
 
     <Style x:Key="ListBoxItem.Huge.Normal" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItem.Default.Normal}">
-        <Setter Property="MinHeight" Value="45" />
-        <Setter Property="MinWidth" Value="63" />
+        <Setter Property="MinHeight" Value="52" />
+        <Setter Property="MinWidth" Value="68" />
     </Style>
 
     <Style x:Key="ListBoxItem.Small.Normal" TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItem.Default.Normal}">
