@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using BalticAmadeus.BuildWatch.Builds.ClientService;
 using BalticAmadeus.BuildWatch.Infrastructure;
+using NLog;
 using Prism.Mvvm;
 using Prism.Regions;
 
@@ -12,6 +13,8 @@ namespace BalticAmadeus.BuildWatch.Builds
 {
 	public class BuildListViewModel : BindableBase, INavigationAware
 	{
+		private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
 		private readonly Func<IClientService> _clientServiceFactory;
 		private IClientService _clientService;
 		private readonly PhotoService _photoService;
@@ -55,6 +58,8 @@ namespace BalticAmadeus.BuildWatch.Builds
 		{
 			try
 			{
+				Logger.Info("Pulling finished builds");
+
 				var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
 				{
 					UpdateCounter = 0,
@@ -63,6 +68,8 @@ namespace BalticAmadeus.BuildWatch.Builds
 
 				if (pollBuildStatusResp.FinishedBuilds == null)
 					pollBuildStatusResp.FinishedBuilds = new FinishedBuild[0];
+				
+				Logger.Info("Server returned {0} finished builds", pollBuildStatusResp.FinishedBuilds.Count());
 
 				var newBuilds = pollBuildStatusResp.FinishedBuilds.Select(x => new BuildListModel
 				{
@@ -84,8 +91,10 @@ namespace BalticAmadeus.BuildWatch.Builds
 
 				return newBuilds;
 			}
-			catch
+			catch(Exception e)
 			{
+				Logger.Error(e, "An error occured when pulling finished builds");
+
 				_clientService = _clientServiceFactory();
 				return Enumerable.Empty<BuildListModel>();
 			}	
@@ -95,6 +104,8 @@ namespace BalticAmadeus.BuildWatch.Builds
 		{
 			try
 			{
+				Logger.Info($"Pulling queued builds");
+
 				var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
 				{
 					UpdateCounter = 0,
@@ -104,6 +115,8 @@ namespace BalticAmadeus.BuildWatch.Builds
 				if (pollBuildStatusResp.QueuedBuilds == null)
 					pollBuildStatusResp.QueuedBuilds = new QueuedBuild[0];
 
+				Logger.Info("Server returned {0} queued builds", pollBuildStatusResp.QueuedBuilds.Count());
+
 				return pollBuildStatusResp.QueuedBuilds.Select(x => new BuildListModel
 				{
 					Name = x.BuildName.ToUpper(),
@@ -111,8 +124,10 @@ namespace BalticAmadeus.BuildWatch.Builds
 					TimeStamp = x.QueueTime.ToLocalTime()
 				});
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "An error occured when pulling queued builds");
+
 				_clientService = _clientServiceFactory();
 				return Enumerable.Empty<BuildListModel>();
 			}

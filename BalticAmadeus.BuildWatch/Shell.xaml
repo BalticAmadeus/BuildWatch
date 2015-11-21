@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="Shell" Width="1280" Height="800">
+        Title="BuildWatch" Width="1280" Height="800">
     <Grid>
         <ContentControl regions:RegionManager.RegionName="Root" />
     </Grid>

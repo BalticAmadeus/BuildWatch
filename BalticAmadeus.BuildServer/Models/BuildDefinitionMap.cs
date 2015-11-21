@@ -7,12 +7,11 @@ namespace BalticAmadeus.BuildServer.Models
 	{
 		public BuildDefinitionMap()
 		{
-			Table("Build");
-
-			Id(x => x.Id).Column("Id").GeneratedBy.Increment();
-
-			Map(x => x.AliasTitle).Column("AliasTitle");
-			Map(x => x.OriginalTitle).Column("OriginalTitle");
+			Table("BuildDefinition");
+			Id(x => x.Id).GeneratedBy.Identity().Column("Id");
+			Map(x => x.AliasTitle).Column("AliasTitle").Not.Nullable();
+			Map(x => x.OriginalTitle).Column("OriginalTitle").Not.Nullable();
+			Map(x => x.IsDeleted).Column("IsDeleted").Not.Nullable();
 		}
 	}
 }

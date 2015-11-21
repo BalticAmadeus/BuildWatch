@@ -121,7 +121,7 @@
                                           Margin="30,30,15,30" Visibility="Hidden" />
 
                                 <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" Margin="30,30,15,5" Foreground="#FFFFFF" Style="{StaticResource TextBlock.LeadText}"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeStamp}" VerticalAlignment="Center" Margin="30,5,15,5" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" TextWrapping="NoWrap"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeStamp, Converter={StaticResource BuildDateToStringConverter}}" VerticalAlignment="Center" Margin="30,5,15,5" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" TextWrapping="NoWrap"/>
                                 <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding User}" VerticalAlignment="Center" Margin="30,5,15,30" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
 
                                 <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Margin="15,30,30,30" Height="160" Stretch="Uniform" Source="{Binding PictureData}" />

@@ -195,6 +195,7 @@
     <Compile Include="Controllers\BuildDefinitionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BuildsController.cs" />
+    <Compile Include="Controllers\UniqueBuildsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NLog;
 
 namespace BalticAmadeus.BuildWatch.Builds
 {
 	public class PhotoService
 	{
+		private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
 		private readonly IDictionary<string, byte[]> _photosMap; 
 
 		public PhotoService(string path)
@@ -24,7 +27,11 @@ namespace BalticAmadeus.BuildWatch.Builds
 		public byte[] GetPhoto(string key)
 		{
 			if (!_photosMap.ContainsKey(key))
-				return new byte[0];
+			{
+				Logger.Warn("No {0} photo found", key);
+				
+                return new byte[0];
+			}
 
 			return _photosMap[key];
 		} 

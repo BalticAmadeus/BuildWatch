@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using BalticAmadeus.BuildServer.Interfaces;
 using NHibernate;
@@ -15,19 +14,22 @@ namespace BalticAmadeus.BuildServer.Controllers
 			_session = session;
 		}
 
-		// GET api/builds
+		[Route("api/builds/")]
+		[HttpGet]
 		public IEnumerable<Build> Get()
 		{
 			return _session.QueryOver<Build>().List();
 		}
 
-		// GET api/builds/5
-		public Build Get(int id)
+		[Route("api/builds/{buildDefinitionId}/{buildId}")]
+		[HttpGet]
+		public Build Get(int buildDefinitionId, int buildId)
 		{
-			return _session.Load<Build>(id);
+			return _session.Load<Build>(new BuildCompositeId(buildDefinitionId, buildId));
 		}
 
-		// POST api/builds
+		[Route("api/builds/")]
+		[HttpPost]
 		public void Post([FromBody] Build build)
 		{
 			using (var tx = _session.BeginTransaction())
@@ -35,29 +37,6 @@ namespace BalticAmadeus.BuildServer.Controllers
 				_session.Save(build);
 				tx.Commit();
 			}
-		}
-
-		// PUT api/builds/5
-		public void Put(int id, [FromBody] Build build)
-		{
-			using (var tx = _session.BeginTransaction())
-			{
-				var entity = _session.Load<Build>(id);
-
-				entity.Status = build.Status;
-				entity.Instance = build.Instance;
-				entity.Name = build.Name;
-				entity.TimeStamp = build.TimeStamp;
-				entity.User = build.User;
-
-				tx.Commit();
-			}
-		}
-
-		// DELETE api/builds/5
-		public void Delete(int id)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

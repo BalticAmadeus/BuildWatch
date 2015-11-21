@@ -8,14 +8,15 @@ namespace BalticAmadeus.BuildServer.Models
 		public BuildMap()
 		{
 			Table("Build");
+			CompositeId(x => x.Id)
+				.KeyProperty(x => x.BuildDefinitionId, "BuildDefinitionId")
+				.KeyProperty(x => x.BuildId, "Id");
 
-			Id(x => x.Id).Column("Id").GeneratedBy.Increment();
-
-			Map(x => x.Instance).Column("Instance");
-			Map(x => x.Name).Column("Name");
-			Map(x => x.Status).Column("Status").CustomType<int>();
-			Map(x => x.TimeStamp).Column("TimeStamp");
-			Map(x => x.User).Column("Username");
+			Map(x => x.Instance).Column("Instance").Not.Nullable();
+			Map(x => x.TimeStamp).Column("TimeStamp").Not.Nullable();
+			Map(x => x.Status).Column("Status").Not.Nullable().CustomType<BuildStatus>();
+			Map(x => x.Username).Column("Username").Not.Nullable();
+			Map(x => x.IsDeleted).Column("IsDeleted").Not.Nullable();
 		}
 	}
 }
