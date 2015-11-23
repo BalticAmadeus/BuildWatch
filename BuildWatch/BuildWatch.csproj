@@ -215,11 +215,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BuildWatch.Controls\BuildWatch.Controls.csproj">
-      <Project>{28A3BE82-CB9D-4057-A2BD-0E349F3A1493}</Project>
+      <Project>{28a3be82-cb9d-4057-a2bd-0e349f3a1493}</Project>
       <Name>BuildWatch.Controls</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

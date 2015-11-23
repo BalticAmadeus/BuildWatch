@@ -1,0 +1,110 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controlExtensions="clr-namespace:BalticAmadeus.BuildWatch.Resources.ControlExtensions"
+                    xmlns:converters="clr-namespace:BalticAmadeus.BuildWatch.Resources.Converters">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/Common.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/TextBlock.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBoxItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    
+    <Style x:Key="ListBox.Default.Normal" TargetType="ListBox">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="Foreground" Value="#FF000000"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Default.Normal}" />
+        <Setter Property="controlExtensions:HeaderExtension.Header" Value="{x:Null}" />
+        <Setter Property="controlExtensions:HeaderExtension.HeaderTemplate" Value="{x:Null}" />
+        <Setter Property="controlExtensions:HeaderExtension.HeaderTemplateSelector" Value="{x:Null}" />
+        <Setter Property="controlExtensions:FooterExtension.Footer" Value="{x:Null}" />
+        <Setter Property="controlExtensions:FooterExtension.FooterTemplate" Value="{x:Null}" />
+        <Setter Property="controlExtensions:FooterExtension.FooterTemplateSelector" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0"
+                              Visibility="{TemplateBinding controlExtensions:HeaderExtension.Header, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                            </Border>
+
+                            <Border Background="#FF000000"
+                                    BorderBrush="#00FFFFFF"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Opacity="0.25">
+                            </Border>
+
+                            <ContentPresenter Content="{TemplateBinding controlExtensions:HeaderExtension.Header}"
+                                              ContentTemplate="{TemplateBinding controlExtensions:HeaderExtension.HeaderTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding controlExtensions:HeaderExtension.HeaderTemplateSelector}" />
+                        </Grid>
+                        
+                        <Border Grid.Row="1"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+			                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="ScrollViewer" 
+                                          Padding="{TemplateBinding Padding}" 
+                                          Background="{TemplateBinding Background}" 
+                                          BorderBrush="Transparent" 
+                                          BorderThickness="0" >
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+
+                        <Grid Grid.Row="2"
+                              Visibility="{TemplateBinding controlExtensions:FooterExtension.Footer, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                            </Border>
+
+                            <Border Background="#FF000000"
+                                    BorderBrush="#00FFFFFF"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Opacity="0.25">
+                            </Border>
+
+                            <ContentPresenter Content="{TemplateBinding controlExtensions:FooterExtension.Footer}"
+                                              ContentTemplate="{TemplateBinding controlExtensions:FooterExtension.FooterTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding controlExtensions:FooterExtension.FooterTemplateSelector}" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBox.Large.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Large.Normal}"></Setter>
+    </Style>
+
+    <Style x:Key="ListBox.Huge.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Huge.Normal}"></Setter>
+    </Style>
+
+    <Style x:Key="ListBox.Small.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Small.Normal}"></Setter>
+    </Style>
+
+    <Style x:Key="ListBox.Mini.Normal" TargetType="ListBox" BasedOn="{StaticResource ListBox.Default.Normal}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItem.Mini.Normal}"></Setter>
+    </Style>
+
+</ResourceDictionary>
