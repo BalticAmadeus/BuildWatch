@@ -35,7 +35,7 @@ namespace DataSource.TC.DataClasses
 
 		private string buildTypeIdField;
 
-		private int numberField;
+		private string numberField;
 
 		private string statusField;
 
@@ -244,7 +244,7 @@ namespace DataSource.TC.DataClasses
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int number
+		public string number
 		{
 			get
 			{

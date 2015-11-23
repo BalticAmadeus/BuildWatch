@@ -16,7 +16,7 @@ namespace DataSource.TC.DataClasses
 
 		/// <remarks />
 		[XmlAttribute]
-		public ushort number { get; set; }
+		public string number { get; set; }
 
 		/// <remarks />
 		[XmlAttribute]
