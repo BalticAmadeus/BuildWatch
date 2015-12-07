@@ -41,11 +41,11 @@
             <ListBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,40,0"
                      ItemsSource="{Binding FinishedBuilds}" 
                      Style="{StaticResource ListBox.Huge.Normal}"
-                     Background="#34495E"
+                     Background="#A034495E"
                      SelectedItem="{Binding SelectedBuild}">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="local:BuildListModel">
-                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#34495e'}">
+                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#A034495e'}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" SharedSizeGroup="A" />
                                 <ColumnDefinition Width="*" SharedSizeGroup="B" />
@@ -96,11 +96,11 @@
             
             <ContentControl Grid.Column="1" Grid.Row="0" Margin="0,0,0,40"
                             Content="{Binding SelectedBuild}"
-                            Background="#34495E"
+                            Background="#A034495E"
                             Style="{StaticResource ContentControl.Default.Normal}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate DataType="local:BuildListModel">
-                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#34495e'}">
+                        <Grid Background="{Binding Status, Converter={StaticResource BuildStatusToBackgroundConverter}, FallbackValue='#A034495e'}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -147,7 +147,7 @@
             
             <ListBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,0"
                      ItemsSource="{Binding QueuedBuilds}" 
-                     Background="#34495E"
+                     Background="#A034495E"
                      Style="{StaticResource ListBox.Large.Normal}">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="local:BuildListModel">

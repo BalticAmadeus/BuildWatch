@@ -15,7 +15,7 @@ namespace BalticAmadeus.BuildServer
 			return Fluently.Configure(cfg)
 				.Mappings(m => m.FluentMappings
 					.Conventions.Setup(x => x.Add(AutoImport.Never()))
-					.AddFromAssemblyOf<BuildMap>())
+					.AddFromAssemblyOf<BuildRunMap>())
 				.BuildSessionFactory();
 		}
 	}

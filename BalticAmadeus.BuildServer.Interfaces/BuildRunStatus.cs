@@ -1,6 +1,6 @@
 ﻿namespace BalticAmadeus.BuildServer.Interfaces
 {
-	public enum BuildStatus
+	public enum BuildRunStatus
 	{
 		Success = 0,
 		Fail,

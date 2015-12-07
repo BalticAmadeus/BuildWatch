@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildRun.cs" />
     <Compile Include="Build.cs" />
-    <Compile Include="BuildDefinition.cs" />
-    <Compile Include="BuildCompositeId.cs" />
-    <Compile Include="BuildStatus.cs" />
+    <Compile Include="BuildRunCompositeId.cs" />
+    <Compile Include="BuildRunStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,14 +1,15 @@
+IF OBJECT_ID('Build') IS NOT NULL
+	DROP TABLE Build; 
+GO
+
 CREATE TABLE Build(
-	[BuildDefinitionId] int NOT NULL,
-	[Id]				int NOT NULL,
-	[Name]				varchar(200) NOT NULL,
-	[Instance]			varchar(200) NOT NULL,
-	[TimeStamp]			datetime2 NOT NULL,
-	[Status]			int NOT NULL,
-	[Username]			varchar(200) NOT NULL,
-	[IsDeleted]			bit NOT NULL,
+	[Id]			int NOT NULL,
+	[AliasTitle]	varchar(200) NOT NULL,
+	[OriginalTitle]	varchar(200) NOT NULL,
+	[IsDeleted]		bit NOT NULL
+)
+GO
 
-	CONSTRAINT [PK_Build] PRIMARY KEY CLUSTERED ([BuildDefinitionId] ASC, [Id] DESC)
-) ON [PRIMARY]
-
+ALTER TABLE Build
+	ADD CONSTRAINT [PK_Build] PRIMARY KEY ([Id])
 GO

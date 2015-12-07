@@ -98,6 +98,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\christmas.gif" />
     <Content Include="Images\alert-24.svg" />
     <Content Include="Images\arror-left-24.svg" />
     <Content Include="Images\arror-right-24.svg" />
