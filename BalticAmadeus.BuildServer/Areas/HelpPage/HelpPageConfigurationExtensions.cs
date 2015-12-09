@@ -13,6 +13,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using BalticAmadeus.BuildServer.Areas.HelpPage.ModelDescriptions;
 using BalticAmadeus.BuildServer.Areas.HelpPage.Models;
+using BalticAmadeus.BuildServer.Areas.HelpPage.SampleGeneration;
 
 namespace BalticAmadeus.BuildServer.Areas.HelpPage
 {

@@ -3,8 +3,8 @@ IF OBJECT_ID('BuildRun') IS NOT NULL
 GO
 
 CREATE TABLE BuildRun(
-	[Id]				int NOT NULL,
-	[BuildId]			int NOT NULL,
+	[Id]				varchar(200) NOT NULL,
+	[BuildId]			varchar(200) NOT NULL,
 	[Instance]			varchar(200) NOT NULL,
 	[StartedTimeStamp]	datetime2 NOT NULL,
 	[FinishedTimeStamp]	datetime2 NULL,
@@ -14,5 +14,5 @@ CREATE TABLE BuildRun(
 GO
 
 ALTER TABLE BuildRun
-	ADD CONSTRAINT [PK_BuildRun] PRIMARY KEY ([Id] DESC)
+	ADD CONSTRAINT [PK_BuildRun] PRIMARY KEY ([Id])
 GO

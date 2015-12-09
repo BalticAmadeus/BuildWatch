@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -192,14 +193,19 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\BuildsController.cs" />
+    <Compile Include="Controllers\Builds\FinishedBuildsController.cs" />
+    <Compile Include="Controllers\Settings\AppSettingsReadController.cs" />
+    <Compile Include="Controllers\Builds\BuildsReadController.cs" />
+    <Compile Include="Controllers\Builds\BuildsWriteController.cs" />
+    <Compile Include="Controllers\Settings\AppSettingsWriteController.cs" />
+    <Compile Include="Controllers\Settings\SettingsReadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\FinishedBuildsController.cs" />
+    <Compile Include="Controllers\Builds\QueuedBuildsController.cs" />
+    <Compile Include="Controllers\WriteControllerBase.cs" />
+    <Compile Include="Controllers\ReadControllerBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BuildMap.cs" />
-    <Compile Include="Models\BuildRunMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactory.cs" />
   </ItemGroup>
@@ -254,6 +260,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BalticAmadeus.BuildServer.Domain\BalticAmadeus.BuildServer.Domain.csproj">
+      <Project>{463E1F81-BFAE-48D5-A66B-4486132A70DE}</Project>
+      <Name>BalticAmadeus.BuildServer.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BalticAmadeus.BuildServer.Interfaces\BalticAmadeus.BuildServer.Interfaces.csproj">
       <Project>{190B55B7-08DE-43EC-828F-D5A012F9291C}</Project>
       <Name>BalticAmadeus.BuildServer.Interfaces</Name>

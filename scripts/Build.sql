@@ -3,9 +3,8 @@ IF OBJECT_ID('Build') IS NOT NULL
 GO
 
 CREATE TABLE Build(
-	[Id]			int NOT NULL,
+	[Id]			varchar(200) NOT NULL,
 	[AliasTitle]	varchar(200) NOT NULL,
-	[OriginalTitle]	varchar(200) NOT NULL,
 	[IsDeleted]		bit NOT NULL
 )
 GO

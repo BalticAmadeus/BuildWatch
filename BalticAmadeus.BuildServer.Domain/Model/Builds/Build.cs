@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BalticAmadeus.BuildServer.Interfaces
+namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 {
 	public class Build
 	{
-		public Build(string title)
+		public Build(string id)
 		{
-			OriginalTitle = title;
-			AliasTitle = title;
+			Id = id;
+			AliasTitle = id;
+
+			BuildRuns = new List<BuildRun>();
 
 			IsDeleted = false;
 		}
@@ -18,9 +20,8 @@ namespace BalticAmadeus.BuildServer.Interfaces
 			//NH
 		}
 
-		public virtual int Id { get; protected set; }
+		public virtual string Id { get; protected set; }
 		public virtual string AliasTitle { get; protected set; }
-		public virtual string OriginalTitle { get; protected set; }
 		public virtual bool IsDeleted { get; protected set; }
 
 		public virtual IList<BuildRun> BuildRuns { get; set; }
@@ -44,6 +45,23 @@ namespace BalticAmadeus.BuildServer.Interfaces
 
 			foreach (var buildRun in BuildRuns)
 				buildRun.Delete();
+		}
+		
+		public override bool Equals(object obj)
+		{
+			var target = obj as Build;
+			if (target == null)
+				return false;
+
+			return Id.Equals(target.Id);
+		}
+
+		public override int GetHashCode()
+		{
+			int hash = GetType().GetHashCode();
+			hash = (hash * 397) ^ Id.GetHashCode();
+
+			return hash;
 		}
 	}
 }

@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BalticAmadeus.BuildPusher.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApiUrlBase" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:26309/api</Value>
+    </Setting>
+    <Setting Name="AppKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SettingsCacheTimeoutInMiliseconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">120000</Value>
+    </Setting>
+    <Setting Name="DataSourceRefreshTimeoutInMiliseconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

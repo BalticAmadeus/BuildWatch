@@ -1,4 +1,4 @@
-﻿using BalticAmadeus.BuildServer.Models;
+﻿using BalticAmadeus.BuildServer.Domain.Mappings.Builds;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Conventions.Helpers;
 using NHibernate;

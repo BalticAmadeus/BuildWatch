@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
+using Autofac.Features.ResolveAnything;
 using Autofac.Integration.WebApi;
 using NHibernate;
 
@@ -24,6 +25,8 @@ namespace BalticAmadeus.BuildServer
 			var configuration = GlobalConfiguration.Configuration;
 
 			var builder = new ContainerBuilder();
+			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+
 			builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
 			builder.Register(c => SessionFactory.CreateSessionFactory());

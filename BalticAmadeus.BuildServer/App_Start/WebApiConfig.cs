@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http.Formatting;
+using System.Web.Http;
 
 namespace BalticAmadeus.BuildServer
 {
@@ -16,6 +17,8 @@ namespace BalticAmadeus.BuildServer
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
+			
+			config.Formatters.Remove(config.Formatters.XmlFormatter);
 		}
 	}
 }

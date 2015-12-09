@@ -1,5 +1,6 @@
 using System.Web.Http;
 using System.Web.Mvc;
+using BalticAmadeus.BuildServer.Areas.HelpPage.App_Start;
 
 namespace BalticAmadeus.BuildServer.Areas.HelpPage
 {

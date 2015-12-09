@@ -143,6 +143,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BalticAmadeus.BuildServer.Interfaces\BalticAmadeus.BuildServer.Interfaces.csproj">
+      <Project>{190b55b7-08de-43ec-828f-d5a012f9291c}</Project>
+      <Name>BalticAmadeus.BuildServer.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BalticAmadeus.BuildWatch.Infrastructure\BalticAmadeus.BuildWatch.Infrastructure.csproj">
       <Project>{C22575AF-9794-4343-8A9F-1790573CEEDF}</Project>
       <Name>BalticAmadeus.BuildWatch.Infrastructure</Name>

@@ -39,11 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildRun.cs" />
-    <Compile Include="Build.cs" />
-    <Compile Include="BuildRunCompositeId.cs" />
-    <Compile Include="BuildRunStatus.cs" />
+    <Compile Include="Builds\AddBuildRunsCommand.cs" />
+    <Compile Include="Builds\DeleteBuildCommand.cs" />
+    <Compile Include="Builds\RenameBuildCommand.cs" />
+    <Compile Include="Settings\AppSettingItem.cs" />
+    <Compile Include="Builds\BuildItem.cs" />
+    <Compile Include="Settings\RegisterAppSettingsData.cs" />
+    <Compile Include="Settings\SettingItem.cs" />
+    <Compile Include="Builds\FinishedBuildItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Builds\QueuedBuildItem.cs" />
+    <Compile Include="SharedConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

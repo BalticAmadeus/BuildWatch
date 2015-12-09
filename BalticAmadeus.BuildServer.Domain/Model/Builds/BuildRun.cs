@@ -1,12 +1,13 @@
 using System;
 
-namespace BalticAmadeus.BuildServer.Interfaces
+namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 {
 	public class BuildRun
 	{
-		public BuildRun(int buildId, string instance, DateTime timeStamp, string username)
+		public BuildRun(string buildId, string id, string instance, DateTime timeStamp, string username)
 		{
 			BuildId = buildId;
+			Id = id;
 			Instance = instance;
 			StartedTimeStamp = timeStamp;
 			Username = username;
@@ -21,10 +22,10 @@ namespace BalticAmadeus.BuildServer.Interfaces
 			//NH
 		}
 
-		public virtual int Id { get; protected set; }
-		public virtual int BuildId { get; protected set; }
+		public virtual string Id { get; protected set; }
+		public virtual string BuildId { get; protected set; }
 		public virtual string Instance { get; protected set; }
-		public virtual BuildRunStatus Status { get; protected set; }
+		public virtual int Status { get; protected set; }
 		public virtual DateTime StartedTimeStamp { get; protected set; }
 		public virtual DateTime? FinishedTimeStamp { get; protected set; }
 		public virtual string Username { get; protected set; }
@@ -36,7 +37,7 @@ namespace BalticAmadeus.BuildServer.Interfaces
 			IsDeleted = true;
 		}
 
-		public virtual void Finish(DateTime timeStamp, BuildRunStatus status)
+		public virtual void Finish(DateTime timeStamp, int status)
 		{
 			if (status == BuildRunStatus.InProgress)
 				throw new ArgumentException("Cannot be InProgress", nameof(status));
