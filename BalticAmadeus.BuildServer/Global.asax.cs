@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -8,6 +7,8 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Features.ResolveAnything;
 using Autofac.Integration.WebApi;
+using BalticAmadeus.BuildServer.Domain;
+using BalticAmadeus.BuildServer.Infrastructure;
 using NHibernate;
 
 namespace BalticAmadeus.BuildServer
@@ -35,6 +36,9 @@ namespace BalticAmadeus.BuildServer
 
 			var container = builder.Build();
 			configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+			DomainEvents.Dispatcher = new AutofacDomainEventDispatcher(container);
+			AutofacDomainEventDispatcher.RegisterDomainEventHandlers(builder);
 		}
 	}
 }

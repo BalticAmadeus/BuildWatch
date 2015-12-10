@@ -13,6 +13,9 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 			{
 				build = new Build(buildId);
 				session.Save(build);
+
+				var buildCreatedEvent = new BuildCreated(buildId);
+				DomainEvents.Raise(buildCreatedEvent, session);
 			}
 
 			var buildRun = build.BuildRuns.SingleOrDefault(x => x.Id == buildRunId);
@@ -20,8 +23,14 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 			{
 				buildRun = new BuildRun(buildId, buildRunId, title, timeStamp, username);
 				build.AddBuild(buildRun);
+
+				var buildRunAddedEvent = new QueuedBuildRunAdded(buildId, buildRunId, title, timeStamp, username);
+				DomainEvents.Raise(buildRunAddedEvent, session);
 			}
-			
+
+			if (buildRun.Status != BuildRunStatus.InProgress)
+				return;
+
 			if (status == BuildRunStatus.InProgress)
 				return;
 
@@ -29,6 +38,9 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 				throw new ArgumentNullException(nameof(finishTimeStamp));
 
 			buildRun.Finish(finishTimeStamp.Value, status);
+
+			var buildRunFinishedEvent = new BuildRunFinished(buildId, buildRunId, finishTimeStamp.Value, status);
+			DomainEvents.Raise(buildRunFinishedEvent, session);
 		}
 	}
 }

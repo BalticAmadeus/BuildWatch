@@ -153,15 +153,17 @@
                     <DataTemplate DataType="local:BuildListModel">
                         <Grid Background="{StaticResource BuildListModel.Status.Running.Background.Brush}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" SharedSizeGroup="A" />
-                                <ColumnDefinition Width="*" SharedSizeGroup="B" />
-                                <ColumnDefinition Width="*" SharedSizeGroup="C" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="A1" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="B1" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="C1" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="D1" />
                             </Grid.ColumnDefinitions>
 
                             <Path Height="24" Stretch="Uniform" x:Name="TimeCircle" Grid.Column="0" Data="{StaticResource TimeCircle}" Fill="#FFFFFF" VerticalAlignment="Center" Margin="15,10,15,10" />
 
                             <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
                             <TextBlock Grid.Column="2" Text="{Binding TimeStamp, Converter={StaticResource BuildDateToStringConverter}}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}"/>
+                            <TextBlock Grid.Column="3" Text="{Binding User}" VerticalAlignment="Center" Margin="15,10,15,10" Foreground="#FFFFFF" Style="{StaticResource TextBlock.Default}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

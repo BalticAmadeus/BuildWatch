@@ -52,14 +52,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDomainEvent.cs" />
+    <Compile Include="IDomainEventDispatcher.cs" />
+    <Compile Include="IHandle.cs" />
     <Compile Include="Mappings\Builds\BuildMap.cs" />
     <Compile Include="Mappings\Builds\BuildRunMap.cs" />
+    <Compile Include="Mappings\EventMap.cs" />
     <Compile Include="Mappings\Settings\AppSettingMap.cs" />
     <Compile Include="Mappings\Settings\SettingMap.cs" />
+    <Compile Include="Mappings\StringClobUserType.cs" />
     <Compile Include="Model\Builds\Build.cs" />
+    <Compile Include="Model\Builds\BuildCreated.cs" />
     <Compile Include="Model\Builds\BuildRun.cs" />
+    <Compile Include="Model\Builds\QueuedBuildRunAdded.cs" />
+    <Compile Include="Model\Builds\BuildRunFinished.cs" />
     <Compile Include="Model\Builds\BuildRunStatus.cs" />
     <Compile Include="Model\Builds\BuildsService.cs" />
+    <Compile Include="DomainEvents.cs" />
+    <Compile Include="Model\Event.cs" />
     <Compile Include="Model\Settings\AppSetting.cs" />
     <Compile Include="Model\Settings\Setting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

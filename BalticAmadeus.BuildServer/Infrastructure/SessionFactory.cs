@@ -4,7 +4,7 @@ using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
 using NHibernate.Cfg;
 
-namespace BalticAmadeus.BuildServer
+namespace BalticAmadeus.BuildServer.Infrastructure
 {
 	public class SessionFactory
 	{

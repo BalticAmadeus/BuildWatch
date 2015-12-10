@@ -206,8 +206,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AutofacDomainEventDispatcher.cs" />
+    <Compile Include="Infrastructure\JsonContractResolver.cs" />
+    <Compile Include="Infrastructure\JsonSerializerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionFactory.cs" />
+    <Compile Include="Infrastructure\SessionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -39,8 +39,12 @@ namespace BalticAmadeus.BuildServer.Controllers.Builds
 					continue;
 
 				if (lastBuild.Status == BuildRunStatus.Success)
+				{
 					buildItems.Add(new FinishedBuildItem(lastBuild.BuildId, lastBuild.BuildId, build.AliasTitle,
 						lastBuild.FinishedTimeStamp.Value, lastBuild.Status, lastBuild.Username));
+
+					continue;
+				}
 
 				BuildRun firstFailedBuild = null;
 				foreach (var buildRun in build.BuildRuns)
