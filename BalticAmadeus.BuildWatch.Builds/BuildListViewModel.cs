@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using BalticAmadeus.BuildWatch.Builds.ClientService;
+using BalticAmadeus.BuildServer.Interfaces.Builds;
 using BalticAmadeus.BuildWatch.Infrastructure;
+using BalticAmadeus.BuildWatch.Infrastructure.Settings;
 using NLog;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,11 +16,10 @@ namespace BalticAmadeus.BuildWatch.Builds
 	public class BuildListViewModel : BindableBase, INavigationAware
 	{
 		private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-
-		private readonly Func<IClientService> _clientServiceFactory;
-		private IClientService _clientService;
+		
 		private readonly PhotoService _photoService;
 		private readonly SoundService _soundService;
+		private readonly ILocalSettingsService _localSettingsService;
 		private readonly DispatcherTimer _dispatcherTimer;
 		private bool _isLastBuildFailed; 
 
@@ -32,12 +33,11 @@ namespace BalticAmadeus.BuildWatch.Builds
 		public AsyncCollection<BuildListModel> FinishedBuilds { get; set; }
 		public AsyncCollection<BuildListModel> QueuedBuilds { get; set; }
 
-		public BuildListViewModel(Func<IClientService> clientServiceFactory, PhotoService photoService, SoundService soundService)
+		public BuildListViewModel(PhotoService photoService, SoundService soundService, ILocalSettingsService localSettingsService)
 		{
-			_clientServiceFactory = clientServiceFactory;
-			_clientService = _clientServiceFactory();
 			_photoService = photoService;
 			_soundService = soundService;
+			_localSettingsService = localSettingsService;
 
 			QueuedBuilds = new AsyncCollection<BuildListModel>(OnRefreshQueuedBuilds);
 			FinishedBuilds = new AsyncCollection<BuildListModel>(OnRefreshFinishedBuilds);
@@ -60,26 +60,24 @@ namespace BalticAmadeus.BuildWatch.Builds
 			{
 				Logger.Info("Pulling finished builds");
 
-				var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
-				{
-					UpdateCounter = 0,
-					ConfigurationId = 1
-				});
+				FinishedBuildItem[] finishedBuildItems;
 
-				if (pollBuildStatusResp.FinishedBuilds == null)
-					pollBuildStatusResp.FinishedBuilds = new FinishedBuild[0];
-				
-				Logger.Info("Server returned {0} finished builds", pollBuildStatusResp.FinishedBuilds.Count());
-
-				var newBuilds = pollBuildStatusResp.FinishedBuilds.Select(x => new BuildListModel
+				using (var httpClient = new HttpClient())
 				{
-					Name = x.BuildName.ToUpper(),
-					Instance = x.BuildInstance,
-					Status = x.Result == "OK" ? BuildStatus.Success : BuildStatus.Fail,
+					var response = await httpClient.GetAsync($"{_localSettingsService.ApiUrlBase}/finishedBuilds");
+					finishedBuildItems = response.Content.As<FinishedBuildItem[]>();
+				}
+
+				Logger.Info("Server returned {0} finished builds", finishedBuildItems.Count());
+
+				var newBuilds = finishedBuildItems.Select(x => new BuildListModel
+				{
+					Name = x.Title.ToUpper(),
+					Status = x.Status == 0 ? BuildStatus.Success : BuildStatus.Fail,
 					TimeStamp = x.TimeStamp.ToLocalTime(),
-					User = x.UserName,
-					PictureData = _photoService.GetPhoto(x.UserName)
-				}).OrderByDescending(x => x.Status);
+					User = x.Username,
+					PictureData = _photoService.GetPhoto(x.Username)
+				}).OrderByDescending(x => x.Status).ThenByDescending(x => x.TimeStamp);
 
 				bool isBuildFailed = newBuilds.Any(x => x.Status == BuildStatus.Fail);
 				if (!_isLastBuildFailed && isBuildFailed)
@@ -94,8 +92,7 @@ namespace BalticAmadeus.BuildWatch.Builds
 			catch(Exception e)
 			{
 				Logger.Error(e, "An error occured when pulling finished builds");
-
-				_clientService = _clientServiceFactory();
+				
 				return Enumerable.Empty<BuildListModel>();
 			}	
 		}
@@ -106,29 +103,27 @@ namespace BalticAmadeus.BuildWatch.Builds
 			{
 				Logger.Info($"Pulling queued builds");
 
-				var pollBuildStatusResp = await _clientService.PollBuildStatusAsync(new PollBuildStatusReq
+				QueuedBuildItem[] queuedBuildItems;
+
+				using (var httpClient = new HttpClient())
 				{
-					UpdateCounter = 0,
-					ConfigurationId = 1
-				});
-
-				if (pollBuildStatusResp.QueuedBuilds == null)
-					pollBuildStatusResp.QueuedBuilds = new QueuedBuild[0];
-
-				Logger.Info("Server returned {0} queued builds", pollBuildStatusResp.QueuedBuilds.Count());
-
-				return pollBuildStatusResp.QueuedBuilds.Select(x => new BuildListModel
+					var response = await httpClient.GetAsync($"{_localSettingsService.ApiUrlBase}/queuedBuilds");
+					queuedBuildItems = response.Content.As<QueuedBuildItem[]>();
+				}
+				
+				Logger.Info($"Server returned {queuedBuildItems.Count()} queued builds");
+				
+				return queuedBuildItems.Select(x => new BuildListModel
 				{
-					Name = x.BuildName.ToUpper(),
-					Instance = x.BuildName,
-					TimeStamp = x.QueueTime.ToLocalTime()
-				});
+					Name = x.Title.ToUpper(),
+					TimeStamp = x.TimeStamp.ToLocalTime(),
+					User = x.Username
+				}).OrderByDescending(x => x.TimeStamp);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "An error occured when pulling queued builds");
-
-				_clientService = _clientServiceFactory();
+				
 				return Enumerable.Empty<BuildListModel>();
 			}
 		}

@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using Autofac;
-using BuildWatch.Properties;
+using Autofac.Features.ResolveAnything;
+using BalticAmadeus.BuildWatch.Infrastructure.Settings;
+using BuildWatch.Infrastructure;
 using Prism.Autofac;
 using Prism.Modularity;
 
@@ -25,7 +27,9 @@ namespace BuildWatch
 		{
 			base.ConfigureContainerBuilder(builder);
 
-			builder.Register(x => Settings.Default.ClientServiceEndpoint).AsSelf().Named<string>("ClientServiceEndpoint");
+			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+
+			builder.RegisterType<LocalSettingsService>().As<ILocalSettingsService>();
 		}
 
 		protected override void ConfigureModuleCatalog()

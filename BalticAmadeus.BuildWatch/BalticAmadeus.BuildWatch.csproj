@@ -89,6 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Infrastructure\LocalSettingsService.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -126,11 +127,16 @@
       <Project>{94b2e975-48b6-4b5e-96cb-5a7fb37ade2e}</Project>
       <Name>BalticAmadeus.BuildWatch.Builds</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BalticAmadeus.BuildWatch.Infrastructure\BalticAmadeus.BuildWatch.Infrastructure.csproj">
+      <Project>{C22575AF-9794-4343-8A9F-1790573CEEDF}</Project>
+      <Name>BalticAmadeus.BuildWatch.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BalticAmadeus.BuildWatch.Resources\BalticAmadeus.BuildWatch.Resources.csproj">
       <Project>{d64badd7-9f68-44cf-8f98-328a9ba772f8}</Project>
       <Name>BalticAmadeus.BuildWatch.Resources</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -25,13 +25,13 @@ namespace BuildWatch.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://hydranuc.baltic-amadeus.lt/ClientService.svc")]
-        public string ClientServiceEndpoint {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:26309/api")]
+        public string ApiUrlBase {
             get {
-                return ((string)(this["ClientServiceEndpoint"]));
+                return ((string)(this["ApiUrlBase"]));
             }
             set {
-                this["ClientServiceEndpoint"] = value;
+                this["ApiUrlBase"] = value;
             }
         }
     }

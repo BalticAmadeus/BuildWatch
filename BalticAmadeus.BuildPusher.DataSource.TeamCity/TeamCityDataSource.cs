@@ -150,7 +150,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 	    private static DateTime ParseDateTime(string dateTimeString)
 	    {
-			var tempDate = DateTime.ParseExact(dateTimeString, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentCulture).ToUniversalTime();
+			var tempDate = DateTime.ParseExact(dateTimeString, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentUICulture).ToUniversalTime();
 			return new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, tempDate.Hour, tempDate.Minute, tempDate.Second).ToUniversalTime();
 		}
 

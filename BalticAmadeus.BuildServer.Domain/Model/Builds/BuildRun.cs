@@ -26,8 +26,27 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 		public virtual string BuildId { get; protected set; }
 		public virtual string Instance { get; protected set; }
 		public virtual int Status { get; protected set; }
-		public virtual DateTime StartedTimeStamp { get; protected set; }
-		public virtual DateTime? FinishedTimeStamp { get; protected set; }
+
+		private DateTime _startedTimeStamp;
+		public virtual DateTime StartedTimeStamp
+		{
+			get { return new DateTime(_startedTimeStamp.Ticks, DateTimeKind.Utc); }
+			protected set { _startedTimeStamp = value; }
+		}
+
+		private DateTime? _finishedTimeStamp;
+		public virtual DateTime? FinishedTimeStamp
+		{
+			get
+			{
+				if (_finishedTimeStamp == null)
+					return null;
+
+				return new DateTime(_finishedTimeStamp.Value.Ticks, DateTimeKind.Utc);
+			}
+			protected set { _finishedTimeStamp = value; }
+		}
+
 		public virtual string Username { get; protected set; }
 
 		public virtual bool IsDeleted { get; protected set; }

@@ -40,7 +40,7 @@ namespace BalticAmadeus.BuildServer.Controllers.Builds
 
 				if (lastBuild.Status == BuildRunStatus.Success)
 					buildItems.Add(new FinishedBuildItem(lastBuild.BuildId, lastBuild.BuildId, build.AliasTitle,
-						lastBuild.FinishedTimeStamp.Value, lastBuild.Status.ToString(), lastBuild.Username));
+						lastBuild.FinishedTimeStamp.Value, lastBuild.Status, lastBuild.Username));
 
 				BuildRun firstFailedBuild = null;
 				foreach (var buildRun in build.BuildRuns)
@@ -55,7 +55,7 @@ namespace BalticAmadeus.BuildServer.Controllers.Builds
 					continue;
 
 				buildItems.Add(new FinishedBuildItem(lastBuild.BuildId, lastBuild.BuildId, build.AliasTitle,
-					lastBuild.FinishedTimeStamp.Value, lastBuild.Status.ToString(), firstFailedBuild.Username));
+					lastBuild.FinishedTimeStamp.Value, lastBuild.Status, firstFailedBuild.Username));
 			}
 
 			return Ok(buildItems);

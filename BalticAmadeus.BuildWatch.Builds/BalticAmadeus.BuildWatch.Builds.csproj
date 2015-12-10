@@ -87,54 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Service References\ClientService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="SoundService.cs" />
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\ClientService\BalticAmadeus.BuildWatch.Builds.ClientService.GetPicturesResp.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientService\BalticAmadeus.BuildWatch.Builds.ClientService.PollBuildStatusResp.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ClientService\ClientService.wsdl" />
-    <None Include="Service References\ClientService\ClientService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientService\ClientService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientService\ClientService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ClientService\ClientService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ClientService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientService\ClientService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ClientService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="BuildListView.xaml">

@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using BalticAmadeus.BuildServer.Interfaces;
 using BuildWatch.DataSource.Common;
 using BuildWatch.DataSource.Common.DataService;
 using DataSource.TC.DataClasses;

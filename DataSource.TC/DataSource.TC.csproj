@@ -70,10 +70,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BalticAmadeus.BuildServer.Interfaces\BalticAmadeus.BuildServer.Interfaces.csproj">
-      <Project>{190b55b7-08de-43ec-828f-d5a012f9291c}</Project>
-      <Name>BalticAmadeus.BuildServer.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataSource.Common\DataSource.Common.csproj">
       <Project>{226DA498-F44C-4BBE-ABE8-AD9D6D5C54F7}</Project>
       <Name>DataSource.Common</Name>
