@@ -28,11 +28,11 @@ namespace BalticAmadeus.BuildServer.Controllers.Settings
 					var defaultSettings = new[]
 					{
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSourceTeamCityBaseUrlKey, data.AppKey),
-							"string", "http://sisdev-sc2build:8080/httpAuth/app/rest"),
+							"string", "Url"),
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSourceTeamCityUsernameKey, data.AppKey),
-							"string", "buildwatch"),
+							"string", "Username"),
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSourceTeamCityPasswordKey, data.AppKey),
-							"string", "buildwatch1"),
+							"string", "Password"),
 
 						new AppSetting(new AppSettingCompositeId("DataSource.Tfs.BaseUrl", data.AppKey), "string", ""),
 						new AppSetting(new AppSettingCompositeId("DataSource.Tfs.ProjectCollection", data.AppKey), "string", ""),

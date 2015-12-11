@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceProcess;
 using Autofac;
 using Autofac.Features.ResolveAnything;
@@ -48,14 +45,7 @@ namespace BalticAmadeus.BuildPusher
 			builder.RegisterType<DataSourceManager>().AsSelf();
 
 			builder.RegisterType<TeamCityDataSource>().AsSelf();
-
-			//var types = AppDomain.CurrentDomain.GetAssemblies()
-			//	.SelectMany(assembly => assembly.GetTypes())
-			//	.Where(type => type.IsAssignableFrom(typeof(IDataSource)));
-
-			//foreach (var type in types)
-			//	builder.RegisterType(type).AsSelf();
-
+			
 			return builder.Build();
 		}
 	}
