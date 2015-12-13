@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using BalticAmadeus.BuildServer.Interfaces.Settings;
-using Newtonsoft.Json;
 
 namespace BalticAmadeus.BuildPusher.Infrastructure.Settings
 {
 	public class AppSettingsService : IAppSettingsService
 	{
 		private readonly ILocalSettingsService _localSettingsService;
+		private readonly IHttpClientWrapper _httpClientWrapper;
 		private readonly IDictionary<string, AppSettingItem> _settingsCache;
 		private DateTime _lastRefreshTimestamp;
 		
-		public AppSettingsService(ILocalSettingsService localSettingsService)
+		public AppSettingsService(ILocalSettingsService localSettingsService, IHttpClientWrapper httpClientWrapper)
 		{
 			_localSettingsService = localSettingsService;
+			_httpClientWrapper = httpClientWrapper;
 			_settingsCache = new Dictionary<string, AppSettingItem>();
 		}
 
-		private void ReloadSettings()
+		public void ReloadSettings()
 		{
 			if (string.IsNullOrWhiteSpace(_localSettingsService.AppKey))
 				RegisterApp();
@@ -28,35 +28,23 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Settings
 
 		private void LoadAndSaveSettings()
 		{
-			using (var httpClient = new HttpClient())
-			{
-				var response = httpClient.GetAsync($"{_localSettingsService.ApiUrlBase}/appSettings/{_localSettingsService.AppKey}").Result;
-				var appSettingItems = JsonConvert.DeserializeObject<AppSettingItem[]>(response.Content.ReadAsStringAsync().Result);
+			string url = $"{_localSettingsService.ApiUrlBase}/appSettings/{_localSettingsService.AppKey}";
 
-				if (!response.IsSuccessStatusCode)
-					throw new NotImplementedException("Stop the application carefully");
+			var appSettingItems = _httpClientWrapper.Get<AppSettingItem[]>(url);
 
-				foreach (var appSettingItem in appSettingItems)
-					_settingsCache.Add(appSettingItem.Key, appSettingItem);
+			foreach (var appSettingItem in appSettingItems)
+				_settingsCache.Add(appSettingItem.Key, appSettingItem);
 
-				_lastRefreshTimestamp = DateTime.Now;
-			}
+			_lastRefreshTimestamp = DateTime.Now;
 		}
 
 		private void RegisterApp()
 		{
 			string key = Guid.NewGuid().ToString();
-
-			using (var httpClient = new HttpClient())
-			{
-				var data = new RegisterAppSettingsData(key).AsJsonStringContent();
-
-				var response = httpClient.PostAsync($"{_localSettingsService.ApiUrlBase}/appSettings", data).Result;
-				if (!response.IsSuccessStatusCode)
-					throw new NotImplementedException("Stop the application carefully");
-				
-				_localSettingsService.AppKey = key;
-			}
+			string url = $"{_localSettingsService.ApiUrlBase}/appSettings";
+			
+			var data = new RegisterAppSettingsData(key);
+			_httpClientWrapper.Post(url, data);
 		}
 
 		private object Get(string key, string type)
@@ -65,7 +53,7 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Settings
 				ReloadSettings();
 
 			if (!_settingsCache.ContainsKey(key))
-				throw new NotImplementedException("Handle this");
+				return null;
 
 			var setting = _settingsCache[key];
 
@@ -80,12 +68,20 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Settings
 
 		public string GetString(string key)
 		{
-			return (string) Get(key, "string");
+			var obj = Get(key, "string");
+			if (obj == null)
+				return default(string);
+
+			return (string) obj;
 		}
 
 		public int GetInt(string key)
 		{
-			return (int) Get(key, "int");
+			var obj = Get(key, "int");
+			if (obj == null)
+				return default(int);
+
+			return (int) obj;
 		}
 	}
 }

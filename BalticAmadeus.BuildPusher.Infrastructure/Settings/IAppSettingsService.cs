@@ -2,6 +2,8 @@
 {
 	public interface IAppSettingsService
 	{
+		void ReloadSettings();
+
 		string GetString(string key);
 		int GetInt(string key);
 	}

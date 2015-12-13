@@ -15,52 +15,64 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 {
     public class TeamCityDataSource : IDataSource
     {
-	    private readonly string _buildServerBaseUrl;
-	    private readonly string _teamCityBaseUrl;
-	    private readonly string _teamCityUsername;
-	    private readonly string _teamCityPassword;
+	    private readonly IAppSettingsService _appSettingsService;
+	    private readonly ILocalSettingsService _localSettingsService;
+	    private readonly IHttpClientWrapper _teamCityHttpClientWrapper;
+
+	    public string BuildServerHost { get; private set; }
+	    public string DataSourceServerHost { get; private set; }
+
+		private string _teamCityUsername;
+	    private string _teamCityPassword;
 
 		public bool IsEnabled { get; private set; }
+		
+		public TeamCityDataSource(
+			IAppSettingsService appSettingsService, 
+			ILocalSettingsService localSettingsService, 
+			IHttpClientWrapper teamCityHttpClientWrapper)
+		{
+			_appSettingsService = appSettingsService;
+			_localSettingsService = localSettingsService;
+			_teamCityHttpClientWrapper = teamCityHttpClientWrapper;
+		}
 
-		public TeamCityDataSource(IAppSettingsService appSettingsService, ILocalSettingsService localSettingsService)
+	    public void Initialize()
 	    {
-		    _buildServerBaseUrl = localSettingsService.ApiUrlBase;
-		    _teamCityBaseUrl = appSettingsService.GetString(SharedConstants.DataSourceTeamCityBaseUrlKey);
-			_teamCityUsername = appSettingsService.GetString(SharedConstants.DataSourceTeamCityUsernameKey);
-			_teamCityPassword = appSettingsService.GetString(SharedConstants.DataSourceTeamCityPasswordKey);
+			BuildServerHost = _localSettingsService.ApiUrlBase;
+
+			DataSourceServerHost = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityBaseUrlKey);
+			_teamCityUsername = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityUsernameKey);
+			_teamCityPassword = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityPasswordKey);
 
 			IsEnabled = true;
-			if (string.IsNullOrWhiteSpace(_buildServerBaseUrl) ||
-				string.IsNullOrWhiteSpace(_teamCityBaseUrl) ||
-		        string.IsNullOrWhiteSpace(_teamCityUsername) ||
-		        string.IsNullOrWhiteSpace(_teamCityPassword))
-			    IsEnabled = false;
+			if (string.IsNullOrWhiteSpace(BuildServerHost) ||
+				string.IsNullOrWhiteSpace(DataSourceServerHost) ||
+				string.IsNullOrWhiteSpace(_teamCityUsername) ||
+				string.IsNullOrWhiteSpace(_teamCityPassword))
+				IsEnabled = false;
 		}
 
-	    public void SynchronizeBuilds()
+	    private void ConfigureTeamCityHttpClient(HttpClient client)
 	    {
-			IEnumerable<build> newQueuedBuilds;
-			IEnumerable<build> newFinishedBuilds;
-
-			using (var httpClient = new HttpClient())
-			{
-				string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_teamCityUsername}:{_teamCityPassword}"));
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-
-				newQueuedBuilds = PullQueuedBuilds(httpClient);
-				newFinishedBuilds = PullFinishedBuilds(httpClient);
-			}
-
-			using (var httpClient = new HttpClient())
-			{
-				PushFinishedBuilds(httpClient, newFinishedBuilds);
-				PushQueuedBuilds(httpClient, newQueuedBuilds);
-			}
+			string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_teamCityUsername}:{_teamCityPassword}"));
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
 		}
 
-		private void PushQueuedBuilds(HttpClient httpClient, IEnumerable<build> newQueuedBuilds)
+		public void SynchronizeBuilds()
 	    {
-		    foreach (var build in newQueuedBuilds)
+			if (!IsEnabled)
+				return;
+
+		    PushFinishedBuilds(PullFinishedBuilds());
+		    PushQueuedBuilds(PullQueuedBuilds());
+	    }
+
+		private void PushQueuedBuilds(build[] newQueuedBuilds)
+		{
+			string url = $"{BuildServerHost}/builds/addBuildRun";
+
+			foreach (var build in newQueuedBuilds)
 		    {
 			    var username = build.triggered.type == "user"
 				    ? build.triggered.user.username
@@ -72,14 +84,14 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 				    ParseDateTime(build.queuedDate), 
 					null, username);
 
-			    var addBuildRunResponse = httpClient.PostAsync($"{_buildServerBaseUrl}/builds/addBuildRun", command.AsJsonStringContent()).Result;
-				if (!addBuildRunResponse.IsSuccessStatusCode)
-					throw new NotImplementedException("Handle this!");
+				_teamCityHttpClientWrapper.Post(url, command);
 		    }
-	    }
+		}
 
-	    private void PushFinishedBuilds(HttpClient httpClient, IEnumerable<build> newFinishedBuilds)
+	    private void PushFinishedBuilds(build[] newFinishedBuilds)
 	    {
+			string url = $"{BuildServerHost}/builds/addBuildRun";
+
 			foreach (var build in newFinishedBuilds)
 			{
 				var username = build.triggered.type == "user"
@@ -94,59 +106,63 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 					ParseDateTime(build.finishDate),
 					username);
 
-				var addBuildRunResponse = httpClient.PostAsync($"{_buildServerBaseUrl}/builds/addBuildRun", command.AsJsonStringContent()).Result;
-				if (!addBuildRunResponse.IsSuccessStatusCode)
-					throw new NotImplementedException("Handle this!");
+				_teamCityHttpClientWrapper.Post(url, command);
 			}
-	    }
+		}
 
-	    private IEnumerable<build> PullQueuedBuilds(HttpClient httpClient)
+	    private build[] PullQueuedBuilds()
 	    {
-		    var buildsResp = httpClient.GetAsync($"{_teamCityBaseUrl}/builds?locator=running:true").Result;
-		    var buildObj = buildsResp.Content.As<builds>();
+		    string url = $"{DataSourceServerHost}/builds?locator=running:true";
+			var queuedBuilds = new List<build>();
 
-		    var queuedBuilds = new List<build>();
-
+			var buildObj = _teamCityHttpClientWrapper.Get<builds>(url, ConfigureTeamCityHttpClient);		
+		    if (buildObj == null)
+			    return queuedBuilds.ToArray();
 		    if (buildObj.build == null)
-			    return queuedBuilds;
+			    return queuedBuilds.ToArray();
 
 		    foreach (var build in buildObj.build.OrderByDescending(x => x.number))
 		    {
-			    var buildInfo = GetBuildInfo(httpClient, build.id);
+			    string detailsUrl = $"{DataSourceServerHost}/builds/id:{build.id}";
 
-			    queuedBuilds.Add(buildInfo);
+			    var buildInfo = _teamCityHttpClientWrapper.Get<build>(detailsUrl, ConfigureTeamCityHttpClient);
+			    if (buildInfo == null)
+				    continue;
+
+				queuedBuilds.Add(buildInfo);
 		    }
 
-		    return queuedBuilds.OrderByDescending(x => x.queuedDate);
+			return queuedBuilds.OrderByDescending(x => x.queuedDate).ToArray();
 	    }
 
-	    private IEnumerable<build> PullFinishedBuilds(HttpClient httpClient)
-	    {
-		    var buildsResp = httpClient.GetAsync($"{_teamCityBaseUrl}/builds").Result;
-		    var buildObj = buildsResp.Content.As<builds>();
+	    private build[] PullFinishedBuilds()
+		{
+			string url = $"{DataSourceServerHost}/builds";
+			
+			var finishedBuilds = new List<build>();
 
-		    var finishedBuilds = new List<build>();
+			var buildObj = _teamCityHttpClientWrapper.Get<builds>(url, ConfigureTeamCityHttpClient);
+			if (buildObj == null)
+				return finishedBuilds.ToArray();
+			if (buildObj.build == null)
+				return finishedBuilds.ToArray();
 
-		    foreach (var build in buildObj.build.OrderByDescending(x => x.number))
+			foreach (var build in buildObj.build.OrderByDescending(x => x.number))
 		    {
 			    if (finishedBuilds.Any(x => x.buildTypeId == build.buildTypeId))
 				    continue;
 
-			    var buildInfo = GetBuildInfo(httpClient, build.id);
+				string detailsUrl = $"{DataSourceServerHost}/builds/id:{build.id}";
 
-			    finishedBuilds.Add(buildInfo);
+				var buildInfo = _teamCityHttpClientWrapper.Get<build>(detailsUrl, ConfigureTeamCityHttpClient);
+				if (buildInfo == null)
+					continue;
+
+				finishedBuilds.Add(buildInfo);
 		    }
 
-		    return finishedBuilds.OrderByDescending(x => x.finishDate);
+			return finishedBuilds.OrderByDescending(x => x.finishDate).ToArray();
 	    }
-
-	    private build GetBuildInfo(HttpClient httpClient, int id)
-		{
-			var buildResp = httpClient.GetAsync($"{_teamCityBaseUrl}/builds/id:{id}").Result;
-			var build = buildResp.Content.As<build>();
-
-			return build;
-		}
 
 	    private static DateTime ParseDateTime(string dateTimeString)
 	    {

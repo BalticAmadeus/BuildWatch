@@ -1,14 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using BalticAmadeus.BuildPusher.DataSource.TeamCity;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
 using BalticAmadeus.BuildServer.Interfaces;
+using NLog;
 
 namespace BalticAmadeus.BuildPusher.Infrastructure
 {
 	public class DataSourceManager
 	{
 		private readonly IAppSettingsService _appSettingsService;
+		private readonly ILocalSettingsService _localSettingsService;
+		private readonly ILoggingService _loggingService;
 
 		private readonly CancellationTokenSource _quitSource;
 		private CancellationToken _quitToken;
@@ -16,9 +20,15 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 		private readonly Thread _managerThread;
 		private readonly IDataSource[] _dataSources;
 
-		public DataSourceManager(IAppSettingsService appSettingsService, TeamCityDataSource teamCityDataSource)
+		public DataSourceManager(
+			IAppSettingsService appSettingsService, 
+			ILocalSettingsService localSettingsService,
+			ILoggingService loggingService, 
+			TeamCityDataSource teamCityDataSource)
 		{
 			_appSettingsService = appSettingsService;
+			_localSettingsService = localSettingsService;
+			_loggingService = loggingService;
 
 			_quitSource = new CancellationTokenSource();
 			_quitToken = _quitSource.Token;
@@ -33,6 +43,8 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public void Start()
 		{
+			_appSettingsService.ReloadSettings();
+			
 			_managerThread.Start();
 		}
 
@@ -48,12 +60,17 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		private void ThreadRun()
 		{
-			int pollingIntervalInMiliseconds = _appSettingsService.GetInt(SharedConstants.DataSourceRefreshTimeoutInMilisecondsKey);
+			foreach (var dataSource in _dataSources)
+				dataSource.Initialize();
+
+			int pollingIntervalInMiliseconds = _appSettingsService.GetInt(SharedConstants.DataSource.RefreshTimeoutInMilisecondsKey);
 
 			while (!_quitToken.IsCancellationRequested)
 			{
 				foreach (var dataSource in _dataSources.Where(x => x.IsEnabled))
+				{
 					dataSource.SynchronizeBuilds();
+				}
 
 				for (int i = 0; i < pollingIntervalInMiliseconds/1000; i++)
 				{

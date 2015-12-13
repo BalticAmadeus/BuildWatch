@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDataSource.cs" />
+    <Compile Include="IHttpClientWrapper.cs" />
+    <Compile Include="ILoggingService.cs" />
     <Compile Include="ObjectToStringContentConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\IAppSettingsService.cs" />

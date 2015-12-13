@@ -23,14 +23,28 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 				return new StringContent(stringWriter.ToString(), Encoding.UTF8, "application/xml");
 			}
 		}
+
+		public static string AsJsonString<T>(this T data)
+		{
+			var jsonString = JsonConvert.SerializeObject(data);
+			return jsonString;
+		}
+
+		public static string AsXmlString<T>(this T data)
+		{
+			using (var stringWriter = new StringWriter())
+			{
+				new XmlSerializer(typeof(T)).Serialize(stringWriter, data);
+				return stringWriter.ToString();
+			}
+		}
 	}
 
 	public static class HttpContentToObjectExtensions
 	{
 		public static T As<T>(this HttpContent content)
 		{
-			T result = default(T);
-
+			T result;
 
 			var contentString = content.ReadAsStringAsync().Result;
 
@@ -60,15 +74,14 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 		{
 			try
 			{
-				result = (T)new XmlSerializer(typeof(T)).Deserialize(new StringReader(content));
+				result = (T) new XmlSerializer(typeof (T)).Deserialize(new StringReader(content));
 				return true;
 			}
-			catch
+			catch (Exception)
 			{
+				result = default(T);
+				return false;
 			}
-
-			result = default(T);
-			return false;
 		}
 	}
 }

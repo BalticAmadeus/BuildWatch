@@ -6,6 +6,7 @@ using Autofac.Features.ResolveAnything;
 using BalticAmadeus.BuildPusher.DataSource.TeamCity;
 using BalticAmadeus.BuildPusher.Infrastructure;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
+using NLog;
 
 namespace BalticAmadeus.BuildPusher
 {
@@ -20,8 +21,8 @@ namespace BalticAmadeus.BuildPusher
 			if (Environment.UserInteractive)
 			{
 				service.StartDataSourceManager();
-				
-				Console.WriteLine("DataSourceManager started. Press Enter to stop.");
+
+		        Console.WriteLine("DataSourceManager started. Press Enter to stop.");
 				Console.ReadLine();
 				
 				if (!Debugger.IsAttached)
@@ -42,7 +43,13 @@ namespace BalticAmadeus.BuildPusher
 			builder.RegisterType<BuildPusherService>().AsSelf();
 			builder.RegisterType<AppSettingsService>().As<IAppSettingsService>();
 			builder.RegisterType<LocalSettingsService>().As<ILocalSettingsService>();
+			builder.RegisterType<LoggingService>().As<ILoggingService>();
 			builder.RegisterType<DataSourceManager>().AsSelf();
+			builder.Register(x =>
+				//new ExceptionSafeHttpClientWrapper(
+					new HttpClientWrapper()
+				//	x.Resolve<ILoggingService>()))
+				).As<IHttpClientWrapper>();
 
 			builder.RegisterType<TeamCityDataSource>().AsSelf();
 			
