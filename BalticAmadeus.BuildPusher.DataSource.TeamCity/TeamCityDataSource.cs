@@ -17,11 +17,10 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
     {
 	    private readonly IAppSettingsService _appSettingsService;
 	    private readonly ILocalSettingsService _localSettingsService;
-	    private readonly IHttpClientWrapper _teamCityHttpClientWrapper;
+	    private readonly IHttpClientWrapper _httpClientWrapper;
 
-	    public string BuildServerHost { get; private set; }
-	    public string DataSourceServerHost { get; private set; }
-
+	    private string _buildServerHost;
+	    private string _dataSourceServerHost;
 		private string _teamCityUsername;
 	    private string _teamCityPassword;
 
@@ -30,34 +29,38 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 		public TeamCityDataSource(
 			IAppSettingsService appSettingsService, 
 			ILocalSettingsService localSettingsService, 
-			IHttpClientWrapper teamCityHttpClientWrapper)
+			IHttpClientWrapper httpClientWrapper)
 		{
 			_appSettingsService = appSettingsService;
 			_localSettingsService = localSettingsService;
-			_teamCityHttpClientWrapper = teamCityHttpClientWrapper;
+			_httpClientWrapper = httpClientWrapper;
 		}
 
 	    public void Initialize()
 	    {
-			BuildServerHost = _localSettingsService.ApiUrlBase;
+			_buildServerHost = _localSettingsService.ApiUrlBase;
 
-			DataSourceServerHost = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityBaseUrlKey);
+			_dataSourceServerHost = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityBaseUrlKey);
 			_teamCityUsername = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityUsernameKey);
 			_teamCityPassword = _appSettingsService.GetString(SharedConstants.DataSource.TeamCityPasswordKey);
 
 			IsEnabled = true;
-			if (string.IsNullOrWhiteSpace(BuildServerHost) ||
-				string.IsNullOrWhiteSpace(DataSourceServerHost) ||
+			if (string.IsNullOrWhiteSpace(_buildServerHost) ||
+				string.IsNullOrWhiteSpace(_dataSourceServerHost) ||
 				string.IsNullOrWhiteSpace(_teamCityUsername) ||
 				string.IsNullOrWhiteSpace(_teamCityPassword))
 				IsEnabled = false;
 		}
 
-	    private void ConfigureTeamCityHttpClient(HttpClient client)
+	    private HttpClient TeamCityHttpClientFactory()
 	    {
+		    var httpClient = new HttpClient();
+
 			string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_teamCityUsername}:{_teamCityPassword}"));
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-		}
+			httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+
+		    return httpClient;
+	    }
 
 		public void SynchronizeBuilds()
 	    {
@@ -70,7 +73,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 		private void PushQueuedBuilds(build[] newQueuedBuilds)
 		{
-			string url = $"{BuildServerHost}/builds/addBuildRun";
+			string url = $"{_buildServerHost}/builds/addBuildRun";
 
 			foreach (var build in newQueuedBuilds)
 		    {
@@ -84,13 +87,13 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 				    ParseDateTime(build.queuedDate), 
 					null, username);
 
-				_teamCityHttpClientWrapper.Post(url, command);
+				_httpClientWrapper.Post(url, command);
 		    }
 		}
 
 	    private void PushFinishedBuilds(build[] newFinishedBuilds)
 	    {
-			string url = $"{BuildServerHost}/builds/addBuildRun";
+			string url = $"{_buildServerHost}/builds/addBuildRun";
 
 			foreach (var build in newFinishedBuilds)
 			{
@@ -106,16 +109,16 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 					ParseDateTime(build.finishDate),
 					username);
 
-				_teamCityHttpClientWrapper.Post(url, command);
+				_httpClientWrapper.Post(url, command);
 			}
 		}
 
 	    private build[] PullQueuedBuilds()
 	    {
-		    string url = $"{DataSourceServerHost}/builds?locator=running:true";
+		    string url = $"{_dataSourceServerHost}/builds?locator=running:true";
 			var queuedBuilds = new List<build>();
 
-			var buildObj = _teamCityHttpClientWrapper.Get<builds>(url, ConfigureTeamCityHttpClient);		
+			var buildObj = _httpClientWrapper.Get<builds>(url, TeamCityHttpClientFactory);		
 		    if (buildObj == null)
 			    return queuedBuilds.ToArray();
 		    if (buildObj.build == null)
@@ -123,9 +126,9 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 		    foreach (var build in buildObj.build.OrderByDescending(x => x.number))
 		    {
-			    string detailsUrl = $"{DataSourceServerHost}/builds/id:{build.id}";
+			    string detailsUrl = $"{_dataSourceServerHost}/builds/id:{build.id}";
 
-			    var buildInfo = _teamCityHttpClientWrapper.Get<build>(detailsUrl, ConfigureTeamCityHttpClient);
+			    var buildInfo = _httpClientWrapper.Get<build>(detailsUrl, TeamCityHttpClientFactory);
 			    if (buildInfo == null)
 				    continue;
 
@@ -137,11 +140,11 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 	    private build[] PullFinishedBuilds()
 		{
-			string url = $"{DataSourceServerHost}/builds";
+			string url = $"{_dataSourceServerHost}/builds";
 			
 			var finishedBuilds = new List<build>();
 
-			var buildObj = _teamCityHttpClientWrapper.Get<builds>(url, ConfigureTeamCityHttpClient);
+			var buildObj = _httpClientWrapper.Get<builds>(url, TeamCityHttpClientFactory);
 			if (buildObj == null)
 				return finishedBuilds.ToArray();
 			if (buildObj.build == null)
@@ -152,9 +155,9 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 			    if (finishedBuilds.Any(x => x.buildTypeId == build.buildTypeId))
 				    continue;
 
-				string detailsUrl = $"{DataSourceServerHost}/builds/id:{build.id}";
+				string detailsUrl = $"{_dataSourceServerHost}/builds/id:{build.id}";
 
-				var buildInfo = _teamCityHttpClientWrapper.Get<build>(detailsUrl, ConfigureTeamCityHttpClient);
+				var buildInfo = _httpClientWrapper.Get<build>(detailsUrl, TeamCityHttpClientFactory);
 				if (buildInfo == null)
 					continue;
 
@@ -166,8 +169,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 	    private static DateTime ParseDateTime(string dateTimeString)
 	    {
-			var tempDate = DateTime.ParseExact(dateTimeString, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentUICulture).ToUniversalTime();
-			return new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, tempDate.Hour, tempDate.Minute, tempDate.Second).ToUniversalTime();
+			return DateTime.ParseExact(dateTimeString, "yyyyMMdd'T'HHmmss+ffff", CultureInfo.CurrentUICulture).ToUniversalTime();
 		}
 
 	    private static int ParseStatus(string status)

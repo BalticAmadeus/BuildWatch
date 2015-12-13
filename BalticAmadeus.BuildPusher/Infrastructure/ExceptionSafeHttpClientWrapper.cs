@@ -16,16 +16,16 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public T Get<T>(string url)
 		{
-			return Get<T>(url, client => { });
+			return Get<T>(url, () => new HttpClient());
 		}
 
-		public T Get<T>(string url, Action<HttpClient> httpClientConfiguration)
+		public T Get<T>(string url, Func<HttpClient> httpClientFactory)
 		{
 			try
 			{
 				_loggingService.Debug($"Making GET request to resource at {url}");
 
-				var item = _httpClientWrapper.Get<T>(url, httpClientConfiguration);
+				var item = _httpClientWrapper.Get<T>(url, httpClientFactory);
 
 				_loggingService.Debug($"Server returned {item.AsJsonString()} resource for GET request from {url}");
 
@@ -45,16 +45,16 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public void Post<T>(string url, T item)
 		{
-			Post(url, item, client => { });
+			Post(url, item, () => new HttpClient());
 		}
 
-		public void Post<T>(string url, T item, Action<HttpClient> httpClientConfiguration)
+		public void Post<T>(string url, T item, Func<HttpClient> httpClientFactory)
 		{
 			try
 			{
 				_loggingService.Debug($"Making POST {item.AsJsonString()} request to resource at {url}");
 
-				_httpClientWrapper.Post(url, item, httpClientConfiguration);
+				_httpClientWrapper.Post(url, item, httpClientFactory);
 
 				_loggingService.Debug($"Server accepted POST request at {url}");
 			}

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using BalticAmadeus.BuildPusher.DataSource.TeamCity;
+using BalticAmadeus.BuildPusher.DataSource.Tfs;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
 using BalticAmadeus.BuildServer.Interfaces;
-using NLog;
 
 namespace BalticAmadeus.BuildPusher.Infrastructure
 {
 	public class DataSourceManager
 	{
 		private readonly IAppSettingsService _appSettingsService;
-		private readonly ILocalSettingsService _localSettingsService;
-		private readonly ILoggingService _loggingService;
-
+		
 		private readonly CancellationTokenSource _quitSource;
 		private CancellationToken _quitToken;
 
@@ -22,14 +19,11 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public DataSourceManager(
 			IAppSettingsService appSettingsService, 
-			ILocalSettingsService localSettingsService,
-			ILoggingService loggingService, 
-			TeamCityDataSource teamCityDataSource)
+			TeamCityDataSource teamCityDataSource,
+			TfsDataSource tfsDataSource)
 		{
 			_appSettingsService = appSettingsService;
-			_localSettingsService = localSettingsService;
-			_loggingService = loggingService;
-
+			
 			_quitSource = new CancellationTokenSource();
 			_quitToken = _quitSource.Token;
 
@@ -37,7 +31,8 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 			_dataSources = new IDataSource[]
 			{
-				teamCityDataSource
+				teamCityDataSource,
+				//tfsDataSource
 			};
 		}
 

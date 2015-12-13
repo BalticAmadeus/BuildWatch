@@ -6,12 +6,10 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 {
 	public class HttpClientWrapper : IHttpClientWrapper
 	{
-		public T Get<T>(string url, Action<HttpClient> httpClientConfiguration)
+		public T Get<T>(string url, Func<HttpClient> httpClientFactory)
 		{
-			using (var httpClient = new HttpClient())
+			using (var httpClient = httpClientFactory())
 			{
-				httpClientConfiguration(httpClient);
-
 				var response = httpClient.GetAsync(url).Result;
 				if (response.StatusCode != HttpStatusCode.OK)
 					throw new HttpException(response.ReasonPhrase, response.StatusCode.ToString());
@@ -22,15 +20,13 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public T Get<T>(string url)
 		{
-			return Get<T>(url, client => {});
+			return Get<T>(url, () => new HttpClient());
 		}
 
-		public void Post<T>(string url, T item, Action<HttpClient> httpClientConfiguration)
+		public void Post<T>(string url, T item, Func<HttpClient> httpClientFactory)
 		{
-			using (var httpClient = new HttpClient())
+			using (var httpClient = httpClientFactory())
 			{
-				httpClientConfiguration(httpClient);
-
 				var content = item.AsJsonStringContent();
 
 				var response = httpClient.PostAsync(url, content).Result;
@@ -41,7 +37,7 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 		public void Post<T>(string url, T item)
 		{
-			Post(url, item, client => { });
+			Post(url, item, () => new HttpClient());
 		}
 	}
 }

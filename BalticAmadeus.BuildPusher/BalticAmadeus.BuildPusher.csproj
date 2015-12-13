@@ -102,6 +102,10 @@
       <Project>{cda86298-290a-41f6-9426-26b021bad710}</Project>
       <Name>BalticAmadeus.BuildPusher.DataSource.TeamCity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BalticAmadeus.BuildPusher.DataSource.Tfs\BalticAmadeus.BuildPusher.DataSource.Tfs.csproj">
+      <Project>{BC966144-2A7B-42FF-BE31-BA599DB74C15}</Project>
+      <Name>BalticAmadeus.BuildPusher.DataSource.Tfs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BalticAmadeus.BuildPusher.Infrastructure\BalticAmadeus.BuildPusher.Infrastructure.csproj">
       <Project>{0B86244D-1682-4C99-A9BD-3C08D12668EE}</Project>
       <Name>BalticAmadeus.BuildPusher.Infrastructure</Name>
