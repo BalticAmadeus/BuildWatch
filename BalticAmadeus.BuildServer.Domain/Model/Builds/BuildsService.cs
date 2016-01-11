@@ -12,6 +12,7 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 			if (build == null)
 			{
 				build = new Build(buildId);
+				build.Rename(title);
 				session.Save(build);
 
 				var buildCreatedEvent = new BuildCreated(buildId);

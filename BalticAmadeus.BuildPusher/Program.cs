@@ -5,8 +5,9 @@ using Autofac;
 using Autofac.Features.ResolveAnything;
 using BalticAmadeus.BuildPusher.DataSource.TeamCity;
 using BalticAmadeus.BuildPusher.Infrastructure;
+using BalticAmadeus.BuildPusher.Infrastructure.Http;
+using BalticAmadeus.BuildPusher.Infrastructure.Logging;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
-using NLog;
 
 namespace BalticAmadeus.BuildPusher
 {
@@ -40,17 +41,19 @@ namespace BalticAmadeus.BuildPusher
 
 			builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
-			builder.RegisterType<BuildPusherService>().AsSelf();
 			builder.RegisterType<AppSettingsService>().As<IAppSettingsService>();
 			builder.RegisterType<LocalSettingsService>().As<ILocalSettingsService>();
 			builder.RegisterType<LoggingService>().As<ILoggingService>();
-			builder.RegisterType<DataSourceManager>().AsSelf();
-			builder.Register(x =>
-				//new ExceptionSafeHttpClientWrapper(
-					new HttpClientWrapper()
-				//	x.Resolve<ILoggingService>()))
-				).As<IHttpClientWrapper>();
 
+			builder.Register(x =>
+				new ExceptionSafeHttpClientWrapper(
+					new HttpClientWrapper(),
+					x.Resolve<ILoggingService>()))
+				.As<IHttpClientWrapper>();
+			
+			builder.RegisterType<BuildPusherService>().AsSelf();
+
+			builder.RegisterType<DataSourceManager>().AsSelf();
 			builder.RegisterType<TeamCityDataSource>().AsSelf();
 			
 			return builder.Build();

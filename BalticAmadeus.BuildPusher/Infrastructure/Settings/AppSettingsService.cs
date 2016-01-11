@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BalticAmadeus.BuildPusher.Infrastructure.Http;
 using BalticAmadeus.BuildServer.Interfaces.Settings;
 
 namespace BalticAmadeus.BuildPusher.Infrastructure.Settings

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using BalticAmadeus.BuildPusher.DataSource.Tfs.DataClasses;
 using BalticAmadeus.BuildPusher.Infrastructure;
+using BalticAmadeus.BuildPusher.Infrastructure.Http;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
 using BalticAmadeus.BuildServer.Interfaces;
 using BalticAmadeus.BuildServer.Interfaces.Builds;
@@ -19,6 +21,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 
 	    private string _buildServerHost;
 	    private string _dataSourceServerHost;
+	    private string _usernameMask;
 	    
 	    public bool IsEnabled { get; private set; }
 
@@ -37,7 +40,8 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 			_buildServerHost = _localSettingsService.ApiUrlBase;
 
 			_dataSourceServerHost = _appSettingsService.GetString(SharedConstants.DataSource.TfsBaseUrlKey);
-		    
+		    _usernameMask = _appSettingsService.GetString(SharedConstants.DataSource.UsernameMask);
+
 			IsEnabled = true;
 			if (string.IsNullOrWhiteSpace(_buildServerHost) ||
 				string.IsNullOrWhiteSpace(_dataSourceServerHost))
@@ -110,8 +114,8 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 				var command = new AddBuildRunCommand(
 					build.definition.id.ToString(), 
 					build.buildNumber, build.definition.name, 2,
-					ParseDateTime(build.queueTime),
-					null, build.requestedFor.uniqueName);
+					ParseDateTime(build.queueTime), null,
+					ParseUsername(build.requestedFor.uniqueName, _usernameMask));
 
 				_httpClientWrapper.Post(url, command);
 			}
@@ -129,7 +133,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 					ParseStatus(build.result),
 					ParseDateTime(build.queueTime),
 					ParseDateTime(build.finishTime),
-					build.requestedFor.uniqueName);
+					ParseUsername(build.requestedFor.uniqueName, _usernameMask));
 
 				_httpClientWrapper.Post(url, command);
 			}
@@ -143,6 +147,11 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 	    private static int ParseStatus(string status)
 	    {
 			return string.Compare(status, "succeeded", StringComparison.InvariantCultureIgnoreCase) == 0 ? 0 : 1;
+	    }
+
+	    private static string ParseUsername(string username, string mask)
+	    {
+		    return Regex.Replace(username, mask, string.Empty, RegexOptions.IgnoreCase);
 	    }
     }
 }

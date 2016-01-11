@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using BalticAmadeus.BuildPusher.Infrastructure.Logging;
 
-namespace BalticAmadeus.BuildPusher.Infrastructure
+namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 {
 	public class ExceptionSafeHttpClientWrapper : IHttpClientWrapper
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 
-namespace BalticAmadeus.BuildPusher.Infrastructure
+namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 {
 	public class HttpClientWrapper : IHttpClientWrapper
 	{

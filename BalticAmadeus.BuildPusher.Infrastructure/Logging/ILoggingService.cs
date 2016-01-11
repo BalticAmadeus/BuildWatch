@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BalticAmadeus.BuildPusher.Infrastructure
+namespace BalticAmadeus.BuildPusher.Infrastructure.Logging
 {
 	public interface ILoggingService
 	{

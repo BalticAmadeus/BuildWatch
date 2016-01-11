@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using BalticAmadeus.BuildPusher.DataSource.TeamCity.DataClasses;
 using BalticAmadeus.BuildPusher.Infrastructure;
+using BalticAmadeus.BuildPusher.Infrastructure.Http;
 using BalticAmadeus.BuildPusher.Infrastructure.Settings;
 using BalticAmadeus.BuildServer.Interfaces;
 using BalticAmadeus.BuildServer.Interfaces.Builds;

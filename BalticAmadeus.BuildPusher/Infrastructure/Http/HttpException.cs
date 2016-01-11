@@ -1,6 +1,6 @@
 using System;
 
-namespace BalticAmadeus.BuildPusher.Infrastructure
+namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 {
 	public class HttpException : Exception
 	{

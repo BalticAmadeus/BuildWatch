@@ -2,11 +2,10 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
-namespace BalticAmadeus.BuildPusher.Infrastructure
+namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 {
 	public static class ObjectToHttpContentExtensions
 	{
@@ -53,8 +52,6 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 				return result;
 			if (TryParseXml(contentString, out result))
 				return result;
-			//if (TryParseJson2(contentString, out result))
-			//	return result;
 
 			throw new NotSupportedException();
 		}
@@ -78,20 +75,6 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 			try
 			{
 				result = (T) new XmlSerializer(typeof (T)).Deserialize(new StringReader(content));
-				return true;
-			}
-			catch (Exception)
-			{
-				result = default(T);
-				return false;
-			}
-		}
-
-		private static bool TryParseJson2<T>(string content, out T result)
-		{
-			try
-			{
-				result = new JavaScriptSerializer().Deserialize<T>(content);
 				return true;
 			}
 			catch (Exception)

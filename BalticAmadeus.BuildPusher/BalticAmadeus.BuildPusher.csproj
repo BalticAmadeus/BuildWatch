@@ -68,10 +68,11 @@
       <DependentUpon>BuildPusherService.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\DataSourceManager.cs" />
-    <Compile Include="Infrastructure\ExceptionSafeHttpClientWrapper.cs" />
-    <Compile Include="Infrastructure\HttpClientWrapper.cs" />
-    <Compile Include="Infrastructure\HttpException.cs" />
-    <Compile Include="Infrastructure\LoggingService.cs" />
+    <Compile Include="Infrastructure\Http\ExceptionSafeHttpClientWrapper.cs" />
+    <Compile Include="Infrastructure\Http\HttpClientWrapper.cs" />
+    <Compile Include="Infrastructure\Http\HttpException.cs" />
+    <Compile Include="Infrastructure\Logging\LoggingService.cs" />
+    <Compile Include="Infrastructure\Http\ObjectToStringContentConverter.cs" />
     <Compile Include="Infrastructure\Settings\AppSettingsService.cs" />
     <Compile Include="Infrastructure\Settings\LocalSettingsService.cs" />
     <Compile Include="Program.cs" />
@@ -87,10 +88,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
