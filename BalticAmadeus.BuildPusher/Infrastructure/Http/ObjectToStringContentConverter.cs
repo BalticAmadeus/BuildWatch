@@ -11,8 +11,16 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 	{
 		public static StringContent AsJsonStringContent<T>(this T data)
 		{
-			var jsonString = JsonConvert.SerializeObject(data);
-			return new StringContent(jsonString, Encoding.UTF8, "application/json");
+			using (var stringWriter = new StringWriter())
+			{
+				using (var jsonWriter = new JsonTextWriter(stringWriter))
+				{
+					var serializer = new JsonSerializer();
+					serializer.Serialize(jsonWriter, data);
+
+					return new StringContent(stringWriter.ToString(), Encoding.UTF8, "application/json");
+				}
+			}
 		}
 
 		public static StringContent AsXmlStringContent<T>(this T data)
@@ -26,8 +34,16 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 
 		public static string AsJsonString<T>(this T data)
 		{
-			var jsonString = JsonConvert.SerializeObject(data);
-			return jsonString;
+			using (var stringWriter = new StringWriter())
+			{
+				using (var jsonWriter = new JsonTextWriter(stringWriter))
+				{
+					var serializer = new JsonSerializer();
+					serializer.Serialize(jsonWriter, data);
+
+					return stringWriter.ToString();
+				}
+			}
 		}
 
 		public static string AsXmlString<T>(this T data)
@@ -60,8 +76,16 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 		{
 			try
 			{
-				result = JsonConvert.DeserializeObject<T>(content);
-				return true;
+				using (var stringReader = new StringReader(content))
+				{
+					using (var jsonReader = new JsonTextReader(stringReader))
+					{
+						var serializer = new JsonSerializer();
+						result = serializer.Deserialize<T>(jsonReader);
+
+						return true;
+					}
+				}
 			}
 			catch (Exception)
 			{

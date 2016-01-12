@@ -31,7 +31,7 @@ namespace BalticAmadeus.BuildPusher.Infrastructure
 
 			_dataSources = new IDataSource[]
 			{
-				//teamCityDataSource,
+				teamCityDataSource,
 				tfsDataSource
 			};
 		}

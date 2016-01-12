@@ -13,10 +13,10 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Logging
 
 		public LoggingService(ILocalSettingsService localSettingsService)
 		{
-			_fileLogger = LogManager.GetLogger("file");
-			_consoleLogger = LogManager.GetLogger("console");
-
 			_localSettingsService = localSettingsService;
+
+			_fileLogger = LogManager.GetLogger("fileLogger");
+			_consoleLogger = LogManager.GetLogger("consoleLogger");
 		}
 
 		public void Debug(string message)

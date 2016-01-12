@@ -27,19 +27,16 @@ namespace BalticAmadeus.BuildServer.Controllers.Settings
 				{
 					var defaultSettings = new[]
 					{
-						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityBaseUrlKey, data.AppKey), "string", "Url"),
-						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityUsernameKey, data.AppKey), "string", "Username"),
-						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityPasswordKey, data.AppKey), "string", "Password"),
+						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityBaseUrlKey, data.AppKey), "string", ""),
+						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityUsernameKey, data.AppKey), "string", ""),
+						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TeamCityPasswordKey, data.AppKey), "string", ""),
 
-						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TfsBaseUrlKey, data.AppKey), "string", "Url"),
+						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TfsBaseUrlKey, data.AppKey), "string", ""),
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TfsUsernameKey, data.AppKey), "string", ""),
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.TfsPasswordKey, data.AppKey), "string", ""),
 
 						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.RefreshTimeoutInMilisecondsKey, data.AppKey), "int", "30000"),
-
-						new AppSetting(new AppSettingCompositeId(SharedConstants.Logging.File, data.AppKey), "int", "5"),
-						new AppSetting(new AppSettingCompositeId(SharedConstants.Logging.Console, data.AppKey), "int", "5"),
-						new AppSetting(new AppSettingCompositeId(SharedConstants.Logging.Remote, data.AppKey), "int", "5"),
+						new AppSetting(new AppSettingCompositeId(SharedConstants.DataSource.UsernameMask, data.AppKey), "string", "")
 					};
 
 					foreach (var appSetting in defaultSettings)

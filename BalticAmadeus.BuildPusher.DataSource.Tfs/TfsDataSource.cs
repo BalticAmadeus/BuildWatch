@@ -151,6 +151,9 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 
 	    private static string ParseUsername(string username, string mask)
 	    {
+		    if (string.IsNullOrWhiteSpace(mask))
+			    return username;
+
 		    return Regex.Replace(username, mask, string.Empty, RegexOptions.IgnoreCase);
 	    }
     }

@@ -15,12 +15,5 @@
 			public static string TfsUsernameKey = "DataSource.Tfs.Username";
 			public static string TfsPasswordKey = "DataSource.Tfs.Password";
 		}
-
-		public class Logging
-		{
-			public const string Console = "Logging.Console";
-			public const string File = "Logging.File";
-			public const string Remote = "Logging.Remote";
-		}
 	}
 }
