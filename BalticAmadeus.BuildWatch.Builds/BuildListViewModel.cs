@@ -21,8 +21,7 @@ namespace BalticAmadeus.BuildWatch.Builds
 		private readonly SoundService _soundService;
 		private readonly ILocalSettingsService _localSettingsService;
 		private readonly DispatcherTimer _dispatcherTimer;
-		private bool _isLastBuildFailed; 
-
+		
 		private BuildListModel _selectedBuild;
 		public BuildListModel SelectedBuild
 		{
@@ -79,13 +78,22 @@ namespace BalticAmadeus.BuildWatch.Builds
 					PictureData = _photoService.GetPhoto(x.Username)
 				}).OrderByDescending(x => x.Status).ThenByDescending(x => x.TimeStamp);
 
-				bool isBuildFailed = newBuilds.Any(x => x.Status == BuildStatus.Fail);
-				if (!_isLastBuildFailed && isBuildFailed)
-					await _soundService.PlaySound("BuildFailed");
-				else if (_isLastBuildFailed && !isBuildFailed)
-					await _soundService.PlaySound("BuildSucceeded");
+				foreach (var newBuild in newBuilds)
+				{
+					var oldBuild = FinishedBuilds.FirstOrDefault(x => x.Name == newBuild.Name);
+					if (oldBuild == null)
+						continue;
 
-				_isLastBuildFailed = isBuildFailed;
+					if (oldBuild.Status == newBuild.Status)
+						continue;
+
+					if (newBuild.Status == BuildStatus.Fail)
+						await _soundService.PlaySound("BuildFailed");
+					else
+						await _soundService.PlaySound("BuildSucceeded");
+
+					break;
+				}
 
 				return newBuilds;
 			}
@@ -132,9 +140,7 @@ namespace BalticAmadeus.BuildWatch.Builds
 		{
 			FinishedBuilds.Refresh();
 			QueuedBuilds.Refresh();
-
-			_isLastBuildFailed = FinishedBuilds.Any(x => x.Status == BuildStatus.Fail);
-
+			
 			_dispatcherTimer.Start();
 		}
 

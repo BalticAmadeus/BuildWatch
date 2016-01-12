@@ -22,6 +22,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 	    private string _buildServerHost;
 	    private string _dataSourceServerHost;
 	    private string _usernameMask;
+	    private string _filter;
 	    
 	    public bool IsEnabled { get; private set; }
 
@@ -41,6 +42,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 
 			_dataSourceServerHost = _appSettingsService.GetString(SharedConstants.DataSource.TfsBaseUrlKey);
 		    _usernameMask = _appSettingsService.GetString(SharedConstants.DataSource.UsernameMask);
+		    _filter = _appSettingsService.GetString(SharedConstants.DataSource.Filter);
 
 			IsEnabled = true;
 			if (string.IsNullOrWhiteSpace(_buildServerHost) ||
@@ -111,22 +113,28 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 
 			foreach (var build in newQueuedBuilds)
 			{
+				if (CanSkipByFilter(build.definition.name, _filter))
+					continue;
+
 				var command = new AddBuildRunCommand(
 					build.definition.id.ToString(), 
-					build.buildNumber, build.definition.name, 2,
-					ParseDateTime(build.queueTime), null,
+					build.buildNumber, build.definition.name, 2, 
+					ParseDateTime(build.queueTime), null, 
 					ParseUsername(build.requestedFor.uniqueName, _usernameMask));
 
 				_httpClientWrapper.Post(url, command);
 			}
 		}
 
-		private void PushFinishedBuilds(value[] newFinishedBuilds)
+	    private void PushFinishedBuilds(value[] newFinishedBuilds)
 		{
 			string url = $"{_buildServerHost}/builds/addBuildRun";
 
 			foreach (var build in newFinishedBuilds)
 			{
+				if (CanSkipByFilter(build.definition.name, _filter))
+					continue;
+
 				var command = new AddBuildRunCommand(
 					build.definition.id.ToString(),
 					build.buildNumber, build.definition.name, 
@@ -155,6 +163,14 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 			    return username;
 
 		    return Regex.Replace(username, mask, string.Empty, RegexOptions.IgnoreCase);
+	    }
+
+	    private static bool CanSkipByFilter(string buildName, string filter)
+		{
+			if (string.IsNullOrWhiteSpace(filter))
+				return false;
+
+			return Regex.IsMatch(buildName, filter, RegexOptions.IgnoreCase);
 	    }
     }
 }

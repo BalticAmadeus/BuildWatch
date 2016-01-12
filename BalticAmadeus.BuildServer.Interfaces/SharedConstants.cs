@@ -6,6 +6,7 @@
 		{
 			public const string RefreshTimeoutInMilisecondsKey = "DataSourceManager.RefreshTimeoutInMiliseconds";
 			public const string UsernameMask = "DataSourceManager.UsernameMask";
+			public const string Filter = "DataSourceManager.Filter";
 
 			public const string TeamCityBaseUrlKey = "DataSource.TeamCity.BaseUrl";
 			public const string TeamCityUsernameKey = "DataSource.TeamCity.Username";
