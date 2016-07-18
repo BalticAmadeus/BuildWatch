@@ -116,7 +116,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 	    private build[] PullQueuedBuilds()
 	    {
-		    string url = $"{_dataSourceServerHost}/builds?locator=running:true";
+			string url = $"{_dataSourceServerHost}/builds?locator=running:true";
 			var queuedBuilds = new List<build>();
 
 			var buildObj = _httpClientWrapper.Get<builds>(url, TeamCityHttpClientFactory);		
@@ -141,7 +141,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 
 	    private build[] PullFinishedBuilds()
 		{
-			string url = $"{_dataSourceServerHost}/builds";
+			string url = $"{_dataSourceServerHost}/builds?locator=running:false,canceled:any,failedToStart:any";
 			
 			var finishedBuilds = new List<build>();
 
