@@ -7,47 +7,21 @@
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Normal -->
-    
-    <Color x:Key="Button.Default.Normal.Foreground.Color">#FFFFFFFF</Color>
-    <Color x:Key="Button.Default.Normal.Background.Color">#FF1ABC9C</Color>
-    <Color x:Key="Button.Default.Normal.Border.Color">#00FFFFFF</Color>
-
-    <SolidColorBrush x:Key="Button.Default.Normal.Foreground.Brush" Color="{StaticResource Button.Default.Normal.Foreground.Color}" />
-    <SolidColorBrush x:Key="Button.Default.Normal.Background.Brush" Color="{StaticResource Button.Default.Normal.Background.Color}" />
-    <SolidColorBrush x:Key="Button.Default.Normal.Border.Brush" Color="{StaticResource Button.Default.Normal.Border.Color}" />
-
-    <!-- MouseOver -->
-
-    <Color x:Key="Button.Default.MouseOver.InnerBackground.Color">#FFFFFFFF</Color>
-
-    <SolidColorBrush x:Key="Button.Default.MouseOver.InnerBackground.Brush" Color="{StaticResource Button.Default.MouseOver.InnerBackground.Color}" />
-
-    <!-- Pressed -->
-
-    <Color x:Key="Button.Default.Pressed.InnerBackground.Color">#FF000000</Color>
-
-    <SolidColorBrush x:Key="Button.Default.Pressed.InnerBackground.Brush" Color="{StaticResource Button.Default.Pressed.InnerBackground.Color}" />
-
-    <!-- Disabled -->
-
-    <Color x:Key="Button.Default.Disabled.InnerBackground.Color">#FFBDC3C7</Color>
-
-    <SolidColorBrush x:Key="Button.Default.Disabled.InnerBackground.Brush" Color="{StaticResource Button.Default.Disabled.InnerBackground.Color}" />
-
-    <Style x:Key="Button.Default.Caption" TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
-        <Setter Property="Foreground" Value="{StaticResource Button.Default.Normal.Foreground.Brush}" />
-        <Setter Property="FontSize" Value="15" />
-        <Setter Property="LineHeight" Value="21" />
-        <Setter Property="TextWrapping" Value="NoWrap" />
-        <Setter Property="TextTrimming" Value="WordEllipsis" />
-        <Setter Property="Margin" Value="0" />
-    </Style>
-
     <Style x:Key="Button.Default.Normal" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource Button.Default.Normal.Background.Brush}" />
-        <Setter Property="Foreground" Value="{StaticResource Button.Default.Normal.Foreground.Brush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Button.Default.Normal.Border.Brush}" />
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
+                <Setter Property="Foreground" Value="{StaticResource White}" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="LineHeight" Value="21" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="WordEllipsis" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Style.Resources>
+        
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="{StaticResource White}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Transparent}" />
         <Setter Property="BorderThickness" Value="0" />
 
         <Setter Property="MinHeight" Value="41" />
@@ -94,7 +68,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsEnabled" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Button.Default.Disabled.InnerBackground.Brush}" />
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Silver}" />
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="1" />
                             <Setter TargetName="Border" Property="Opacity" Value="0" />
                         </MultiTrigger>
@@ -103,7 +77,7 @@
                                 <Condition Property="IsEnabled" Value="True" />
                                 <Condition Property="IsFocused" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Button.Default.MouseOver.InnerBackground.Brush}" />
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource White}" />
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="0.2" />
                         </MultiTrigger>
                         <MultiTrigger>
@@ -112,14 +86,14 @@
                                 <Condition Property="IsFocused" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Button.Default.MouseOver.InnerBackground.Brush}" />
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource White}" />
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="0.2" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Button.Default.Pressed.InnerBackground.Brush}" />
+                            <Setter TargetName="InnerBorder" Property="Background" Value="{StaticResource Black}" />
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="0.2" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
@@ -128,47 +102,71 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Button.Large.Caption" TargetType="TextBlock" BasedOn="{StaticResource Button.Default.Caption}">
-        <Setter Property="FontSize" Value="17" />
-        <Setter Property="LineHeight" Value="25" />
-    </Style>
-
     <Style x:Key="Button.Large.Normal" TargetType="Button" BasedOn="{StaticResource Button.Default.Normal}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
+                <Setter Property="Foreground" Value="{StaticResource White}" />
+                <Setter Property="FontSize" Value="17" />
+                <Setter Property="LineHeight" Value="25" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="WordEllipsis" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Style.Resources>
+
         <Setter Property="MinHeight" Value="45" />
         <Setter Property="MinWidth" Value="63" />
         <Setter Property="Padding" Value="19,10" />
         <Setter Property="controlExtensions:CornerRadiusExtension.CornerRadius" Value="6" />
     </Style>
 
-    <Style x:Key="Button.Huge.Caption" TargetType="TextBlock" BasedOn="{StaticResource Button.Default.Caption}">
-        <Setter Property="FontSize" Value="22" />
-        <Setter Property="LineHeight" Value="28" />
-    </Style>
-
     <Style x:Key="Button.Huge.Normal" TargetType="Button" BasedOn="{StaticResource Button.Default.Normal}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
+                <Setter Property="Foreground" Value="{StaticResource White}" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="LineHeight" Value="28" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="WordEllipsis" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Style.Resources>
+
         <Setter Property="MinHeight" Value="52" />
         <Setter Property="MinWidth" Value="68" />
         <Setter Property="Padding" Value="20,12" />
         <Setter Property="controlExtensions:CornerRadiusExtension.CornerRadius" Value="6" />
     </Style>
 
-    <Style x:Key="Button.Small.Caption" TargetType="TextBlock" BasedOn="{StaticResource Button.Default.Caption}">
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="LineHeight" Value="18" />
-    </Style>
-
     <Style x:Key="Button.Small.Normal" TargetType="Button" BasedOn="{StaticResource Button.Default.Normal}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
+                <Setter Property="Foreground" Value="{StaticResource White}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="LineHeight" Value="18" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="WordEllipsis" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Style.Resources>
+
         <Setter Property="MinHeight" Value="36" />
         <Setter Property="MinWidth" Value="44" />
         <Setter Property="Padding" Value="13,9" />
     </Style>
 
-    <Style x:Key="Button.Mini.Caption" TargetType="TextBlock" BasedOn="{StaticResource Button.Default.Caption}">
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="LineHeight" Value="14" />
-    </Style>
-
     <Style x:Key="Button.Mini.Normal" TargetType="Button" BasedOn="{StaticResource Button.Default.Normal}">
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlock.Default}">
+                <Setter Property="Foreground" Value="{StaticResource White}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="LineHeight" Value="14" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="WordEllipsis" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+        </Style.Resources>
+        
         <Setter Property="MinHeight" Value="24" />
         <Setter Property="MinWidth" Value="32" />
         <Setter Property="Padding" Value="9,5" />

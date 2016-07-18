@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlServer", "ControlServer\ControlServer.csproj", "{F48FE781-C750-4D77-84E5-5A9AA2F6A273}"
 EndProject
@@ -54,6 +54,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalticAmadeus.BuildPusher.DataSource.TeamCity", "BalticAmadeus.BuildPusher.DataSource.TeamCity\BalticAmadeus.BuildPusher.DataSource.TeamCity.csproj", "{CDA86298-290A-41F6-9426-26B021BAD710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalticAmadeus.BuildPusher.DataSource.Tfs", "BalticAmadeus.BuildPusher.DataSource.Tfs\BalticAmadeus.BuildPusher.DataSource.Tfs.csproj", "{BC966144-2A7B-42FF-BE31-BA599DB74C15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{531A26F9-4F25-423C-A782-7EDACA197152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Design", "Design\Design.csproj", "{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F38D1C6E-B1E7-429B-AA01-BF83CF736420}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -353,6 +359,22 @@ Global
 		{BC966144-2A7B-42FF-BE31-BA599DB74C15}.Release|x64.Build.0 = Release|Any CPU
 		{BC966144-2A7B-42FF-BE31-BA599DB74C15}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC966144-2A7B-42FF-BE31-BA599DB74C15}.Release|x86.Build.0 = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|x64.Build.0 = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Debug|x86.Build.0 = Debug|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|x64.ActiveCfg = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|x64.Build.0 = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -377,5 +399,6 @@ Global
 		{0B86244D-1682-4C99-A9BD-3C08D12668EE} = {A92E40C7-E74C-440D-B2B0-EA2B3F8286FD}
 		{CDA86298-290A-41F6-9426-26B021BAD710} = {A92E40C7-E74C-440D-B2B0-EA2B3F8286FD}
 		{BC966144-2A7B-42FF-BE31-BA599DB74C15} = {A92E40C7-E74C-440D-B2B0-EA2B3F8286FD}
+		{3CC74BAB-78CA-42E5-81B1-E4693D61DE88} = {531A26F9-4F25-423C-A782-7EDACA197152}
 	EndGlobalSection
 EndGlobal

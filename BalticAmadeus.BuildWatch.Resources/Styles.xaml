@@ -10,9 +10,14 @@
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBoxItem.xaml" />
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ListBox.xaml" />
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ContentControl.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/CheckBox.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/RadioButton.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ToggleButton.xaml" />
+        <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/Calendar.xaml" />
+        
     </ResourceDictionary.MergedDictionaries>
 
-    <ImageBrush x:Key="BuildListView.Background.Brush" ImageSource="Images/christmas.gif" />
+    <!-- <ImageBrush x:Key="BuildListView.Background.Brush" ImageSource="Images/christmas.gif" /> -->
     
     <SolidColorBrush x:Key="BuildListModel.Status.Success.Background.Brush">#C026A65B</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.Status.Fail.Background.Brush">#C0EF4836</SolidColorBrush>
@@ -22,6 +27,6 @@
     <SolidColorBrush x:Key="BuildListModel.TimeStamp.Foreground.Brush">#FFFFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.User.Foreground.Brush">#FFFFFFFF</SolidColorBrush>
 
-    <!-- <SolidColorBrush x:Key="BuildListView.Background.Brush">#95A5A6</SolidColorBrush> -->
+    <SolidColorBrush x:Key="BuildListView.Background.Brush">#95A5A6</SolidColorBrush> 
 
 </ResourceDictionary>

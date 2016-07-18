@@ -8,5 +8,30 @@
     <Geometry x:Key="CrossCircle">M17.099,2.933c-3.911-3.91-10.253-3.91-14.164,0.001c-3.912,3.912-3.912,10.254-0.001,14.165c3.911,3.911,10.254,3.911,14.165,0C21.01,13.187,21.01,6.845,17.099,2.933z M14.703,14.703c-0.432,0.432-1.131,0.432-1.562,0l-3.127-3.126l-3.126,3.126c-0.432,0.432-1.131,0.432-1.562,0c-0.432-0.433-0.433-1.131-0.001-1.562l3.127-3.127L5.325,6.888c-0.432-0.432-0.432-1.131,0-1.562c0.432-0.432,1.132-0.432,1.563,0l3.125,3.125l3.126-3.125c0.432-0.432,1.131-0.432,1.562,0c0.432,0.431,0.433,1.131,0.001,1.562l-3.126,3.126l3.126,3.127C15.135,13.572,15.135,14.271,14.703,14.703z</Geometry>
     <Geometry x:Key="Cross">M20.775,2.52c0.313,0.313,0.313,0.826,0,1.14l-6.276,6.269c-0.313,0.313-0.313,0.826,0,1.141l6.273,6.271c0.313,0.314,0.313,0.826,0,1.14l-2.285,2.277c-0.314,0.312-0.828,0.312-1.142,0l-6.271-6.271c-0.313-0.312-0.828-0.312-1.141,0l-6.276,6.267c-0.313,0.313-0.828,0.313-1.141,0l-2.282-2.28c-0.313-0.312-0.313-0.826,0-1.139l6.278-6.269c0.313-0.312,0.313-0.826,0-1.14L0.24,3.653c-0.313-0.314-0.313-0.828,0-1.14l2.284-2.278c0.313-0.313,0.827-0.313,1.141,0.001l6.271,6.27c0.314,0.315,0.828,0.315,1.141,0.001l6.276-6.267c0.312-0.312,0.827-0.312,1.141,0L20.775,2.52z</Geometry>
     <Geometry x:Key="TimeCircle">M12,0.001C5.375,0.001,0.003,5.373,0.003,12c0,6.628,5.372,12,11.997,12c6.626,0,11.998-5.372,11.998-12 C23.998,5.373,18.627,0.001,12,0.001z M16.412,16.71l-0.35,0.349c-0.291,0.292-0.781,0.306-1.088,0.03l-4.519-3.955 c-0.308-0.275-0.541-0.839-0.521-1.25l0.419-7.134C10.375,4.337,10.729,4,11.142,4h0.493c0.413,0,0.767,0.337,0.787,0.75 l0.343,5.933c0.021,0.413,0.262,1.001,0.536,1.31l3.143,3.629C16.717,15.928,16.705,16.418,16.412,16.71z</Geometry>
+    <Geometry x:Key="Check">M21.653,0.221c-0.291-0.294-0.768-0.294-1.061,0L9.412,11.351c-0.293,0.296-0.771,0.296-1.062,0L3.451,6.36 C3.306,6.214,3.116,6.141,2.925,6.14C2.732,6.138,2.536,6.211,2.389,6.36L0.225,8.308C0.08,8.456,0.002,8.64,0.002,8.833 c0,0.194,0.078,0.398,0.223,0.545l4.94,5.182c0.292,0.296,0.771,0.777,1.062,1.07l2.124,2.141c0.292,0.293,0.769,0.293,1.062,0 l14.367-14.34c0.293-0.293,0.293-0.777,0-1.07L21.653,0.221z</Geometry>
+    
+    <SolidColorBrush x:Key="Transparent"    Color="#00FFFFFF" />
+    <SolidColorBrush x:Key="Black"          Color="#FF000000" />
+    <SolidColorBrush x:Key="Turquoise"      Color="#FF1ABC9C" />
+    <SolidColorBrush x:Key="GreenSea"       Color="#FF16A085" />
+    <SolidColorBrush x:Key="MidnightBlue"   Color="#FF2C3E50" />
+    <SolidColorBrush x:Key="Emerald"        Color="#FF2ECC71" />
+    <SolidColorBrush x:Key="Nephritis"      Color="#FF27AE60" />
+    <SolidColorBrush x:Key="BelizeHole"     Color="#FF2980B9" />
+    <SolidColorBrush x:Key="WetAsphalt"     Color="#FF34495E" />
+    <SolidColorBrush x:Key="PeterRiver"     Color="#FF3498DB" />
+    <SolidColorBrush x:Key="Asbestos"       Color="#FF7F8C8D" />
+    <SolidColorBrush x:Key="Wisteria"       Color="#FF8E44AD" />
+    <SolidColorBrush x:Key="Concrete"       Color="#FF95A5A6" />
+    <SolidColorBrush x:Key="Amethyst"       Color="#FF9B59B6" />
+    <SolidColorBrush x:Key="Silver"         Color="#FFBDC3C7" />
+    <SolidColorBrush x:Key="Pomegranate"    Color="#FFC0392B" />
+    <SolidColorBrush x:Key="Pumpkin"        Color="#FFD35400" />
+    <SolidColorBrush x:Key="Carrot"         Color="#FFE67E22" />
+    <SolidColorBrush x:Key="Clouds"         Color="#FFECF0F1" />
+    <SolidColorBrush x:Key="Alizarin"       Color="#FFE74C3C" />
+    <SolidColorBrush x:Key="SunFlower"      Color="#FFF1C40F" />
+    <SolidColorBrush x:Key="Orange"         Color="#FFF39C12" />
+    <SolidColorBrush x:Key="White"          Color="#FFFFFFFF" />
 
 </ResourceDictionary>
