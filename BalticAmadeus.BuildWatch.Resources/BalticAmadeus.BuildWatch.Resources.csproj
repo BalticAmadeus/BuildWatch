@@ -141,6 +141,7 @@
     <Content Include="Images\question-24.svg" />
     <Content Include="Images\search-24.svg" />
     <Content Include="Images\star-24.svg" />
+    <Resource Include="Images\summer.gif" />
     <Content Include="Images\tag-24.svg" />
     <Content Include="Images\time-24.svg" />
     <Content Include="Images\trash-24.svg" />

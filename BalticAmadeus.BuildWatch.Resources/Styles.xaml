@@ -12,7 +12,7 @@
         <ResourceDictionary Source="/BalticAmadeus.BuildWatch.Resources;component/Styles/ContentControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <ImageBrush x:Key="BuildListView.Background.Brush" ImageSource="Images/christmas.gif" />
+    <ImageBrush x:Key="BuildListView.Background.Brush" ImageSource="Images/summer.gif" />
     
     <SolidColorBrush x:Key="BuildListModel.Status.Success.Background.Brush">#C026A65B</SolidColorBrush>
     <SolidColorBrush x:Key="BuildListModel.Status.Fail.Background.Brush">#C0EF4836</SolidColorBrush>
