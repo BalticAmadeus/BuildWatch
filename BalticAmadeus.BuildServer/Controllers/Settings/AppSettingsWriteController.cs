@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BalticAmadeus.BuildServer.Domain.Model.Settings;
+using BalticAmadeus.BuildServer.Infrastructure;
 using BalticAmadeus.BuildServer.Interfaces;
 using BalticAmadeus.BuildServer.Interfaces.Settings;
 using NHibernate;
@@ -17,6 +18,7 @@ namespace BalticAmadeus.BuildServer.Controllers.Settings
 
 		[Route("api/appSettings/")]
 		[HttpPost]
+		[BuildWatchExceptionFilter]
 		public async Task<IHttpActionResult> RegisterApp([FromBody] RegisterAppSettingsData data)
 		{
 			await Task.Delay(1);

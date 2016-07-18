@@ -5,12 +5,9 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 {
 	public class Build
 	{
-		public Build(string id)
+		public Build(string externalId)
 		{
-			Id = id;
-			AliasTitle = id;
-
-			BuildRuns = new List<BuildRun>();
+			AliasTitle = externalId;
 
 			IsDeleted = false;
 		}
@@ -20,11 +17,15 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 			//NH
 		}
 
-		public virtual string Id { get; protected set; }
+		public virtual int Id { get; protected set; }
+		public virtual string ExternalId { get; protected set; }
 		public virtual string AliasTitle { get; protected set; }
+		//public virtual int? TeamId { get; protected set; }
 		public virtual bool IsDeleted { get; protected set; }
 
-		public virtual IList<BuildRun> BuildRuns { get; set; }
+		private readonly IList<BuildRun> _buildRuns = new List<BuildRun>();
+
+		public virtual IEnumerable<BuildRun> BuildRuns => _buildRuns;
 
 		public virtual void Rename(string title)
 		{
@@ -36,7 +37,7 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 			if (run == null)
 				throw new ArgumentNullException(nameof(run));
 
-			BuildRuns.Add(run);
+			_buildRuns.Add(run);
 		}
 
 		public virtual void Delete()

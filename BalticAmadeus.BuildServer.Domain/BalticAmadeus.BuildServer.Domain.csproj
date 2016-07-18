@@ -69,9 +69,14 @@
     <Compile Include="Model\Builds\BuildRunStatus.cs" />
     <Compile Include="Model\Builds\BuildsService.cs" />
     <Compile Include="DomainEvents.cs" />
+    <Compile Include="Model\Teams\App.cs" />
+    <Compile Include="Model\Teams\Person.cs" />
+    <Compile Include="Model\Teams\Team.cs" />
     <Compile Include="Model\Event.cs" />
     <Compile Include="Model\Settings\AppSetting.cs" />
     <Compile Include="Model\Settings\Setting.cs" />
+    <Compile Include="Model\Teams\TeamMember.cs" />
+    <Compile Include="Model\Teams\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

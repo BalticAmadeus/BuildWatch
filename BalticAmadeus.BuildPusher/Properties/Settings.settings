@@ -2,17 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BalticAmadeus.BuildPusher.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ApiUrlBase" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:26309/api</Value>
-    </Setting>
-    <Setting Name="AppKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SettingsCacheTimeoutInMiliseconds" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">120000</Value>
     </Setting>
     <Setting Name="DataSourceRefreshTimeoutInMiliseconds" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="AppKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c78f0170-3778-49c8-84c3-f88bda410f13</Value>
+    </Setting>
+    <Setting Name="ApiUrlBase" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://192.168.3.83/BuildServerHydra/api</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,30 +25,6 @@ namespace BalticAmadeus.BuildPusher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:26309/api")]
-        public string ApiUrlBase {
-            get {
-                return ((string)(this["ApiUrlBase"]));
-            }
-            set {
-                this["ApiUrlBase"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AppKey {
-            get {
-                return ((string)(this["AppKey"]));
-            }
-            set {
-                this["AppKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("120000")]
         public int SettingsCacheTimeoutInMiliseconds {
             get {
@@ -68,6 +44,30 @@ namespace BalticAmadeus.BuildPusher.Properties {
             }
             set {
                 this["DataSourceRefreshTimeoutInMiliseconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c78f0170-3778-49c8-84c3-f88bda410f13")]
+        public string AppKey {
+            get {
+                return ((string)(this["AppKey"]));
+            }
+            set {
+                this["AppKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.3.83/BuildServerHydra/api")]
+        public string ApiUrlBase {
+            get {
+                return ((string)(this["ApiUrlBase"]));
+            }
+            set {
+                this["ApiUrlBase"] = value;
             }
         }
     }

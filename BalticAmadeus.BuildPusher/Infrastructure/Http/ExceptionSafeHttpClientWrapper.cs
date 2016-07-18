@@ -28,7 +28,7 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 
 				var item = _httpClientWrapper.Get<T>(url, httpClientFactory);
 
-				_loggingService.Debug($"Server returned {item.AsJsonString()} resource for GET request from {url}");
+				_loggingService.Debug($"Server returned resource for GET request from {url}");
 
 				return item;
 			}
@@ -53,7 +53,7 @@ namespace BalticAmadeus.BuildPusher.Infrastructure.Http
 		{
 			try
 			{
-				_loggingService.Debug($"Making POST {item.AsJsonString()} request to resource at {url}");
+				_loggingService.Debug($"Making POST request to resource at {url}");
 
 				_httpClientWrapper.Post(url, item, httpClientFactory);
 

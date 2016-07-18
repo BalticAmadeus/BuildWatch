@@ -63,33 +63,11 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 				return;
 
 			PushFinishedBuilds(PullFinishedBuilds());
-			PushQueuedBuilds(PullQueuedBuilds());
-		}
-
-		private value[] PullQueuedBuilds()
-		{
-			string inProgressUrl = $"{_dataSourceServerHost}/_apis/build/builds?api-version=2.0&statusFilter=inProgress";
-			string notStartedUrl= $"{_dataSourceServerHost}/_apis/build/builds?api-version=2.0&statusFilter=notStarted";
-
-			var queuedBuilds = new List<value>();
-
-			var inProgressBuilds = _httpClientWrapper.Get<rootObject>(inProgressUrl, TfsHttpClientFactory);
-			if (inProgressBuilds == null)
-				return queuedBuilds.ToArray();
-
-			var notStartedBuilds = _httpClientWrapper.Get<rootObject>(notStartedUrl, TfsHttpClientFactory);
-			if (notStartedBuilds == null)
-				return queuedBuilds.ToArray();
-
-			queuedBuilds.AddRange(inProgressBuilds.value);
-			queuedBuilds.AddRange(notStartedBuilds.value);
-
-			return queuedBuilds.OrderByDescending(x => x.queueTime).ToArray();
 		}
 
 	    private value[] PullFinishedBuilds()
 	    {
-			string url = $"{_dataSourceServerHost}/_apis/build/builds?api-version=2.0&statusFilter=completed";
+			string url = $"{_dataSourceServerHost}/_apis/build/builds?api-version=2.0&statusFilter=all";
 			var finishedBuilds = new List<value>();
 
 			var builds = _httpClientWrapper.Get<rootObject>(url, TfsHttpClientFactory);
@@ -107,24 +85,24 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 			return finishedBuilds.OrderByDescending(x => x.finishTime).ToArray();
 		}
 
-		private void PushQueuedBuilds(value[] newQueuedBuilds)
-		{
-			string url = $"{_buildServerHost}/builds/addBuildRun";
+		//private void PushQueuedBuilds(value[] newQueuedBuilds)
+		//{
+		//	string url = $"{_buildServerHost}/builds/addBuildRun";
 
-			foreach (var build in newQueuedBuilds)
-			{
-				if (CanSkipByFilter(build.definition.name, _filter))
-					continue;
+		//	foreach (var build in newQueuedBuilds)
+		//	{
+		//		if (CanSkipByFilter(build.definition.name, _filter))
+		//			continue;
 
-				var command = new AddBuildRunCommand(
-					build.definition.id.ToString(), 
-					build.buildNumber, build.definition.name, 2, 
-					ParseDateTime(build.queueTime), null, 
-					ParseUsername(build.requestedFor.uniqueName, _usernameMask));
+		//		var command = new AddBuildRunCommand(
+		//			build.definition.id.ToString(), 
+		//			build.buildNumber, build.definition.name, 2, 
+		//			ParseDateTime(build.queueTime) ?? DateTime.Now, null, 
+		//			ParseUsername(build.requestedFor.uniqueName, _usernameMask));
 
-				_httpClientWrapper.Post(url, command);
-			}
-		}
+		//		_httpClientWrapper.Post(url, command);
+		//	}
+		//}
 
 	    private void PushFinishedBuilds(value[] newFinishedBuilds)
 		{
@@ -139,7 +117,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 					build.definition.id.ToString(),
 					build.buildNumber, build.definition.name, 
 					ParseStatus(build.result),
-					ParseDateTime(build.queueTime),
+					ParseDateTime(build.queueTime) ?? DateTime.Now, //HACK: Check why there can be null value
 					ParseDateTime(build.finishTime),
 					ParseUsername(build.requestedFor.uniqueName, _usernameMask));
 
@@ -147,8 +125,11 @@ namespace BalticAmadeus.BuildPusher.DataSource.Tfs
 			}
 		}
 
-	    private static DateTime ParseDateTime(string dateTimeString)
+	    private static DateTime? ParseDateTime(string dateTimeString)
 	    {
+		    if (string.IsNullOrWhiteSpace(dateTimeString))
+			    return null;
+
 		    return DateTime.Parse(dateTimeString, CultureInfo.CurrentUICulture).ToUniversalTime();
 	    }
 

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BalticAmadeus.BuildServer.Domain.Model.Builds;
+using BalticAmadeus.BuildServer.Infrastructure;
 using BalticAmadeus.BuildServer.Interfaces.Builds;
 using NHibernate;
 using NHibernate.Linq;
@@ -26,7 +27,9 @@ namespace BalticAmadeus.BuildServer.Controllers.Builds
 		{
 			await Task.Delay(1);
 
-			var builds = _session.Query<Build>();
+			var builds = _session.Query<Build>()
+				.Where(x => x.IsDeleted == false)
+				.ToArray();
 
 			var buildItems = new List<FinishedBuildItem>();
 

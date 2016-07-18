@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BalticAmadeus.BuildServer.Domain.Model.Settings;
-using BalticAmadeus.BuildServer.Interfaces;
 using BalticAmadeus.BuildServer.Interfaces.Settings;
 using NHibernate;
 using NHibernate.Linq;

@@ -6,7 +6,7 @@ namespace BalticAmadeus.BuildServer.Domain.Model.Builds
 {
 	public class BuildsService
 	{
-		public void AddBuildRun(ISession session, string buildId, string buildRunId, string title, int status, DateTime timeStamp, DateTime? finishTimeStamp, string username)
+		public static void AddBuildRun(ISession session, string buildId, string buildRunId, string title, int status, DateTime timeStamp, DateTime? finishTimeStamp, string username)
 		{
 			var build = session.Get<Build>(buildId);
 			if (build == null)
