@@ -125,7 +125,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 		    if (buildObj.build == null)
 			    return queuedBuilds.ToArray();
 
-		    foreach (var build in buildObj.build.OrderByDescending(x => x.number))
+		    foreach (var build in buildObj.build)
 		    {
 			    string detailsUrl = $"{_dataSourceServerHost}/builds/id:{build.id}";
 
@@ -151,7 +151,7 @@ namespace BalticAmadeus.BuildPusher.DataSource.TeamCity
 			if (buildObj.build == null)
 				return finishedBuilds.ToArray();
 
-			foreach (var build in buildObj.build.OrderByDescending(x => x.number))
+			foreach (var build in buildObj.build)
 		    {
 			    if (finishedBuilds.Any(x => x.buildTypeId == build.buildTypeId))
 				    continue;

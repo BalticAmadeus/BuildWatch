@@ -66,7 +66,7 @@ namespace DataSource.TC
 
 			var finishedBuilds = new List<FinishedBuildInfo>();
 
-			foreach (buildsBuild build in buildObj.build.OrderByDescending(x => x.number))
+			foreach (buildsBuild build in buildObj.build)
 			{
 				if (finishedBuilds.Any(x => x.BuildName == build.buildTypeId))
 					continue;
