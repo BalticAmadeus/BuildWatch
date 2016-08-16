@@ -110,7 +110,7 @@ namespace DataSource.TC
 			return finishedBuilds;
 		}
 
-		private build GetBuildInfo(HttpClient httpClient, ushort id)
+		private build GetBuildInfo(HttpClient httpClient, long id)
 		{
 			var buildInfoString = httpClient.GetStringAsync(BaseUrl + "/builds/id:" + id).Result;
 			var buildInfo = (build) new XmlSerializer(typeof (build)).Deserialize(new StringReader(buildInfoString));

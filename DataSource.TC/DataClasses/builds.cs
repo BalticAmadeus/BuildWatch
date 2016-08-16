@@ -13,7 +13,7 @@ namespace DataSource.TC.DataClasses
 
 		/// <remarks />
 		[XmlAttribute]
-		public byte count { get; set; }
+		public int count { get; set; }
 
 		/// <remarks />
 		[XmlAttribute]

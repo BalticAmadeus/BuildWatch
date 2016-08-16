@@ -8,7 +8,7 @@ namespace DataSource.TC.DataClasses
 	{
 		/// <remarks />
 		[XmlAttribute]
-		public ushort id { get; set; }
+		public long id { get; set; }
 
 		/// <remarks />
 		[XmlAttribute]
